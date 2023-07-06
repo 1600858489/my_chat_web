@@ -9,20 +9,23 @@
           <img :src="user.avatar" alt="User Avatar" />
         </div>
         <span>{{ user.loggedIn ? user.username : '未登录' }}</span>
+        <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
       </div>
     </nav>
 
     <!-- 首页主体留白 -->
     <div class="main-content">
       <!-- 主体内容 -->
-      <button @click="goToChat">前往聊天界面</button>
+      <button @click="goToChat" class="goToChat">前往聊天界面</button>
 <!--      <p v-else>请登录以使用聊天功能</p>-->
     </div>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
+
   name: 'HomePage',
   data() {
     return {
@@ -31,6 +34,7 @@ export default {
         username: '', // 用户名
         avatar: require('@/assets/logo.png'), // 头像路径
       },
+      // showLogoutButton: false,
     };
   },
   created() {
@@ -64,6 +68,49 @@ export default {
       this.user.username = user.username;
       this.user.avatar = user.avatar;
     },
+
+
+    logout() {
+      // 获取用户ID和令牌
+      const userId = localStorage.getItem('userId');
+      const token = Cookies.get('token');
+
+      const logoutData = {
+        user_id:userId
+      }
+
+      // 发送退出登录请求
+      fetch('http://128.14.76.82:8000/api/logout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':token,
+
+
+        },
+        body: JSON.stringify(logoutData),
+      })
+        .then(response => {
+          // 清除本地存储和cookie中的用户信息
+          localStorage.removeItem('loggedIn');
+          localStorage.removeItem('username');
+          Cookies.remove('token');
+
+
+          // 更新用户信息
+          this.user.loggedIn = false;
+          this.user.username = '';
+          this.user.avatar = require('@/assets/logo.png');
+
+          // 提示退出登录成功
+          alert(response.data.message);
+        })
+        .catch(error => {
+          console.error(error);
+          // 处理错误
+        });
+    },
+
   },
 };
 </script>
@@ -109,5 +156,10 @@ nav {
 
 .main-content {
   padding: 20px;
+}
+
+.logout{
+  width: 10px;
+
 }
 </style>
