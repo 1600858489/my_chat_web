@@ -49,6 +49,7 @@ export default {
           if (data.message === '登录成功') {
             localStorage.setItem('loggedIn', 'true');
             localStorage.setItem('username', data.user_name);
+            localStorage.getItem('userId',data.user_id);
             // 登录成功，跳转至首页
             this.$router.push('/');
           } else {
