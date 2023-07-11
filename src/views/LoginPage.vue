@@ -44,12 +44,27 @@ export default {
         },
         body: JSON.stringify(loginData),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.ok) {
+            const cookies = response.headers.get("Set-Cookie")
+            console.log(cookies)
+            console.log(cookies)
+
+
+            // localStorage.setItem('token', cookieValue);
+
+            return response.json();
+          } else {
+            throw new Error('登录请求失败');
+          }
+        })
         .then((data) => {
           if (data.message === '登录成功') {
             localStorage.setItem('loggedIn', 'true');
             localStorage.setItem('username', data.user_name);
-            localStorage.getItem('userId',data.user_id);
+            localStorage.setItem('userId', data.user_id);
+
+
             // 登录成功，跳转至首页
             this.$router.push('/');
           } else {
