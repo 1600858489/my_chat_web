@@ -4,7 +4,7 @@
       <h3>会话列表</h3>
       <button class="new-conversation-button" @click="createNewConversation">新建会话</button>
       <ul>
-        <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="goToConversation(conversation.conversation_id)">
+        <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="getHistory(conversation.conversation_id)">
           {{ conversation.conversation_name }}
         </li>
       </ul>
@@ -19,10 +19,11 @@
     </div>
     <div class="main-content">
       <div id="chat-log">
-        <p v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
-          <strong>{{ message.role }}: </strong>{{ message.content }}
-        </p>
+        <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
+          <strong>{{ message.role }}: {{ message.content }}</strong>
+        </div>
       </div>
+
       <div class="user-input-container">
         <input type="text" v-model="userInput" @keydown.enter="sendUserInput" />
         <button :disabled="sendButtonDisabled" @click="sendUserInput">Send</button>
@@ -55,13 +56,43 @@ export default {
     this.connectWebSocket();
     this.getConversationList();
     this.getUserInfo();
-    this.getHistory()
+    // this.getHistory()
   },
   methods: {
-    // getHistory(){
-    //
-    // }
-
+    getHistory(conversationId, length = "") {
+      this.selectedConversationId = conversationId;
+      const Data = {
+        conversation_id: conversationId,
+        length: length,
+      };
+      fetch('http://128.14.76.82:8000/api/get_history/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.history = data.conversations.flatMap((conversation) => {
+            return [
+              {
+                role: 'user',
+                content: conversation.content_user,
+              },
+              {
+                role: 'ai',
+                content: conversation.content_ai,
+              },
+            ];
+          });
+          this.messages = this.history; // 将历史数据赋值给 messages 数组
+          console.log(this.history);
+        })
+        .catch((error) => {
+          console.error('获取历史记录请求出错:', error);
+        });
+    },
     getConversationList() {
       const userId = localStorage.getItem('userId');
       var token = localStorage.getItem('token');
@@ -88,10 +119,6 @@ export default {
           console.error(error);
           // 处理错误
         });
-    },
-    goToConversation(conversationId) {
-      // 跳转至指定会话的页面
-      this.$router.push(`/conversation/${conversationId}`);
     },
     createNewConversation() {
       const userId = localStorage.getItem('userId');
@@ -168,10 +195,26 @@ export default {
       };
     },
     sendUserInput() {
+      var mess = "";
+      var his_input = this.history.slice(-6);
+
+      for (var i=0;i<his_input.length;i++){
+        mess += his_input[i].content+"\n";
+
+      }
+      mess += "user:"+this.userInput;
+      // mess.push({
+      //   role: 'user',
+      //   content: this.userInput,
+      // });
+
+      console.log(mess);
       if (this.socket.readyState === WebSocket.OPEN) {
         const message = {
-          user_input: this.userInput,
+          user_input: mess,
+          conversation_id: this.selectedConversationId,
         };
+        // console.log(message);
         this.socket.send(JSON.stringify(message));
         this.appendMessage('User', this.userInput);
         this.userInput = '';
@@ -180,6 +223,8 @@ export default {
         console.log('WebSocket connection is not open yet.');
       }
     },
+
+
     getUserInfo() {
       const loggedIn = localStorage.getItem('loggedIn') === 'true';
       const username = localStorage.getItem('username');
