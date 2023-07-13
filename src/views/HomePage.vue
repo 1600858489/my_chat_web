@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div class="sidebar">
       <h3>会话列表</h3>
       <button class="new-conversation-button" @click="createNewConversation">新建会话</button>
@@ -181,7 +181,7 @@ export default {
           const finishReason = message.finish_reason;
 
           if (finishReason === 'stop') {
-            this.sendButtonDisabled = false;
+            this.sendButtonDisabled = true;
           }
 
           if (finishReason !== 'stop' || content !== undefined) {
@@ -195,23 +195,22 @@ export default {
       };
     },
     sendUserInput() {
-      var mess = "";
-      var his_input = this.history.slice(-6);
-
-      for (var i=0;i<his_input.length;i++){
-        mess += his_input[i].content+"\n";
-
-      }
-      mess += "user:"+this.userInput;
-      // mess.push({
-      //   role: 'user',
-      //   content: this.userInput,
-      // });
-
-      console.log(mess);
+      // // var mess = "";
+      // var his_input = this.history.slice(-6);
+      //
+      // for (var i=0;i<his_input.length;i++){
+      //   mess += his_input[i].content+"\n";
+      //
+      // }
+      // mess += "user:"+this.userInput;
+      // // mess.push({
+      // //   role: 'user',
+      // //   content: this.userInput,
+      // // });
+      // console.log(mess);
       if (this.socket.readyState === WebSocket.OPEN) {
         const message = {
-          user_input: mess,
+          user_input: this.userInput,
           conversation_id: this.selectedConversationId,
         };
         // console.log(message);
@@ -267,12 +266,34 @@ export default {
 </script>
 
 <style>
+html{
+  height:100%;
+  width: 100%;
+}
+
+body{
+  display: flex;
+  height:99.7%;
+  width: 100%;
+  margin:0px auto;
+  overflow:hidden;
+}
+
 .sidebar {
-  width: 15%;
-  float: left;
+  flex: 0 0 15%;
   padding: 10px;
   background-color: #f0f0f0;
+  position: relative;
+  text-align: center;
+  height: 100%;
 }
+
+.main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
 
 .sidebar h3 {
   margin-bottom: 10px;
@@ -295,6 +316,9 @@ export default {
 }
 
 .user-info {
+  position: relative;
+  bottom: -68%;
+  width: 100%;
   margin-top: 10px;
   text-align: center;
 }
@@ -320,21 +344,26 @@ export default {
 }
 
 .logout {
-  width: 100px;
+  width: 95%;
 }
 
+/* Main content styles */
 .main-content {
-  width: 85%;
-  float: left;
+  flex: 1;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
 
 #chat-log {
   overflow-y: scroll;
-  height: 300px;
+  flex-grow: 1;
   border: 1px solid #ccc;
   padding: 10px;
 }
+
 
 .user-input-container {
   display: flex;
