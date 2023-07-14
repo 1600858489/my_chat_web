@@ -1,38 +1,3 @@
-<template>
-  <div class="main">
-    <div class="sidebar">
-<!--      <h3>会话列表</h3>-->
-      <ul>
-        <li class="new-conversation-button" @click="createNewConversation">新建会话</li>
-
-        <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="getHistory(conversation.conversation_id)">
-          {{ conversation.conversation_name }}
-        </li>
-      </ul>
-      <div class="user-info">
-        <div class="user-avatar" :class="{ 'grayed-out': !user.loggedIn }">
-          <img :src="user.avatar" alt="User Avatar" />
-        </div>
-        <span>{{ user.loggedIn ? user.username : '未登录' }}</span>
-        <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
-        <button v-else @click="goToLogin" class="login">登录</button>
-      </div>
-    </div>
-    <div class="main-content">
-      <div id="chat-log">
-        <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
-          <strong>{{ message.role }}: {{ message.content }}</strong>
-        </div>
-      </div>
-
-      <div class="user-input-container">
-        <input class="user_input" type="text" v-model="userInput" @keydown.enter="sendUserInput" />
-        <button :disabled="sendButtonDisabled" @click="sendUserInput">Send</button>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import Cookies from 'js-cookie';
 
@@ -196,6 +161,19 @@ export default {
       };
     },
     sendUserInput() {
+      // // var mess = "";
+      // var his_input = this.history.slice(-6);
+      //
+      // for (var i=0;i<his_input.length;i++){
+      //   mess += his_input[i].content+"\n";
+      //
+      // }
+      // mess += "user:"+this.userInput;
+      // // mess.push({
+      // //   role: 'user',
+      // //   content: this.userInput,
+      // // });
+      // console.log(mess);
       if (this.socket.readyState === WebSocket.OPEN) {
         const message = {
           user_input: this.userInput,
@@ -252,5 +230,3 @@ export default {
   },
 };
 </script>
-
-<style src="./css/homePage.css"></style>
