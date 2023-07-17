@@ -2,13 +2,16 @@
   <div class="main">
     <div class="sidebar">
 <!--      <h3>会话列表</h3>-->
-      <ul>
-        <li class="new-conversation-button" @click="createNewConversation">新建会话</li>
+      <div class="conversation-list">
+         <ul>
+          <li class="new-conversation-button" @click="openCreateConversationModal">新建会话</li>
 
-        <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="getHistory(conversation.conversation_id)">
-          {{ conversation.conversation_name }}
-        </li>
-      </ul>
+          <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="getHistory(conversation.conversation_id)">
+            {{ conversation.conversation_name }}
+          </li>
+        </ul>
+      </div>
+
       <div class="user-info">
         <div class="user-avatar" :class="{ 'grayed-out': !user.loggedIn }">
           <img :src="user.avatar" alt="User Avatar" />
@@ -30,6 +33,18 @@
         <button :disabled="sendButtonDisabled" @click="sendUserInput">Send</button>
       </div>
     </div>
+
+      <div v-if="showCreateConversationModal" class="modal-overlay">
+        <div class="modal">
+          <h3>新建会话</h3>
+          <input type="text" v-model="newConversationName" @input="handleConversationNameInput" />
+          <div class="button-container">
+            <button @click="createNewConversation">创建</button>
+            <button @click="closeCreateConversationModal">取消</button>
+          </div>
+        </div>
+      </div>
+
   </div>
 </template>
 
@@ -51,6 +66,9 @@ export default {
         username: '', // 用户名
         avatar: require('@/assets/logo.png'), // 头像路径
       },
+      showCreateConversationModal: false, // 控制弹窗的显示和隐藏
+      newConversationName: '',
+
     };
   },
   created() {
@@ -60,6 +78,17 @@ export default {
     // this.getHistory()
   },
   methods: {
+    openCreateConversationModal() {
+      this.showCreateConversationModal = true;
+    },
+    closeCreateConversationModal() {
+      this.showCreateConversationModal = false;
+    },
+    handleConversationNameInput(event) {
+      this.newConversationName = event.target.value;
+    },
+
+
     getHistory(conversationId, length = "") {
       this.selectedConversationId = conversationId;
       const Data = {
@@ -126,7 +155,7 @@ export default {
       // const token = Cookies.get('token');
       const conversationData = {
         user_id: userId,
-        conversation_name: '新会话', // 可根据需求修改会话名称
+        conversation_name: this.newConversationName, // 可根据需求修改会话名称
       };
 
       // 发送创建新会话的请求
@@ -140,6 +169,7 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
+          this.showCreateConversationModal = false;
           console.log(data);
           // 刷新会话列表
           this.getConversationList();
@@ -164,7 +194,7 @@ export default {
       }
     },
     getMessageClass(role) {
-      return role === 'AI' ? 'message-ai' : 'message-user';
+      return role === 'ai' ? 'message-ai' : 'message-user';
     },
     connectWebSocket() {
       this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
