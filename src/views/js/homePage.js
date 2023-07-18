@@ -1,4 +1,3 @@
-<script>
 import Cookies from 'js-cookie';
 
 export default {
@@ -16,6 +15,9 @@ export default {
         username: '', // 用户名
         avatar: require('@/assets/logo.png'), // 头像路径
       },
+      showCreateConversationModal: false, // 控制弹窗的显示和隐藏
+      newConversationName: '',
+
     };
   },
   created() {
@@ -25,8 +27,26 @@ export default {
     // this.getHistory()
   },
   methods: {
+    openCreateConversationModal() {
+      this.showCreateConversationModal = true;
+    },
+    closeCreateConversationModal() {
+      this.showCreateConversationModal = false;
+    },
+    handleConversationNameInput(event) {
+      this.newConversationName = event.target.value;
+    },
+    selectConversation(conversationId) {
+      // 保存选中的会话ID
+      this.selectedConversationId = conversationId;
+
+      // 获取选中会话的历史记录
+      this.getHistory(conversationId);
+    },
     getHistory(conversationId, length = "") {
       this.selectedConversationId = conversationId;
+      // const token = localStorage.getItem("token");
+
       const Data = {
         conversation_id: conversationId,
         length: length,
@@ -34,7 +54,10 @@ export default {
       fetch('http://128.14.76.82:8000/api/get_history/', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
         },
         body: JSON.stringify(Data)
       })
@@ -61,11 +84,12 @@ export default {
     },
     getConversationList() {
       const userId = localStorage.getItem('userId');
-      var token = localStorage.getItem('token');
-      console.log(userId,token)
+      const token = localStorage.getItem('token');
+      // console.log(userId,token)
 
       const Data = {
-        user_id: userId
+        user_id: userId,
+        token:token
       };
 
       // 发送获取会话列表的请求
@@ -84,14 +108,17 @@ export default {
         .catch(error => {
           console.error(error);
           // 处理错误
+          this.conversations = [];
         });
     },
     createNewConversation() {
       const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem("token");
       // const token = Cookies.get('token');
       const conversationData = {
         user_id: userId,
-        conversation_name: '新会话', // 可根据需求修改会话名称
+        conversation_name: this.newConversationName, // 可根据需求修改会话名称
+        token:token
       };
 
       // 发送创建新会话的请求
@@ -105,6 +132,7 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
+          this.showCreateConversationModal = false;
           console.log(data);
           // 刷新会话列表
           this.getConversationList();
@@ -129,7 +157,7 @@ export default {
       }
     },
     getMessageClass(role) {
-      return role === 'AI' ? 'message-ai' : 'message-user';
+      return role === 'ai' ? 'message-ai' : 'message-user';
     },
     connectWebSocket() {
       this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
@@ -147,7 +175,7 @@ export default {
           const finishReason = message.finish_reason;
 
           if (finishReason === 'stop') {
-            this.sendButtonDisabled = true;
+            this.sendButtonDisabled = false;
           }
 
           if (finishReason !== 'stop' || content !== undefined) {
@@ -161,19 +189,6 @@ export default {
       };
     },
     sendUserInput() {
-      // // var mess = "";
-      // var his_input = this.history.slice(-6);
-      //
-      // for (var i=0;i<his_input.length;i++){
-      //   mess += his_input[i].content+"\n";
-      //
-      // }
-      // mess += "user:"+this.userInput;
-      // // mess.push({
-      // //   role: 'user',
-      // //   content: this.userInput,
-      // // });
-      // console.log(mess);
       if (this.socket.readyState === WebSocket.OPEN) {
         const message = {
           user_input: this.userInput,
@@ -183,13 +198,11 @@ export default {
         this.socket.send(JSON.stringify(message));
         this.appendMessage('User', this.userInput);
         this.userInput = '';
-        this.sendButtonDisabled = true;
+        this.sendButtonDisabled = false;
       } else {
         console.log('WebSocket connection is not open yet.');
       }
     },
-
-
     getUserInfo() {
       const loggedIn = localStorage.getItem('loggedIn') === 'true';
       const username = localStorage.getItem('username');
@@ -215,6 +228,7 @@ export default {
           Cookies.remove('token');
           this.user.loggedIn = false;
           this.user.username = '';
+
           this.user.avatar = require('@/assets/logo.png');
           alert(response.data.message);
         })
@@ -222,6 +236,8 @@ export default {
           console.error(error);
           // 处理错误
         });
+      localStorage.setItem('userId', ''); // 将'username'设置为空值
+      this.getConversationList();
     },
     goToLogin() {
       // 跳转至登录页面
@@ -229,4 +245,3 @@ export default {
     },
   },
 };
-</script>

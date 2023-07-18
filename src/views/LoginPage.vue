@@ -46,9 +46,9 @@ export default {
       })
         .then((response) => {
           if (response.ok) {
-            const cookies = response.headers.get("Set-Cookie")
-            console.log(cookies)
-            console.log(cookies)
+            // const cookies = response.headers.get("Set-Cookie")
+            // console.log(cookies)
+            // console.log(cookies)
 
 
             // localStorage.setItem('token', cookieValue);
@@ -60,9 +60,12 @@ export default {
         })
         .then((data) => {
           if (data.message === '登录成功') {
+            // console.log(data)
             localStorage.setItem('loggedIn', 'true');
             localStorage.setItem('username', data.user_name);
             localStorage.setItem('userId', data.user_id);
+            // console.log(data.token)
+            localStorage.setItem('token', data.token);
 
 
             // 登录成功，跳转至首页
@@ -83,55 +86,70 @@ export default {
 
 <style>
 .login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  text-align: center;
 }
 
 h1 {
   margin-bottom: 20px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
+  color: #333;
 }
 
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 label {
+  display: block;
+  font-weight: bold;
+  color: #333;
   margin-bottom: 5px;
 }
 
-input {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 10px;
-  border-radius: 4px;
   border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
-button {
+button[type="submit"] {
   width: 100%;
   padding: 10px;
-  background-color: #3490dc;
+  background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   cursor: pointer;
 }
 
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
 .error-message {
-  color: red;
-  margin-top: 10px;
+  color: #f00;
+  margin-bottom: 10px;
 }
 
 .register-link {
-  margin-top: 10px;
+  margin-top: 20px;
+  color: #007bff;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
 }
 </style>
