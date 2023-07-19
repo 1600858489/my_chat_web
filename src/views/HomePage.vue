@@ -4,6 +4,7 @@
 <!--      <h3>会话列表</h3>-->
       <div class="new-conversation" >
         <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>
+<!--        <img src="./logo.png">-->
         <hr style="width: 95%">
       </div>
 
