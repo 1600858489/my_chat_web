@@ -3,9 +3,10 @@ import Cookies from 'js-cookie';
 export default {
   data() {
     return {
-      history: [],
+      userInputList: ["test"],
+      history: [], // 历史记录
       conversations: [], // 会话列表
-      selectedConversationId: null,
+      selectedConversationId: null, // 选中的会话ID
       messages: [], // 对话消息
       userInput: '', // 用户输入内容
       sendButtonDisabled: true, // 发送按钮是否禁用
@@ -16,25 +17,24 @@ export default {
         avatar: require('@/assets/logo.png'), // 头像路径
       },
       showCreateConversationModal: false, // 控制弹窗的显示和隐藏
-      newConversationName: '',
-
+      newConversationName: '', // 新建会话的名称
     };
   },
   created() {
-    this.connectWebSocket();
-    this.getConversationList();
-    this.getUserInfo();
-    // this.getHistory()
+    this.connectWebSocket(); // 连接WebSocket
+    this.getConversationList(); // 获取会话列表
+    this.getUserInfo(); // 获取用户信息
+    // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
   },
   methods: {
     openCreateConversationModal() {
-      this.showCreateConversationModal = true;
+      this.showCreateConversationModal = true; // 打开新建会话弹窗
     },
     closeCreateConversationModal() {
-      this.showCreateConversationModal = false;
+      this.showCreateConversationModal = false; // 关闭新建会话弹窗
     },
     handleConversationNameInput(event) {
-      this.newConversationName = event.target.value;
+      this.newConversationName = event.target.value; // 处理输入的会话名
     },
     selectConversation(conversationId) {
       // 保存选中的会话ID
@@ -85,11 +85,10 @@ export default {
     getConversationList() {
       const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
-      // console.log(userId,token)
 
       const Data = {
         user_id: userId,
-        token:token
+        token: token
       };
 
       // 发送获取会话列表的请求
@@ -99,11 +98,11 @@ export default {
           'Content-Type': 'application/json',
           'Authorization': token,
         },
-        body:JSON.stringify(Data),
+        body: JSON.stringify(Data),
       })
         .then(response => response.json())
         .then(data => {
-          this.conversations = data.conversations;
+          this.conversations = data.conversations; // 获取会话列表数据
         })
         .catch(error => {
           console.error(error);
@@ -118,7 +117,7 @@ export default {
       const conversationData = {
         user_id: userId,
         conversation_name: this.newConversationName, // 可根据需求修改会话名称
-        token:token
+        token: token
       };
 
       // 发送创建新会话的请求
@@ -151,29 +150,34 @@ export default {
           this.messages.push({ role, content });
         }
       } else {
-        if (content !== undefined && content !== null) {
-          this.messages.push({ role, content });
+          const lastMessage = this.messages[this.messages.length - 1];
+          if (lastMessage && lastMessage.role === 'User') {
+            return;
         }
+          this.messages.push({ role, content });
       }
     },
+    // 检测是ai返回内容还是用户输入内容
     getMessageClass(role) {
       return role === 'ai' ? 'message-ai' : 'message-user';
     },
+
     connectWebSocket() {
       this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
 
       this.socket.onopen = () => {
         console.log('WebSocket connection established.');
-        this.sendButtonDisabled = false;
+        this.sendButtonDisabled = false; // WebSocket连接成功，启用发送按钮
       };
-
+      let counts = 0;
       this.socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
         console.log(message);
         if (message.delta && message.delta.content !== undefined) {
-          const content = message.delta.content;
+          // this.userInputList.pop()
+          counts = 0;
+          const content = message.delta.content.replace(/\n/g, '<br>');
           const finishReason = message.finish_reason;
-
           if (finishReason === 'stop') {
             this.sendButtonDisabled = false;
           }
@@ -181,6 +185,11 @@ export default {
           if (finishReason !== 'stop' || content !== undefined) {
             this.appendMessage('AI', content);
           }
+        }else if(Object.keys(message).length === 0 && message.constructor === Object){
+          console.log("test")
+          counts++;
+          this.sendUserInput(counts);
+
         }
       };
 
@@ -188,16 +197,21 @@ export default {
         console.log('WebSocket connection closed.');
       };
     },
-    sendUserInput() {
+    sendUserInput(count = 0) {
+
+      if (this.userInput !== ""){
+        this.userInputList.push(this.userInput)
+      }
       if (this.socket.readyState === WebSocket.OPEN) {
         const message = {
-          user_input: this.userInput,
+          user_input: this.userInputList[this.userInputList.length-1],
           conversation_id: this.selectedConversationId,
+          count:count,
         };
         // console.log(message);
         this.socket.send(JSON.stringify(message));
         this.appendMessage('User', this.userInput);
-        this.userInput = '';
+        this.userInput = "";
         this.sendButtonDisabled = false;
       } else {
         console.log('WebSocket connection is not open yet.');
