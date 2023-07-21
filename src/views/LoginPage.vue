@@ -13,12 +13,13 @@
         <input type="password" id="password" v-model="password" placeholder="输入密码" />
       </div>
       <button type="submit">登录</button>
-
     </form>
+
     <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
-<!--    <div class="register-link">-->
-<!--      还没有账号？<router-link to="/register">点击注册</router-link>-->
-<!--    </div>-->
+    <button class="register">注册</button>
+    <div class="register-link">
+      还没有账号？<router-link to="/register">点击注册</router-link>
+    </div>
   </div>
 </template>
 
