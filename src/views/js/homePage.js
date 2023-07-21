@@ -176,7 +176,7 @@ export default {
         if (message.delta && message.delta.content !== undefined) {
           // this.userInputList.pop()
           counts = 0;
-          const content = message.delta.content.replace(/\n/g, '<br>');
+          const content = message.delta.content;
           const finishReason = message.finish_reason;
           if (finishReason === 'stop') {
             this.sendButtonDisabled = false;

@@ -224,11 +224,15 @@ span {
 #chat-log .message-ai {
     text-align: left;
     color: #007ec6;
+    white-space: pre-line;
+    text-transform: capitalize;
 }
 
 #chat-log .message-user {
     text-align: left;
     color: #555;
+    white-space: pre-line;
+    text-transform: capitalize;
 }
 
 
