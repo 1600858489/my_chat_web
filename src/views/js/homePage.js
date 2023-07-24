@@ -1,8 +1,12 @@
 import Cookies from 'js-cookie';
+import { ref, onMounted, watchEffect } from 'vue';
+
+
 
 export default {
   data() {
     return {
+      chatLogContainer: ref(null),// 添加chatLogContainer引用
       userInputList: ["test"],
       history: [], // 历史记录
       conversations: [], // 会话列表
@@ -18,6 +22,7 @@ export default {
       },
       showCreateConversationModal: false, // 控制弹窗的显示和隐藏
       newConversationName: '', // 新建会话的名称
+      chatLogContainer: ref(null), // 添加chatLogContainer引用
     };
   },
   created() {
@@ -25,8 +30,25 @@ export default {
     this.getConversationList(); // 获取会话列表
     this.getUserInfo(); // 获取用户信息
     // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
+
   },
+
+  onMounted() {
+    watchEffect(() => {
+      // 聊天框内容更新时，滚动到底部
+      this.scrollToBottom();
+      console.log("更新")
+    });
+  },
+
   methods: {
+    scrollToBottom() {
+      // 使用$nextTick来确保在DOM更新后再执行滚动到底部
+      console.log("更新")
+      this.$nextTick(() => {
+        this.chatLogContainer.value.scrollTop = this.chatLogContainer.value.scrollHeight;
+      });
+    },
     openCreateConversationModal() {
       this.showCreateConversationModal = true; // 打开新建会话弹窗
     },
@@ -77,6 +99,10 @@ export default {
           });
           this.messages = this.history; // 将历史数据赋值给 messages 数组
           console.log(this.history);
+        this.$nextTick(() => {
+        var div = document.getElementById('chat-log')
+        div.scrollTop = div.scrollHeight
+    })
         })
         .catch((error) => {
           console.error('获取历史记录请求出错:', error);

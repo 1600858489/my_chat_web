@@ -29,7 +29,7 @@
     </div>
 
     <div class="main-content">
-      <div id="chat-log">
+      <div id="chat-log" ref="chatLogContainer">
         <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
           <strong>{{ message.role }}: {{ message.content }}</strong>
         </div>

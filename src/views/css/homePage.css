@@ -132,6 +132,7 @@ body{
     padding: 5px 15px 5px 15px;
     color: aliceblue;
     margin-bottom: 5px;
+    width: 70%;
 }
 
 .user-info {
@@ -179,6 +180,7 @@ body{
     color: white;
     background-color: #262626;
     font-weight: bold;
+    width: 70%;
 }
 
 .login {

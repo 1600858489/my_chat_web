@@ -1,95 +1,66 @@
-html {
-  height: 100%;
-  width: 100%;
-}
-
-body {
-  display: flex;
-  height: 99.7%;
-  width: 100%;
-  margin: 0px auto;
-  overflow: hidden;
-}
-
 .login-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    /*border: 1px solid #ccc;*/
-    border-radius: 5px;
-    /*background-color: #f5f5f5;*/
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-h1 {
-  margin-bottom: 20px;
-  color: #333;
+.logo-image {
+  width: 70px;
+  height: auto;
 }
 
-.logo-image{
-    width: 70px;
-    height: auto;
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 35%;
+}
+
+form {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .form-group {
-  margin-bottom: 20px;
-  text-align: center;
+  position: relative;
+  width: auto;
 }
 
-.input-hint-identifier {
-    position: absolute;
-    top: 100px;
-    left: 95px;
-    transform: translateY(-103%);
-    font-size: 12px;
-    width: 80px;
-    background: white;
-    color: #777;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.input-hint-identifier.show {
-  opacity: 1; /* 过渡后的状态，设置为完全不透明 */
-}
-
-.input-hint-password {
-    position: absolute;
-    top: 156px;
-    left: 95px;
-    transform: translateY(-103%);
-    font-size: 12px;
-    width: 65px;
-    background: white;
-    color: #777;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: 60%;
-  padding: 10px;
+input {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  margin: 10px 0px 10px 0px;
+  padding: 5px 0px 5px 0px;
+  border-radius: 4px;
   border: 1px solid #ccc;
-  border-radius: 3px;
 }
 
-button[type="submit"] {
-  width: 20%;
+.input-hint {
+  font-weight: 200;
+  position: absolute;
+  top: 0px;
+  left: 3px;
+  font-size: 12px;
+  padding: 0px 5px 0px 5px;
+  background: white;
+  color: #777;
+  z-index: 2;
+}
+
+button {
+  width: 30%;
   padding: 10px;
   background-color: #10a37f;
   color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -98,20 +69,10 @@ button[type="submit"]:hover {
 }
 
 .error-message {
-  color: #f00;
-  margin-bottom: 10px;
+  color: red;
+  margin-top: 10px;
 }
 
 .register-link {
-  margin-top: 20px;
-  color: #007bff;
-}
-
-.register-link a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.register-link a:hover {
-    text-decoration: underline;
+  margin-top: 10px;
 }

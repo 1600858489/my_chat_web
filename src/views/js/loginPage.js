@@ -4,8 +4,6 @@ export default {
     return {
       showPassHint: false,
       showUserHint: false,
-      inputPassHint: '请输入密码',
-      inputUserHint: '请输入手机号',
       identifier: '',
       password: '',
       errorMessage: '',

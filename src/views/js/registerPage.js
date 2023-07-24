@@ -7,6 +7,10 @@ export default {
       password: '',
       confirmPassword: '',
       errorMessage: '',
+      showUserHint: false,
+      showPhoneHint: false,
+      showPassHint: false,
+      showconfPassHint: false,
     };
   },
   methods: {
