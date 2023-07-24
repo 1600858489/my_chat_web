@@ -37,7 +37,35 @@ h1 {
 
 .form-group {
   margin-bottom: 20px;
-  text-align: left;
+  text-align: center;
+}
+
+.input-hint-identifier {
+    position: absolute;
+    top: 100px;
+    left: 95px;
+    transform: translateY(-103%);
+    font-size: 12px;
+    width: 80px;
+    background: white;
+    color: #777;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.input-hint-identifier.show {
+  opacity: 1; /* 过渡后的状态，设置为完全不透明 */
+}
+
+.input-hint-password {
+    position: absolute;
+    top: 156px;
+    left: 95px;
+    transform: translateY(-103%);
+    font-size: 12px;
+    width: 65px;
+    background: white;
+    color: #777;
 }
 
 label {
@@ -49,14 +77,14 @@ label {
 
 input[type="text"],
 input[type="password"] {
-  width: 100%;
+  width: 60%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
 
 button[type="submit"] {
-  width: 100%;
+  width: 20%;
   padding: 10px;
   background-color: #10a37f;
   color: #fff;
