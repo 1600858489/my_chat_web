@@ -1,12 +1,9 @@
 import Cookies from 'js-cookie';
-import { ref, onMounted, watchEffect } from 'vue';
-
 
 
 export default {
   data() {
     return {
-      chatLogContainer: ref(null),// 添加chatLogContainer引用
       userInputList: ["test"],
       history: [], // 历史记录
       conversations: [], // 会话列表
@@ -22,7 +19,6 @@ export default {
       },
       showCreateConversationModal: false, // 控制弹窗的显示和隐藏
       newConversationName: '', // 新建会话的名称
-      chatLogContainer: ref(null), // 添加chatLogContainer引用
     };
   },
   created() {
@@ -33,22 +29,8 @@ export default {
 
   },
 
-  onMounted() {
-    watchEffect(() => {
-      // 聊天框内容更新时，滚动到底部
-      this.scrollToBottom();
-      console.log("更新")
-    });
-  },
 
   methods: {
-    scrollToBottom() {
-      // 使用$nextTick来确保在DOM更新后再执行滚动到底部
-      console.log("更新")
-      this.$nextTick(() => {
-        this.chatLogContainer.value.scrollTop = this.chatLogContainer.value.scrollHeight;
-      });
-    },
     openCreateConversationModal() {
       this.showCreateConversationModal = true; // 打开新建会话弹窗
     },
@@ -123,6 +105,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token,
+
         },
         body: JSON.stringify(Data),
       })
@@ -198,7 +181,7 @@ export default {
       let counts = 0;
       this.socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        console.log(message);
+        // console.log(message);
         if (message.delta && message.delta.content !== undefined) {
           // this.userInputList.pop()
           counts = 0;
@@ -283,5 +266,35 @@ export default {
       // 跳转至登录页面
       this.$router.push('/login');
     },
+    deleteConversation(conversationId) {
+      // 发送删除会话的请求
+      const token = localStorage.getItem('token');
+
+      const Data = {
+        conversation_id: conversationId,
+        user_id: localStorage.getItem("userId"),
+        token: token,
+      };
+
+      fetch('http://128.14.76.82:8000/api/drop_conversation/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        },
+        body: JSON.stringify(Data),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          // 刷新会话列表
+          this.getConversationList();
+        })
+        .catch(error => {
+          console.error(error);
+          // 处理错误
+        });
+    },
+
   },
 };

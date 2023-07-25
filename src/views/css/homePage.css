@@ -34,6 +34,7 @@ body{
 .conversation-list {
     max-height: 750px; /* 设置固定高度 */
     overflow-y: auto; /* 添加滚动条 */
+    height: 100%;
 }
 
 
@@ -122,10 +123,30 @@ body{
 }
 
 .sidebar li.selected {
-  background-color: #333333; /* 设置选中时的背景颜色 */
-  /*color: #007bff; !* 设置选中时的文字颜色 *!*/
-  /* 其他样式... */
+    background-color: #333333;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.delet-conversation{
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-image: url('@/assets/delete_image.png');
+    background-size: cover;
+    border-radius: 50%;
+    border: none;
+    background-color: #333333;
+    background-position: 50% 50%;
+    cursor: pointer;
+}
+
+.delet-conversation:hover{
+    background-image: url('@/assets/delete_image_hov.png');
+}
+
 
 .new-conversation button{
     cursor: pointer;
@@ -205,6 +226,10 @@ span {
     flex-direction: column;
 }
 
+
+
+
+
 /* Chat log styles */
 #chat-log {
     overflow-y: scroll;
@@ -215,6 +240,15 @@ span {
 
 
 /* Message styles */
+
+pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+  background-color: #f5f5f5;
+  padding: 5px;
+  border: 2px solid #ccc; /* 添加边框 */
+}
+
 #chat-log .message-ai,
 #chat-log .message-user {
     margin-bottom: 5px;
@@ -326,3 +360,4 @@ span {
 .modal button:last-child {
     background-color: #ccc;
 }
+

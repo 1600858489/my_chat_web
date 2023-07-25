@@ -13,6 +13,7 @@
         <ul>
           <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
             {{ conversation.conversation_name }}
+            <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
           </li>
         </ul>
 
@@ -29,11 +30,11 @@
     </div>
 
     <div class="main-content">
-      <div id="chat-log" ref="chatLogContainer">
+      <pre id="chat-log">
         <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
           <strong>{{ message.role }}: {{ message.content }}</strong>
         </div>
-      </div>
+      </pre>
 
       <div class="user-input-container">
         <input class="user_input" type="text" v-model="userInput" @keydown.enter="sendUserInput" />
