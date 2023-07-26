@@ -54,6 +54,8 @@ export default {
       const Data = {
         conversation_id: conversationId,
         length: length,
+        user_id: localStorage.getItem("userId"),
+        token:localStorage.getItem("token"),
       };
       fetch('http://128.14.76.82:8000/api/get_history/', {
         method: 'POST',
@@ -171,6 +173,8 @@ export default {
       return role === 'ai' ? 'message-ai' : 'message-user';
     },
 
+
+
     connectWebSocket() {
       this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
 
@@ -206,6 +210,9 @@ export default {
         console.log('WebSocket connection closed.');
       };
     },
+
+
+
     sendUserInput(count = 0) {
 
       if (this.userInput !== ""){

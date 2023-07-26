@@ -30,11 +30,11 @@
     </div>
 
     <div class="main-content">
-      <pre id="chat-log">
+      <div id="chat-log">
         <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
           <strong>{{ message.role }}: {{ message.content }}</strong>
         </div>
-      </pre>
+      </div>
 
       <div class="user-input-container">
         <input class="user_input" type="text" v-model="userInput" @keydown.enter="sendUserInput" />
