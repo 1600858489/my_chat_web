@@ -31,11 +31,12 @@
 
     <div class="main-content">
       <div id="chat-log">
+
         <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
           <strong>{{ message.role }}: {{ message.content }}</strong>
         </div>
       </div>
-
+      <button class="gotofloor" @click="scrollToBottom" v-if="showScrollButton">Scroll to Bottom</button>
       <div class="user-input-container">
         <input class="user_input" type="text" v-model="userInput" @keydown.enter="sendUserInput" />
         <button :disabled="sendButtonDisabled" @click="sendUserInput">Send</button>
@@ -56,6 +57,10 @@
   </div>
 </template>
 
-<script src="./js/homePage.js"></script>
+<script src="./js/homePage.js">
+  import "./js/homePage.js";
+  import "./js/homePageEffects.js";
+
+</script>
 
 <style src="./css/homePage.css"></style>

@@ -57,7 +57,7 @@ export default {
         user_id: localStorage.getItem("userId"),
         token:localStorage.getItem("token"),
       };
-      fetch('http://128.14.76.82:8000/api/get_history/', {
+      fetch('http://128.14.76.82:8000/api/test/get_history/', {
         method: 'POST',
         headers: {
           // 'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export default {
       };
 
       // 发送获取会话列表的请求
-      fetch(`http://128.14.76.82:8000/api/get_conversation/`, {
+      fetch(`http://128.14.76.82:8000/api/test/get_conversation/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export default {
       };
 
       // 发送创建新会话的请求
-      fetch('http://128.14.76.82:8000/api/new_conversation/', {
+      fetch('http://128.14.76.82:8000/api/test/new_conversation/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ export default {
         token: token,
       };
 
-      fetch('http://128.14.76.82:8000/api/drop_conversation/', {
+      fetch('http://128.14.76.82:8000/api/test/drop_conversation/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -295,7 +295,9 @@ export default {
         .then(data => {
           console.log(data);
           // 刷新会话列表
+          this.messages = [];
           this.getConversationList();
+
         })
         .catch(error => {
           console.error(error);
