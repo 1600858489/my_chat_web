@@ -234,10 +234,32 @@ span {
 #chat-log {
     overflow-y: scroll;
     flex-grow: 1;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     padding: 10px;
+    /*transition: scroll-behavior 0.5s ease; !* 过渡效果，0.5秒的滚动时间，可以根据需要调整 *!*/
 }
 
+.gotofloor {
+  position: absolute;
+  bottom: 8%;
+  right: 5%;
+  width: 35px;
+  height: 35px;
+  background-color: #f9f9f9;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #cccccc;
+}
+
+.gotofloor:hover {
+  background-color: #ebebeb;
+}
 
 /* Message styles */
 
@@ -254,7 +276,7 @@ pre {
     margin-bottom: 5px;
     padding: 5px;
     background-color: #f9f9f9;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
 }
 
 #chat-log .message-ai {

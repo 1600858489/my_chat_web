@@ -19,6 +19,7 @@ export default {
       },
       showCreateConversationModal: false, // 控制弹窗的显示和隐藏
       newConversationName: '', // 新建会话的名称
+      // showScrollButton: null,
     };
   },
   created() {
@@ -29,8 +30,15 @@ export default {
 
   },
 
-
   methods: {
+    Skip2Latest(){
+
+      this.$nextTick(() => {
+        var div = document.getElementById('chat-log')
+        div.scrollTop = div.scrollHeight;
+      })
+    },
+
     openCreateConversationModal() {
       this.showCreateConversationModal = true; // 打开新建会话弹窗
     },
@@ -83,10 +91,8 @@ export default {
           });
           this.messages = this.history; // 将历史数据赋值给 messages 数组
           console.log(this.history);
-        this.$nextTick(() => {
-        var div = document.getElementById('chat-log')
-        div.scrollTop = div.scrollHeight
-    })
+          this.Skip2Latest()
+
         })
         .catch((error) => {
           console.error('获取历史记录请求出错:', error);
@@ -305,5 +311,10 @@ export default {
         });
     },
 
+  },
+  beforeDestroy() {
+    // 移除滚动事件监听
+    const chatLogContainer = this.$refs.chatLogContainer;
+    chatLogContainer.removeEventListener('scroll', this.handleScroll);
   },
 };
