@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 export default {
   data() {
     return {
+
       userInputList: ["test"],
       history: [], // 历史记录
       conversations: [], // 会话列表
@@ -179,8 +180,6 @@ export default {
       return role === 'ai' ? 'message-ai' : 'message-user';
     },
 
-
-
     connectWebSocket() {
       this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
 
@@ -216,8 +215,6 @@ export default {
         console.log('WebSocket connection closed.');
       };
     },
-
-
 
     sendUserInput(count = 0) {
 
@@ -310,6 +307,12 @@ export default {
           // 处理错误
         });
     },
+
+    getProblem(text){
+      this.userInput = text;
+    }
+
+
 
   },
   beforeDestroy() {

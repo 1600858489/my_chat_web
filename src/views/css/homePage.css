@@ -26,9 +26,11 @@ body{
     position: relative;
     text-align: center;
     height: 100%;
+    width: 170px;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
+
 }
 
 .conversation-list {
@@ -61,6 +63,18 @@ body{
     scrollbar-color: #888 #f1f1f1;
 }
 
+.conversation {
+    display: block; /* 使其成为块级元素 */
+    width: 140px; /* 你可以根据需要调整这个值 */
+    overflow: hidden; /* 隐藏超出的内容 */
+    white-space: nowrap; /* 防止文本换行 */
+    text-overflow: ellipsis; /* 如果你希望显示省略号，可以使用这个属性 */
+    margin: 2px;
+
+    /* 应用遮罩 */
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+}
 
 .sidebar h3 {
     margin-bottom: 10px;
@@ -224,6 +238,8 @@ span {
     padding: 10px;
     display: flex;
     flex-direction: column;
+    background-color: #EAEAEA;
+
 }
 
 
@@ -232,11 +248,31 @@ span {
 
 /* Chat log styles */
 #chat-log {
+    display: flex;
     overflow-y: scroll;
     flex-grow: 1;
-    /*border: 1px solid #ccc;*/
+    /* border: 1px solid #ccc; */
     padding: 10px;
-    /*transition: scroll-behavior 0.5s ease; !* 过渡效果，0.5秒的滚动时间，可以根据需要调整 *!*/
+    flex-direction: column;
+}
+
+
+/* 为chat-log的滚动条添加样式 */
+#chat-log::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-log::-webkit-scrollbar-track {
+    background: none;
+}
+
+#chat-log::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#chat-log::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .gotofloor {
@@ -273,25 +309,55 @@ pre {
 
 #chat-log .message-ai,
 #chat-log .message-user {
-    margin-bottom: 5px;
-    padding: 5px;
+    display: inline-block; /* 根据内容自动调整大小 */
+    max-width: 70%; /* 限制气泡的最大宽度 */
+    margin-bottom: 10px;
+    padding: 10px 15px; /* 增加内边距使其看起来更像气泡 */
     background-color: #f9f9f9;
-    /*border-radius: 5px;*/
+    border-radius: 20px; /* 添加圆角 */
+    white-space: pre-line;
+    text-transform: capitalize;
+    position: relative; /* 为后续的小尾巴做准备 */
 }
 
 #chat-log .message-ai {
     text-align: left;
     color: #007ec6;
-    white-space: pre-line;
-    text-transform: capitalize;
+    background-color: #e6f7ff; /* AI消息的背景颜色 */
+    margin-left: 10px;
 }
 
 #chat-log .message-user {
     text-align: left;
     color: #555;
-    white-space: pre-line;
-    text-transform: capitalize;
+    background-color: #f9f9f9; /* 用户消息的背景颜色 */
+    margin-right: 10px;
+    align-self: flex-end; /* 使用户消息靠右对齐 */
 }
+
+/* 为AI和用户的消息添加小尾巴，使其更像真实的聊天气泡 */
+#chat-log .message-ai::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right-color: #e6f7ff;
+    position: absolute;
+    left: -16px;
+    top: 10px;
+}
+
+#chat-log .message-user::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: #f9f9f9;
+    position: absolute;
+    right: -16px;
+    top: 10px;
+}
+
 
 
 .user-input-container {
@@ -383,5 +449,53 @@ pre {
     background-color: #ccc;
 }
 
+.tips-list {
+    display: flex;
+    justify-content: space-between;
+}
 
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.h-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.svg-image{
+    padding: 10px;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+.tit {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.column ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.q-preinstall{
+    margin-bottom: 10px;
+    cursor: pointer;
+    /*transition: color 0.9s;*/
+    transition: background-color 0.2s;
+    background-color: #F7F7F7;
+    padding: 15px 10px 15px 10px;
+}
+
+.q-preinstall:hover {
+    background-color: transparent;
+    /*color: aquamarine;*/
+}
 
