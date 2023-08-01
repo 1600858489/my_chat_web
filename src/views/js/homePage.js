@@ -21,6 +21,8 @@ export default {
       showCreateConversationModal: false, // 控制弹窗的显示和隐藏
       newConversationName: '', // 新建会话的名称
       // showScrollButton: null,
+      isCodeBlock: false, // 标记是否在代码块内
+      codeContent: '', // 用于存储代码块内容
     };
   },
   created() {
@@ -161,12 +163,20 @@ export default {
     },
     appendMessage(role = '', content) {
       if (role === 'AI') {
-        const lastMessage = this.messages[this.messages.length - 1];
-        if (lastMessage && lastMessage.role === 'AI') {
-          lastMessage.content += content;
-        } else {
-          this.messages.push({ role, content });
-        }
+          const processedContent = processMessageContent(content);
+          for (const item of processedContent) {
+              if (item.type === 'text') {
+                  // 这里你可以按照原来的方式处理文本
+                  this.messages.push({ role, content: item.content });
+              } else if (item.type === 'code') {
+                  // 这里你可以为代码块创建一个新的div
+                  const codeDiv = document.createElement('div');
+                  codeDiv.className = 'code-block'; // 你可以根据需要更改这个类名
+                  codeDiv.textContent = item.content;
+                  // 将codeDiv添加到你的消息列表或其他适当的位置
+                  // 例如：this.messages.push({ role, content: codeDiv.outerHTML });
+              }
+          }
       } else {
           const lastMessage = this.messages[this.messages.length - 1];
           if (lastMessage && lastMessage.role === 'User') {
@@ -177,7 +187,15 @@ export default {
     },
     // 检测是ai返回内容还是用户输入内容
     getMessageClass(role) {
-      return role === 'ai' ? 'message-ai' : 'message-user';
+
+      // console.log(role);
+      if (role === 'ai' ||  role === 'Ai') {
+        return 'message-ai';
+      } else if (role === 'user' || role === 'User') {
+        return 'message-user';
+      } else {
+        return 'message-ai'; // 返回默认值
+      }
     },
 
     connectWebSocket() {
@@ -190,24 +208,36 @@ export default {
       let counts = 0;
       this.socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        // console.log(message);
         if (message.delta && message.delta.content !== undefined) {
-          // this.userInputList.pop()
           counts = 0;
-          const content = message.delta.content;
+          let content = message.delta.content;
           const finishReason = message.finish_reason;
+          console.log(content)
+          if (content === "```") {
+            console.log("tester")
+              this.isCodeBlock = !this.isCodeBlock;
+              if (!this.isCodeBlock) {
+                  content = this.codeContent + content;
+                  this.codeContent = ''; // 清空 codeContent
+              }
+          }
+          if (this.isCodeBlock) {
+              this.codeContent += content;
+              return;
+          }
+
           if (finishReason === 'stop') {
-            this.sendButtonDisabled = false;
+            this.sendButtonDisabled = true;
           }
 
           if (finishReason !== 'stop' || content !== undefined) {
+            this.sendButtonDisabled = false;
             this.appendMessage('AI', content);
           }
-        }else if(Object.keys(message).length === 0 && message.constructor === Object){
-          console.log("test")
+        } else if(Object.keys(message).length === 0 && message.constructor === Object) {
+          console.log("test");
           counts++;
           this.sendUserInput(counts);
-
         }
       };
 
@@ -215,6 +245,22 @@ export default {
         console.log('WebSocket connection closed.');
       };
     },
+
+    highlightCode(code) {
+      const words = code.split(' ');
+      const highlightedWords = words.map(word => {
+          // 根据 word 的值来为其分配不同的 CSS 类
+          let className = '';
+          if (['if', 'else', 'for', 'while'].includes(word)) {
+              className = 'keyword';
+          }
+          // ... 其他关键字和类名的匹配
+          return `<span class="${className}">${word}</span>`;
+      });
+      console.log(highlightedWords)
+      return `<pre><code>${highlightedWords.join(' ')}</code></pre>`;
+    },
+
 
     sendUserInput(count = 0) {
 
@@ -261,6 +307,7 @@ export default {
           Cookies.remove('token');
           this.user.loggedIn = false;
           this.user.username = '';
+          this.messages = [];
 
           this.user.avatar = require('@/assets/logo.png');
           alert(response.data.message);
@@ -321,3 +368,39 @@ export default {
     chatLogContainer.removeEventListener('scroll', this.handleScroll);
   },
 };
+
+
+function processMessageContent(content) {
+    const codeBlockRegex = /```([\s\S]*?)```/g;
+    let match;
+    let lastIndex = 0;
+    const elements = [];
+
+    while ((match = codeBlockRegex.exec(content)) !== null) {
+        // 添加代码块之前的文本
+        if (match.index !== lastIndex) {
+            elements.push({
+                type: 'text',
+                content: content.substring(lastIndex, match.index)
+            });
+        }
+
+        // 添加代码块
+        elements.push({
+            type: 'code',
+            content: match[1] // 捕获的代码内容
+        });
+
+        lastIndex = match.index + match[0].length;
+    }
+
+    // 添加剩余的文本
+    if (lastIndex < content.length) {
+        elements.push({
+            type: 'text',
+            content: content.substring(lastIndex)
+        });
+    }
+
+    return elements;
+}
