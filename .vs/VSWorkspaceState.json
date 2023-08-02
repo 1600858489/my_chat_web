@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\views",
+    "\\src\\views\\css",
+    "\\src\\views\\js"
   ],
-  "SelectedNode": "\\D:\\Python_object_file\\my_chat_web",
+  "SelectedNode": "\\src\\views\\css\\homePage.css",
   "PreviewInSolutionExplorer": false
 }
