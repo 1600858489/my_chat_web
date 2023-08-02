@@ -1,40 +1,59 @@
 import Cookies from 'js-cookie';
-
+import hljs from 'highlight.js';
+import 'highlight.js/styles/monokai.css';
 
 export default {
   data() {
-    return {
+  return {
 
-      userInputList: ["test"],
-      history: [], // 历史记录
-      conversations: [], // 会话列表
-      selectedConversationId: null, // 选中的会话ID
-      messages: [], // 对话消息
-      userInput: '', // 用户输入内容
-      sendButtonDisabled: true, // 发送按钮是否禁用
-      socket: null, // WebSocket连接
-      user: {
-        loggedIn: false, // 是否已登录
-        username: '', // 用户名
-        avatar: require('@/assets/logo.png'), // 头像路径
-      },
-      showCreateConversationModal: false, // 控制弹窗的显示和隐藏
-      newConversationName: '', // 新建会话的名称
-      // showScrollButton: null,
-      isCodeBlock: false, // 标记是否在代码块内
-      codeContent: '', // 用于存储代码块内容
-    };
+    userInputList: ["test"],
+    history: [], // 历史记录
+    conversations: [], // 会话列表
+    selectedConversationId: null, // 选中的会话ID
+    messages: [], // 对话消息
+    userInput: '', // 用户输入内容
+    sendButtonDisabled: true, // 发送按钮是否禁用
+    socket: null, // WebSocket连接
+    user: {
+    loggedIn: false, // 是否已登录
+    username: '', // 用户名
+    avatar: require('@/assets/logo.png'), // 头像路径
+    },
+    showCreateConversationModal: false, // 控制弹窗的显示和隐藏
+    newConversationName: '', // 新建会话的名称
+    // showScrollButton: null,
+  };
   },
   created() {
-    this.connectWebSocket(); // 连接WebSocket
-    this.getConversationList(); // 获取会话列表
-    this.getUserInfo(); // 获取用户信息
-    // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
+  this.connectWebSocket(); // 连接WebSocket
+  this.getConversationList(); // 获取会话列表
+  this.getUserInfo(); // 获取用户信息
+  // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
+  // this.alterCodeStyle()
 
   },
-
+  updated() {
+  this.$nextTick(() => {
+    // 确保 DOM 已经更新
+    let contents = document.querySelectorAll('.message-ai');
+    contents.forEach(content => {
+    // 这里是你的修改内容的代码
+    let rawText = content.innerHTML;
+    // let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code class="language">$1</code></pre>');
+    let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+    content.innerHTML = replacedText;
+    });
+    hljs.initHighlightingOnLoad();
+  // document.querySelectorAll('pre code').forEach((block) => {
+  //   hljs.highlightBlock(block);
+  // });
+  //   document.querySelectorAll('pre code')=> {
+  //      hljs.highlightBlock();
+  //    });
+  });
+  },
   methods: {
-    Skip2Latest(){
+    Skip2Latest() {
 
       this.$nextTick(() => {
         var div = document.getElementById('chat-log')
@@ -66,7 +85,7 @@ export default {
         conversation_id: conversationId,
         length: length,
         user_id: localStorage.getItem("userId"),
-        token:localStorage.getItem("token"),
+        token: localStorage.getItem("token"),
       };
       fetch('http://128.14.76.82:8000/api/test/get_history/', {
         method: 'POST',
@@ -95,7 +114,6 @@ export default {
           this.messages = this.history; // 将历史数据赋值给 messages 数组
           console.log(this.history);
           this.Skip2Latest()
-
         })
         .catch((error) => {
           console.error('获取历史记录请求出错:', error);
@@ -163,20 +181,12 @@ export default {
     },
     appendMessage(role = '', content) {
       if (role === 'AI') {
-          const processedContent = processMessageContent(content);
-          for (const item of processedContent) {
-              if (item.type === 'text') {
-                  // 这里你可以按照原来的方式处理文本
-                  this.messages.push({ role, content: item.content });
-              } else if (item.type === 'code') {
-                  // 这里你可以为代码块创建一个新的div
-                  const codeDiv = document.createElement('div');
-                  codeDiv.className = 'code-block'; // 你可以根据需要更改这个类名
-                  codeDiv.textContent = item.content;
-                  // 将codeDiv添加到你的消息列表或其他适当的位置
-                  // 例如：this.messages.push({ role, content: codeDiv.outerHTML });
-              }
-          }
+        const lastMessage = this.messages[this.messages.length - 1];
+        if (lastMessage && lastMessage.role === 'AI') {
+          lastMessage.content += content;
+        } else {
+          this.messages.push({ role, content });
+        }
       } else {
           const lastMessage = this.messages[this.messages.length - 1];
           if (lastMessage && lastMessage.role === 'User') {
@@ -189,7 +199,7 @@ export default {
     getMessageClass(role) {
 
       // console.log(role);
-      if (role === 'ai' ||  role === 'Ai') {
+      if (role === 'ai' || role === 'Ai') {
         return 'message-ai';
       } else if (role === 'user' || role === 'User') {
         return 'message-user';
@@ -200,7 +210,6 @@ export default {
 
     connectWebSocket() {
       this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
-
       this.socket.onopen = () => {
         console.log('WebSocket connection established.');
         this.sendButtonDisabled = false; // WebSocket连接成功，启用发送按钮
@@ -208,70 +217,42 @@ export default {
       let counts = 0;
       this.socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
+        // console.log(message);
         if (message.delta && message.delta.content !== undefined) {
+          // this.userInputList.pop()
           counts = 0;
-          let content = message.delta.content;
+          const content = message.delta.content;
           const finishReason = message.finish_reason;
-          console.log(content)
-          if (content === "```") {
-            console.log("tester")
-              this.isCodeBlock = !this.isCodeBlock;
-              if (!this.isCodeBlock) {
-                  content = this.codeContent + content;
-                  this.codeContent = ''; // 清空 codeContent
-              }
-          }
-          if (this.isCodeBlock) {
-              this.codeContent += content;
-              return;
-          }
-
           if (finishReason === 'stop') {
-            this.sendButtonDisabled = true;
-          }
-
-          if (finishReason !== 'stop' || content !== undefined) {
             this.sendButtonDisabled = false;
+          }
+          if (finishReason !== 'stop' || content !== undefined) {
             this.appendMessage('AI', content);
           }
-        } else if(Object.keys(message).length === 0 && message.constructor === Object) {
-          console.log("test");
+        }else if(Object.keys(message).length === 0 && message.constructor === Object){
+          console.log("test")
           counts++;
           this.sendUserInput(counts);
         }
       };
-
       this.socket.onclose = () => {
         console.log('WebSocket connection closed.');
       };
     },
 
-    highlightCode(code) {
-      const words = code.split(' ');
-      const highlightedWords = words.map(word => {
-          // 根据 word 的值来为其分配不同的 CSS 类
-          let className = '';
-          if (['if', 'else', 'for', 'while'].includes(word)) {
-              className = 'keyword';
-          }
-          // ... 其他关键字和类名的匹配
-          return `<span class="${className}">${word}</span>`;
-      });
-      console.log(highlightedWords)
-      return `<pre><code>${highlightedWords.join(' ')}</code></pre>`;
-    },
+
 
 
     sendUserInput(count = 0) {
 
-      if (this.userInput !== ""){
+      if (this.userInput !== "") {
         this.userInputList.push(this.userInput)
       }
       if (this.socket.readyState === WebSocket.OPEN) {
         const message = {
-          user_input: this.userInputList[this.userInputList.length-1],
+          user_input: this.userInputList[this.userInputList.length - 1],
           conversation_id: this.selectedConversationId,
-          count:count,
+          count: count,
         };
         // console.log(message);
         this.socket.send(JSON.stringify(message));
@@ -299,7 +280,7 @@ export default {
           'Content-Type': 'application/json',
           'Authorization': token,
         },
-        body: JSON.stringify({ user_id: userId }),
+        body: JSON.stringify({user_id: userId}),
       })
         .then(response => {
           localStorage.removeItem('loggedIn');
@@ -355,52 +336,39 @@ export default {
         });
     },
 
-    getProblem(text){
+    getProblem(text) {
       this.userInput = text;
-    }
+    },
 
 
+//   alterCodeStyle(rawText) {
+//     // console.log(rawText);
+//     // 检查是否存在 ``` 包围的内容
+//     let regex = /```([\s\S]*?)```/g;
+//     if (rawText) {
+//       let replacedText = rawText.replace(regex, '<pre><code class="language">$1</code></pre>');
+//       console.log(replacedText);
+//     //   return replacedText;
+//       return replacedText;
+//     }
+//     return rawText; // 返回原始文本
+//   },
+//
+//     highlightAllCodeBlocks() {
+//   // 使用 highlight.js 进行代码高亮
+//     document.querySelectorAll('pre code').forEach((block) => {
+//       hljs.highlightBlock(block);
+//     });
+// }
 
   },
   beforeDestroy() {
-    // 移除滚动事件监听
-    const chatLogContainer = this.$refs.chatLogContainer;
-    chatLogContainer.removeEventListener('scroll', this.handleScroll);
+  // 移除滚动事件监听
+  const chatLogContainer = this.$refs.chatLogContainer;
+  chatLogContainer.removeEventListener('scroll', this.handleScroll);
   },
 };
 
 
-function processMessageContent(content) {
-    const codeBlockRegex = /```([\s\S]*?)```/g;
-    let match;
-    let lastIndex = 0;
-    const elements = [];
 
-    while ((match = codeBlockRegex.exec(content)) !== null) {
-        // 添加代码块之前的文本
-        if (match.index !== lastIndex) {
-            elements.push({
-                type: 'text',
-                content: content.substring(lastIndex, match.index)
-            });
-        }
 
-        // 添加代码块
-        elements.push({
-            type: 'code',
-            content: match[1] // 捕获的代码内容
-        });
-
-        lastIndex = match.index + match[0].length;
-    }
-
-    // 添加剩余的文本
-    if (lastIndex < content.length) {
-        elements.push({
-            type: 'text',
-            content: content.substring(lastIndex)
-        });
-    }
-
-    return elements;
-}

@@ -24,7 +24,7 @@
         <div class="user-avatar" :class="{ 'grayed-out': !user.loggedIn }">
           <img :src="user.avatar" alt="User Avatar" />
         </div>
-        <span>{{ user.loggedIn ? user.username : '未登录' }}</span>
+        <span class="login-status">{{ user.loggedIn ? user.username : '未登录' }}</span>
         <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
         <button v-else @click="goToLogin" class="login">登录</button>
       </div>
@@ -96,29 +96,8 @@
 
         </div>
 
-        <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
-          <strong>{{ message.content }}</strong>
-<!--          <pre>-->
-<!--            <code class="language-javascript">-->
-<!--            def add_numbers(a, b):-->
-<!--                """-->
-<!--                This function takes two numbers as arguments and returns their sum.-->
-
-<!--                Parameters:-->
-<!--                - a (int/float): The first number.-->
-<!--                - b (int/float): The second number.-->
-
-<!--                Returns:-->
-<!--                - int/float: The sum of a and b.-->
-<!--                """-->
-<!--                return a + b-->
-
-<!--            # Test the function-->
-<!--            result = add_numbers(3, 5)-->
-<!--            print(f"The sum of 3 and 5 is: {result}")-->
-<!--            </code>-->
-<!--          </pre>-->
-<!--          <strong>{{ message.role }}: {{ message.content }}</strong>-->
+        <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)" >
+          {{message.content}}
         </div>
       </div>
       <button class="gotofloor" @click="Skip2Latest">
@@ -158,12 +137,7 @@
   </div>
 </template>
 
-<script src="./js/homePage.js">
-import 'prism/prism.js';
-
-</script>
+<script src="./js/homePage.js"></script>
 <!--<script src="./js/homePageEffects.js"></script>-->
 
-<style src="./css/homePage.css">
-@import 'prism/themes/prism.css';
-</style>
+<style src="./css/homePage.css"></style>
