@@ -5,7 +5,8 @@ import 'highlight.js/styles/monokai.css';
 export default {
   data() {
   return {
-
+    svgColor: '#000', // SVG的颜色状态，默认为黑色
+    showingPage: 0, // -1 表示没有任何界面显示
     userInputList: ["test"],
     history: [], // 历史记录
     conversations: [], // 会话列表
@@ -17,14 +18,26 @@ export default {
     user: {
     loggedIn: false, // 是否已登录
     username: '', // 用户名
-    avatar: require('@/assets/logo.png'), // 头像路径
+    avatar: require('@/assets/logo1.png'), // 头像路径
     },
     showCreateConversationModal: false, // 控制弹窗的显示和隐藏
     newConversationName: '', // 新建会话的名称
     // showScrollButton: null,
   };
   },
-  created() {
+  created(){
+
+  const svgElement = document.getElementById('my-svg');
+  if (svgElement) {
+    svgElement.addEventListener('click', () => {
+        // 切换SVG的颜色状态
+        this.svgColor = this.svgColor === '#000' ? '#00ff00' : '#000';
+        // 设置SVG的颜色
+        svgElement.querySelector('path').setAttribute('stroke', this.svgColor);
+    });
+  }
+
+
   this.connectWebSocket(); // 连接WebSocket
   this.getConversationList(); // 获取会话列表
   this.getUserInfo(); // 获取用户信息
