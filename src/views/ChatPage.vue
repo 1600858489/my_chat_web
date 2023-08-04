@@ -1,3 +1,6 @@
+//test
+
+
 <template>
   <div>
     <div id="chat-log">
