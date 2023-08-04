@@ -51,12 +51,7 @@ export default {
     content.innerHTML = replacedText;
     });
     hljs.initHighlightingOnLoad();
-  // document.querySelectorAll('pre code').forEach((block) => {
-  //   hljs.highlightBlock(block);
-  // });
-  //   document.querySelectorAll('pre code')=> {
-  //      hljs.highlightBlock();
-  //    });
+
   });
   },
   methods: {
@@ -85,6 +80,9 @@ export default {
       this.getHistory(conversationId);
     },
     getHistory(conversationId, length = "") {
+      /**
+       * h
+       * */
       this.selectedConversationId = conversationId;
       // const token = localStorage.getItem("token");
 
@@ -186,7 +184,19 @@ export default {
           // 处理错误
         });
     },
+
+    /**
+     * 将新消息追加到聊天中，或将其与上一条消息连接起来。
+     * 这个函数:
+     * —检查消息发送方的角色(AI或User)。
+     * -如果消息来自AI，最后一条消息也是来自AI，它将新内容与最后一条消息连接起来。
+     * —如果该消息是用户发送的，并且最后一条消息也是用户发送的，则忽略新消息，避免用户连续发送消息。
+     * —否则，将新消息附加到聊天内容中。
+     * @param {string} role -消息发送者的角色(“AI”或“User”)。默认是一个空字符串。
+     * @param {string} content -要附加或连接的消息的内容。
+     */
     appendMessage(role = '', content) {
+
       if (role === 'AI') {
         const lastMessage = this.messages[this.messages.length - 1];
         if (lastMessage && lastMessage.role === 'AI') {
@@ -202,6 +212,7 @@ export default {
           this.messages.push({ role, content });
       }
     },
+
     // 检测是ai返回内容还是用户输入内容
     getMessageClass(role) {
 
@@ -215,7 +226,19 @@ export default {
       }
     },
 
+
+
+    /**
+     * 初始化和管理WebSocket连接。
+     * -此功能:
+     * -建立到指定服务器的WebSocket连接。
+     * -处理各种WebSocket事件，如'open'， 'message'和'close'。
+     * -处理来自服务器的传入消息并将它们附加到聊天中。
+     * -如果服务器响应为空，则重试发送用户输入。
+     */
     connectWebSocket() {
+
+      // 链接websocket服务器
       this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
       this.socket.onopen = () => {
         console.log('WebSocket connection established.');
@@ -234,6 +257,7 @@ export default {
             this.sendButtonDisabled = false;
           }
           if (finishReason !== 'stop' || content !== undefined) {
+            this.sendButtonDisabled = true;
             this.appendMessage('AI', content);
           }
         }else if(Object.keys(message).length === 0 && message.constructor === Object){
@@ -249,7 +273,21 @@ export default {
 
 
 
-
+    /**
+     * Sends the user's input to the WebSocket server.
+     *
+     * This function:
+     * - Checks if the user has provided any input.
+     * - If there is input, it adds the input to the `userInputList`.
+     * - Checks if the WebSocket connection is open.
+     * - If the connection is open, it constructs a message object containing the user's input, the selected conversation ID, and a count.
+     * - Sends the constructed message to the WebSocket server.
+     * - Appends the user's message to the chat using the `appendMessage` function.
+     * - Resets the user's input and enables the send button.
+     * - If the WebSocket connection is not open, it logs an error message.
+     *
+     * @param {number} count - A count of the number of times the function has been called. Default is 0.
+     */
     sendUserInput(count = 0) {
 
       if (this.userInput !== "") {
