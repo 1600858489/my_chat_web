@@ -1041,7 +1041,7 @@ button, input, optgroup, select, textarea {
 
 /* 在CSS中定义黑夜模式和白天模式的背景颜色 */
 .dark-theme {
-  background-color: #999999; /* 设置黑夜模式的背景颜色为黑色 */
+  background-color: black; /* 设置黑夜模式的背景颜色为黑色 */
 }
 /* 设置白天图标为黑色并调整位置居中 */
 .icon-black {
