@@ -22,6 +22,7 @@ export default {
     showCreateConversationModal: false, // 控制弹窗的显示和隐藏
     newConversationName: '', // 新建会话的名称
     // showScrollButton: null,
+    systemCLM:null,
   };
   },
   created() {
@@ -30,6 +31,12 @@ export default {
   this.getUserInfo(); // 获取用户信息
   // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
   // this.alterCodeStyle()
+    fetch('/systemCLM.json')
+      .then(response => response.json())
+      .then(data => {
+        this.systemCLM = data;
+      });
+    console.log(this.systemCLM);
 
   },
   updated() {
