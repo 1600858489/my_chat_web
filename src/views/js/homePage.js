@@ -5,8 +5,17 @@ import 'highlight.js/styles/monokai.css';
 export default {
   data() {
   return {
-    svgColor: '#000', // SVG的颜色状态，默认为黑色
-    showingPage: 0, // -1 表示没有任何界面显示
+    svgColors: {
+      svgElement1: '#666', // 初始颜色
+      svgElement2: '#666', // 初始颜色
+      svgElement3: '#666', // 初始颜色
+      svgElement4: '#666', // 初始颜色
+      svgElement5: '#666', // 初始颜色
+    },
+    selectedColor: '#666666', // 初始颜色
+    selectedSVGId: null,
+    showingPage: 1, // -1 表示没有任何界面显示
+    isDarkTheme: false, // 是否使用暗色主题
     userInputList: ["test"],
     history: [], // 历史记录
     conversations: [], // 会话列表
@@ -27,20 +36,10 @@ export default {
   },
   created(){
 
-  const svgElement = document.getElementById('my-svg');
-  if (svgElement) {
-    svgElement.addEventListener('click', () => {
-        // 切换SVG的颜色状态
-        this.svgColor = this.svgColor === '#000' ? '#00ff00' : '#000';
-        // 设置SVG的颜色
-        svgElement.querySelector('path').setAttribute('stroke', this.svgColor);
-    });
-  }
-
-
   this.connectWebSocket(); // 连接WebSocket
   this.getConversationList(); // 获取会话列表
   this.getUserInfo(); // 获取用户信息
+  this.addClickListeners();//svg被点击时改变颜色事件监听器
   // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
   // this.alterCodeStyle()
 
@@ -66,6 +65,99 @@ export default {
   });
   },
   methods: {
+    toggleTheme() {
+      this.isDarkTheme = !this.isDarkTheme;
+      console.log(this.isDarkTheme);
+      this.updateBodyBackgroundColor();
+      this.toggleIconDisplay();
+    },
+    updateBodyBackgroundColor() {
+      if (this.isDarkTheme) {
+        document.body.classList.add('dark-theme');
+      } else {
+        document.body.classList.remove('dark-theme');
+      }
+    },
+    toggleIconDisplay() {
+      // 获取白天和黑夜图标的元素
+      const dayIcon = this.$refs.dayIcon;
+      const nightIcon = this.$refs.nightIcon;
+
+      // 判断元素是否存在并切换图标的显示状态
+      if (dayIcon && nightIcon) {
+        if (this.isDarkTheme) {
+          dayIcon.style.display = 'none';
+          nightIcon.style.display = 'inline';
+        } else {
+          dayIcon.style.display = 'inline';
+          nightIcon.style.display = 'none';
+        }
+      }
+    },
+    // //切换主题
+    // const themeOverlay = document.getElementById('theme-overlay');
+    // const svgElement4 = document.getElementById('my-svg');
+    // let nightMode = false;
+    //
+    // svgElement4.addEventListener('click', function() {
+    //   nightMode = !nightMode;
+    //   if (nightMode) {
+    //     svgElement4.style.fill = '#ffffff'; // 设置SVG颜色为白色
+    //     svgElement4.style.stroke = '#ffffff'; // 设置SVG边框颜色为白色
+    //   } else {
+    //     // 设置SVG颜色为白天颜色（你可以自行指定白天的颜色）
+    //     svgElement4.style.fill = '#f7f7f8';
+    //     // 设置SVG边框颜色为白天颜色（你可以自行指定白天的颜色）
+    //     svgElement4.style.stroke = '#000000';
+    //   }
+    //   themeOverlay.classList.toggle('night-mode', nightMode);
+    // });
+
+addClickListeners() {
+    const svgElements = document.querySelectorAll('.clickable-svg');
+    svgElements.forEach((element) => {
+      element.addEventListener('click', this.handleSVGClick);
+    });
+  },
+
+
+
+    //点击图标切换颜色
+  handleSVGClick(event, svgId) {
+     // 判断是否点击的是当前选中的SVG图标
+    if (this.selectedSVGId === svgId) {
+      // 已选中，则不做处理，直接返回
+      return;
+    }
+
+    // 获取当前点击的SVG元素的颜色属性
+    const currentColor = this.svgColors[svgId];
+
+    // 更新选中的SVG图标的颜色
+    const newColor = '#10a37f'; // 设置选中时的颜色
+    this.selectedColor = newColor;
+
+    // 还原之前选中的SVG图标的颜色
+    if (this.selectedSVGId) {
+      this.svgColors[this.selectedSVGId] = currentColor;
+    }
+
+    // 更新选中SVG图标对应的颜色属性
+    this.svgColors[svgId] = newColor;
+
+    // 更新selectedSVGId为当前选中的SVG图标的ID
+    this.selectedSVGId = svgId;
+  },
+
+    //点击图标切换会话和模型
+    showPage(page) {
+      console.log(this.showingPage);
+      console.log('page', page);
+      this.showingPage = page;
+      console.log(this.showingPage);
+    },
+
+
     Skip2Latest() {
 
       this.$nextTick(() => {

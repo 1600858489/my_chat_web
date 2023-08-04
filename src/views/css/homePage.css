@@ -28,14 +28,14 @@ div {
 
 .sidebar-container .module-list .module-item {
     width: 80px;
-    height: 80px;
+    height: 100px;
     padding: 15px;
     border-radius: 10px;
     font-size: 13px;
     color: #72787e;
     cursor: pointer;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -238,8 +238,8 @@ element.style {
 
 .sidebar-container .module-footer {
     position: absolute;
-    left: 100px;
-    bottom: 13px;
+    left: 1px;
+    bottom: 27px;
     right: 0;
     height: 73px;
 }
@@ -272,7 +272,7 @@ element.style {
     right: 9px;
     top: 50%;
     margin-top: -80px;
-    width: 28px;
+    width: 19px;
     height: 110px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -354,10 +354,6 @@ element.style {
   position: relative;
 }
 
-.module-list img {
-  position: absolute;
-  bottom: 0;
-}
 
 .sidebar-container .module-list {
     position: fixed;
@@ -365,13 +361,16 @@ element.style {
     top: 0;
     width: 100px;
     bottom: 0;
-    padding: 60px 10px;
+    padding: 20px 10px;
+    color: #72787e;
+
 }
 
 .module-list img {
     position: absolute;
     bottom: 29px;
     left: 26px;
+    width:45px;
 }
 
 
@@ -412,7 +411,7 @@ element.style {
     padding-top: 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    min-width: 76px;
+    min-width: 800px;
 }
 
 .sidebar-container .module-header {
@@ -424,14 +423,6 @@ element.style {
     right: 0;
 }
 
-.sidebar-container .module-header {
-    width: 100%;
-    padding: 15px 15px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-}
 
 .sidebar-container .module-chat .module-header .btn-group-add .icon {
     font-size: 16px;
@@ -579,11 +570,23 @@ body {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Arial,sans-serif;
-    counter-reset: katexEqnNo mmlEqnNo;
+     /* 设置白天背景样式 */
+    background: #f7f7f8;
 }
 
+/* 设置白天背景样式 */
+#theme-overlay {
+  background-color: #f7f7f8;
+}
+
+/* 设置晚上背景样式 */
+#theme-overlay.night-mode {
+  background-color: #ffffff;
+}
+
+
 .theme-light .main-container .wrapper .tab-model {
-    background: #f7f7f8;
+    background: black;
 }
 .main-container .wrapper .tab-model {
     width: 160px;
@@ -855,9 +858,6 @@ button, input {
     background: #eff0f0;
 }
 
-.theme-light .sidebar-container .sub-module .group-chat .group-item .group-title {
-    color: #222;
-}
 .sidebar-container .module-chat .group-chat .group-item .group-title {
     color: #72787e;
     font-size: 15px;
@@ -893,7 +893,7 @@ button, input {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
     border: 2px solid #cccccc;
 }
 
@@ -912,7 +912,7 @@ button, input {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    /*background-color: rgba(0, 0, 0, 0.5);*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -927,7 +927,7 @@ button, input {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);*/
     width: 400px;
 }
 
@@ -957,49 +957,102 @@ button, input {
     background-color: #ccc;
 }
 
-/* 手机版 - 当屏幕宽度小于等于767像素时应用样式 */
-@media (max-width: 767px) {
-    .sidebar-container .module-list {
-        position: relative; /* 移除手机版中的固定定位 */
-        width: 100%; /* 手机版宽度设为100% */
-        padding: 10px; /* 调整手机版的内边距 */
-    }
-
-    .main-container {
-        margin-left: 0; /* 移除网页版中的左边距 */
-        min-width: 100%; /* 手机版宽度设为100% */
-        padding-top: 60px; /* 调整手机版的上边距，以避免被固定的模块遮挡 */
-    }
-
-    .sidebar-container .module-body {
-        position: static; /* 移除绝对定位，以允许内容自动调整位置 */
-        top: 0; /* 调整上边距，以避免与固定的模块重叠 */
-        bottom: 0; /* 调整下边距，以避免与固定的模块重叠 */
-        padding: 10px; /* 调整内边距，以适应手机设备 */
-    }
-
-    .sidebar-container .sub-module {
-        position: static; /* 移除绝对定位，以允许内容自动调整位置 */
-        left: 0; /* 调整左边距，以允许内容自动居中 */
-        right: 0; /* 调整右边距，以允许内容自动居中 */
-        top: 0; /* 调整上边距，以允许内容自动居中 */
-        bottom: 0; /* 调整下边距，以允许内容自动居中 */
-        border-radius: 0; /* 移除圆角，使内容框变为矩形 */
-        padding: 10px; /* 调整内边距，以适应手机设备 */
-    }
-
-    .main-container .wrapper {
-        top: 0; /* 调整上边距，以允许内容自动居中 */
-        bottom: 0; /* 调整下边距，以允许内容自动居中 */
-        padding: 10px; /* 调整内边距，以适应手机设备 */
-    }
+.sidebar-container .el-input__inner {
+    -webkit-transition: background .1s ease-in-out,border-color .1s ease-in-out,color .1s ease-in-out;
+    transition: background .1s ease-in-out,border-color .1s ease-in-out,color .1s ease-in-out;
+}
+.el-input--prefix .el-input__inner {
+    padding-left: 30px;
+}
+.el-input--suffix .el-input__inner {
+    padding-right: 30px;
+}
+.el-input__inner {
+    -webkit-appearance: none;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
+}
+.el-input__inner, .el-textarea__inner {
+    background-image: none;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+}
+.el-color-picker__color, .el-color-picker__trigger, .el-input__inner, .el-textarea__inner, .el-transfer-panel {
+    -webkit-box-sizing: border-box;
+}
+button, input {
+    overflow: visible;
+}
+button, input, optgroup, select, textarea {
+    font-family: sans-serif;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
 }
 
-/* 屏幕宽度大于一定值时也适应手机 */
-@media (min-width: 768px) {
-    .main-container .wrapper {
-        top: 5%; /* 调整上边距百分比，适应大屏设备 */
-        bottom: 5%; /* 调整下边距百分比，适应大屏设备 */
-        padding: 10px; /* 调整内边距，以适应大屏设备 */
-    }
+/*角色的类别和批注*/
+.theme-light .sidebar-container .sub-module .group-write .topic-title {
+    color: #606468;
+}
+.sidebar-container .module-write .group-write .topic-title {
+    font-size: 14px;
+    line-height: 48px;
+}
+.theme-light .sidebar-container .sub-module .group-write .prompt-item .prompt-desc {
+    color: #666;
+}
+.sidebar-container .module-write .group-write .prompt-item .prompt-desc {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+    line-height: 18px;
+    height: 54px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    -webkit-transition: color .1s ease-in-out;
+    transition: color .1s ease-in-out;
+}
+
+.sidebar-container .module-write .group-write .prompt-item .prompt-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 22px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    -webkit-transition: color .1s ease-in-out;
+    transition: color .1s ease-in-out;
+}
+
+/* 在CSS中定义黑夜模式和白天模式的背景颜色 */
+.dark-theme {
+  background-color: #999999; /* 设置黑夜模式的背景颜色为黑色 */
+}
+/* 设置白天图标为黑色并调整位置居中 */
+.icon-black {
+  /*fill: black;*/
+    stroke: black;
+  transform: translateX(20%);
+}
+
+/* 设置黑夜图标的外边框为黑色 */
+.icon-white path {
+    /*fill: white;*/
+    stroke: black;
+    transform: translateX(1%);
 }
