@@ -14,8 +14,8 @@ export default {
     },
     selectedColor: '#666666', // 初始颜色
     selectedSVGId: null,
-    showingPage: 1, // -1 表示没有任何界面显示
-    isDarkTheme: false, // 是否使用暗色主题
+    showPage: 1, // -1 表示没有任何界面显示
+    // isDarkTheme: false, // 是否使用暗色主题
     userInputList: ["test"],
     history: [], // 历史记录
     conversations: [], // 会话列表
@@ -359,10 +359,10 @@ addClickListeners() {
           const content = message.delta.content;
           const finishReason = message.finish_reason;
           if (finishReason === 'stop') {
-            this.sendButtonDisabled = false;
+            this.sendButtonDisabled = true;
           }
           if (finishReason !== 'stop' || content !== undefined) {
-            this.sendButtonDisabled = true;
+            this.sendButtonDisabled = false;
             this.appendMessage('AI', content);
           }
         }else if(Object.keys(message).length === 0 && message.constructor === Object){
