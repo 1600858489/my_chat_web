@@ -1,8 +1,6 @@
 
 <template>
   <div class="main">
-    
-    //test
     <div class="menus">
       <div class="bar">
         <div class="funC">
