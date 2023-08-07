@@ -29,7 +29,7 @@ body{
 .bar{
     display: flex;
     flex-direction: column;
-    width: 70%;
+    /* width: 70%; */
     align-items: center;
     justify-content: space-between;
 }
@@ -63,10 +63,9 @@ body{
 }
 
 
-
 .sidebar {
     display: flex;
-    flex: 0 0 15%;
+    flex: 1 0 15%;
     padding: 0px;
     background-color: #262626;
     position: relative;
@@ -76,12 +75,14 @@ body{
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .conversation-list {
-    max-height: 750px; /* 设置固定高度 */
-    overflow-y: auto; /* 添加滚动条 */
+    max-height: 750px;
+    overflow-y: auto;
     height: 100%;
+    width: 100%;
 }
 
 
@@ -126,6 +127,10 @@ body{
 }
 
 /* 从会话列表复制会话项样式 */
+.new-conversation{
+  width: 100%;
+}
+
 .new-conversation-button {
     cursor: pointer;
     padding: 5px;
@@ -137,6 +142,7 @@ body{
     outline: none; /* 取消点击时的边框样式 */
     font-size: 15px;
     margin-top: 20px;
+    color: aliceblue;
     /* 其他样式 */
 }
 
@@ -207,14 +213,6 @@ body{
 }
 
 
-.new-conversation button{
-    cursor: pointer;
-    padding: 5px 15px 5px 15px;
-    color: aliceblue;
-    margin-bottom: 5px;
-    width: 70%;
-    height:auto;
-}
 
 .user-info {
     color: aliceblue;

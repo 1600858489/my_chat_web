@@ -44,35 +44,41 @@
             <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
             <button v-else @click="goToLogin" class="login">登录</button>
         </div>
-        </div>
-        <div class="sidebar">
-        <div v-if="showPage === 1">
-            <div class="new-conversation">
-            <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>
-            <div v-if="showCreateConversationModal" class="modal-overlay">
-                <div class="modal">
-                <h3>新建会话</h3>
-                <input type="text" v-model="newConversationName" @input="handleConversationNameInput" />
-                <div class="button-container">
-                    <button @click="createNewConversation">创建</button>
-                    <button @click="closeCreateConversationModal">取消</button>
-                </div>
-                </div>
-            </div>
-            <div>
-                <hr style="width: 95%" />
-            </div>
-            <div class="conversation-list">
-                <ul>
-                <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
-                    <p class="conversation">{{ conversation.conversation_name }}</p>
-                    <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
-                </li>
-                </ul>
-            </div>
+      </div>
+      <div class="sidebar func01" v-if="showingPage===0">
+        <div class="new-conversation">
+          <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>
+          <div v-if="showCreateConversationModal" class="modal-overlay">
+              <div class="modal">
+              <h3>新建会话</h3>
+              <input type="text" v-model="newConversationName" @input="handleConversationNameInput" />
+              <div class="button-container">
+                  <button @click="createNewConversation">创建</button>
+                  <button @click="closeCreateConversationModal">取消</button>
+              </div>
+              </div>
           </div>
+          <hr style="width: 95%" />
+        </div>
+            
+        <div class="conversation-list">
+            <ul>
+            <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
+                <p class="conversation">{{ conversation.conversation_name }}</p>
+                <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
+            </li>
+            </ul>
         </div>
       </div>
+      <div class="sidebar func02" v-if="showingPage===1">
+        <ul>
+          <li v-for="item in systemCLM" :key = "item.id">
+            <p>{{ item.title }}</p>
+            <p>{{ item.promptMessage }}</p>
+          </li>
+        </ul>
+      </div>
+    
     </div>
 
     <div class="main-content">
