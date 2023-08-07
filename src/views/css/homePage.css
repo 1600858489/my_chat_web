@@ -19,6 +19,50 @@ body{
     height: 100%;
 }
 
+.menus{
+    display: flex;
+    flex-direction: row;
+    width: 15%;
+    justify-content: space-between;
+}
+
+.bar{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.funC {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.fun {
+  padding: 10px 20px;
+  background-color: #007bff; /* 设置按钮背景颜色 */
+  color: #fff; /* 设置按钮文字颜色 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+  transition: background-color 0.3s ease; /* 添加渐变过渡效果 */
+}
+
+.fun:hover {
+  background-color: #0056b3; /* 设置按钮在悬停状态下的背景颜色 */
+}
+
+.fun:active {
+  background-color: #003d80; /* 设置按钮在被点击时的背景颜色 */
+}
+
+
 
 .sidebar {
     display: flex;
@@ -31,8 +75,7 @@ body{
     width: 170px;
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: space-between;
-
+    justify-content: flex-start;
 }
 
 .conversation-list {

@@ -1,34 +1,56 @@
 <template>
   <div class="main">
-    <div class="sidebar">
-<!--      <h3>会话列表</h3>-->
-      <div class="new-conversation" >
-        <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>
-<!--        <img src="./logo.png">-->
-        <hr style="width: 95%">
-      </div>
-
-
-      <div class="conversation-list">
-        <ul>
-          <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
-            <p class="conversation">{{ conversation.conversation_name }}</p>
-            <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
-          </li>
-        </ul>
-
-      </div>
-
-      <div class="user-info">
-        <hr style="width: 95%">
-        <div class="user-avatar" :class="{ 'grayed-out': !user.loggedIn }">
-          <img :src="user.avatar" alt="User Avatar" />
+    <div class="menus" >
+      <div class="bar" >
+        <div class="funC">
+          <button class="fun"></button>
+          <button class="fun"></button>
+          <button class="fun"></button>
+          <button class="fun"></button>
         </div>
-        <span class="login-status">{{ user.loggedIn ? user.username : '未登录' }}</span>
-        <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
-        <button v-else @click="goToLogin" class="login">登录</button>
+        <div class="user-info">
+          <hr style="width: 95%">
+          <div class="user-avatar" :class="{ 'grayed-out': !user.loggedIn }">
+            <img :src="user.avatar" alt="User Avatar" />
+          </div>
+          <span class="login-status">{{ user.loggedIn ? user.username : '未登录' }}</span>
+          <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
+          <button v-else @click="goToLogin" class="login">登录</button>
+        </div>
       </div>
+      <div class="sidebar">
+  <!--      <h3>会话列表</h3>-->
+
+        <div class="new-conversation" >
+          <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>
+  <!--        <img src="./logo.png">-->
+          <div v-if="showCreateConversationModal" class="modal-overlay">
+          <div class="modal">
+            <h3>新建会话</h3>
+            <input type="text" v-model="newConversationName" @input="handleConversationNameInput" />
+            <div class="button-container">
+              <button @click="createNewConversation">创建</button>
+              <button @click="closeCreateConversationModal">取消</button>
+            </div>
+          </div>
+        </div>
+          <hr style="width: 95%">
+        </div>
+
+        <div class="conversation-list">
+          <ul>
+            <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
+              <p class="conversation">{{ conversation.conversation_name }}</p>
+              <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+
     </div>
+
 
     <div class="main-content">
       <div id="chat-log">
@@ -123,16 +145,7 @@
       </div>
     </div>
 
-      <div v-if="showCreateConversationModal" class="modal-overlay">
-        <div class="modal">
-          <h3>新建会话</h3>
-          <input type="text" v-model="newConversationName" @input="handleConversationNameInput" />
-          <div class="button-container">
-            <button @click="createNewConversation">创建</button>
-            <button @click="closeCreateConversationModal">取消</button>
-          </div>
-        </div>
-      </div>
+
 
   </div>
 </template>
