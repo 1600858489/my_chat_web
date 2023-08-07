@@ -1,4 +1,5 @@
 
+
 <template>
   <div class="main">
     <div class="menus">
@@ -22,7 +23,7 @@
           <span >角色</span>
           
           
-          
+<!--          <a href="#/教程" target="_blank">-->
           <svg :style="{ fill: svgColors.svgElement3, stroke: svgColors.svgElement3 }" class="clickable-svg" ref="svgElement3" @click="handleSVGClick($event, 'svgElement3')" id="my-svg" width="70" height="39.99999999999999" xmlns="http://www.w3.org/2000/svg" stroke="#666666">
             <g stroke="null">
               <title stroke="null">Layer 1</title>
@@ -34,6 +35,7 @@
           
           </svg>
           <span>教程</span>
+<!--            </a>-->
         </div>
         <div class="user-info">
             <hr style="width: 95%" />
@@ -60,6 +62,7 @@
           </div>
           <hr style="width: 95%" />
         </div>
+
             
         <div class="conversation-list">
             <ul>
@@ -70,14 +73,23 @@
             </ul>
         </div>
       </div>
+
       <div class="sidebar func02" v-if="showingPage===1">
-        <ul>
-          <li v-for="item in systemCLM" :key = "item.id">
-            <p>{{ item.title }}</p>
-            <p>{{ item.promptMessage }}</p>
-          </li>
+        <div class="el-input el-input--large el-input--prefix el-input--suffix">
+            <input type="text" autocomplete="" placeholder="搜索模型" class="el-input__inner" onclick="showFullContent()">
+            <span class="el-input__prefix">
+                <i class="el-input__icon el-icon-search"></i>
+            </span>
+        </div>
+        <ul id="modelList">
+            <li v-for="item in systemCLM" :key="item.id">
+                <p class="title">{{ item.title }}</p>
+                <p class="message">{{ item.promptMessage }}</p>
+            </li>
         </ul>
-      </div>
+    </div>
+
+
     
     </div>
 

@@ -67,6 +67,13 @@ export default {
   });
   },
   methods: {
+
+    //角色文本超过以省略号展示
+    showFullContent() {
+      var modelList = document.getElementById("modelList");
+      modelList.style.maxHeight = "none";
+    },
+
     toggleTheme() {
       this.isDarkTheme = !this.isDarkTheme;
       console.log(this.isDarkTheme);
