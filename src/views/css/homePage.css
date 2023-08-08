@@ -469,6 +469,12 @@ pre {
     cursor: not-allowed;
 }
 
+.user_input.max-height {
+  max-height: calc(5 * 1.2em); /* 1.2em 是文本行高 */
+  overflow-y: auto; /* 显示垂直滚动条 */
+}
+
+
 .modal-overlay {
     position: fixed;
     top: 0;

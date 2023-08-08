@@ -181,9 +181,11 @@
         </svg>
       </button>
       <div class="user-input-container">
-        <input class="user_input" type="text" v-model="userInput" @keydown.enter="sendUserInput" />
+        <!-- 使用 textarea 替代 input，并设置 class 为 resizable-textarea -->
+        <textarea class="user_input resizable-textarea" v-model="userInput" @keydown.enter="sendUserInput"></textarea>
         <button :disabled="sendButtonDisabled" @click="sendUserInput">Send</button>
       </div>
+
     </div>
   </div>
 </template>
