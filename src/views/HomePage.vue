@@ -93,9 +93,15 @@
             </span>
         </div>
         <ul id="modelList">
+<<<<<<< HEAD
             <li v-for="item in systemCLM" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)">
                 <p class="title">{{ item.title }}</p>
                 <p class="message" :class="{ 'show-all': item.showAll }">{{ item.primary_infor }}</p>
+=======
+            <li v-for="item in systemCLM" :key="item.id" @click="newRoleConversation(item.title,item.promptMessage,item.example)">
+                <p class="title" >{{ item.title }}</p>
+                <p class="message">{{ item.primary_infor }}</p>
+>>>>>>> 16a4b8943be9cdfcd50484a0110cfda88503f5c4
             </li>
         </ul>
     </div>
