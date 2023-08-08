@@ -3,46 +3,48 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css';
 
 export default {
-  data() {
-  return {
-    svgColors: {
-      svgElement1: '#666', // 初始颜色
-      svgElement2: '#666', // 初始颜色
-      svgElement3: '#666', // 初始颜色
-      svgElement4: '#666', // 初始颜色
-      svgElement5: '#666', // 初始颜色
-    },
-    selectedColor: '#666666', // 初始颜色
-    selectedSVGId: null,
-    showingPage: 1, // -1 表示没有任何界面显示
-    isDarkTheme: false, // 是否使用暗色主题
-    userInputList: ["test"],
-    history: [], // 历史记录
-    conversations: [], // 会话列表
-    selectedConversationId: null, // 选中的会话ID
-    messages: [], // 对话消息
-    userInput: '', // 用户输入内容
-    sendButtonDisabled: true, // 发送按钮是否禁用
-    socket: null, // WebSocket连接
-    user: {
-    loggedIn: false, // 是否已登录
-    username: '', // 用户名
-    avatar: require('@/assets/logo1.png'), // 头像路径
-    },
-    showCreateConversationModal: false, // 控制弹窗的显示和隐藏
-    newConversationName: '', // 新建会话的名称
-    // showScrollButton: null,
-    systemCLM:null,
-  };
-  },
-  created(){
 
-  this.connectWebSocket(); // 连接WebSocket
-  this.getConversationList(); // 获取会话列表
-  this.getUserInfo(); // 获取用户信息
-  this.addClickListeners();//svg被点击时改变颜色事件监听器
-  // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
-  // this.alterCodeStyle()
+  data() {
+    return {
+      svgColors: {
+        svgElement1: '#666', // 初始颜色
+        svgElement2: '#666', // 初始颜色
+        svgElement3: '#666', // 初始颜色
+        svgElement4: '#666', // 初始颜色
+        svgElement5: '#666', // 初始颜色
+      },
+      selectedColor: '#666666', // 初始颜色
+      selectedSVGId: null,
+      showingPage: 0, // -1 表示没有任何界面显示
+      isDarkTheme: false, // 是否使用暗色主题
+      userInputList: ["test"],
+      history: [], // 历史记录
+      conversations: [], // 会话列表
+      selectedConversationId: null, // 选中的会话ID
+      messages: [], // 对话消息
+      userInput: '', // 用户输入内容
+      sendButtonDisabled: true, // 发送按钮是否禁用
+      socket: null, // WebSocket连接
+      user: {
+        loggedIn: false, // 是否已登录
+        username: '', // 用户名
+        avatar: require('@/assets/logo1.png'), // 头像路径
+      },
+      showCreateConversationModal: false, // 控制弹窗的显示和隐藏
+      newConversationName: '', // 新建会话的名称
+      // showScrollButton: null,
+      systemCLM: null,
+      example: null,
+    };
+  },
+  created() {
+
+    this.connectWebSocket(); // 连接WebSocket
+    this.getConversationList(); // 获取会话列表
+    this.getUserInfo(); // 获取用户信息
+    this.addClickListeners(); //svg被点击时改变颜色事件监听器
+    // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
+    // this.alterCodeStyle()
     fetch('/systemCLM.json')
       .then(response => response.json())
       .then(data => {
@@ -52,20 +54,21 @@ export default {
 
   },
   updated() {
-  this.$nextTick(() => {
-    // 确保 DOM 已经更新
-    let contents = document.querySelectorAll('.message-ai');
-    contents.forEach(content => {
-    // 这里是你的修改内容的代码
-    let rawText = content.innerHTML;
-    // let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code class="language">$1</code></pre>');
-    let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
-    content.innerHTML = replacedText;
-    });
-    hljs.initHighlightingOnLoad();
+    this.$nextTick(() => {
+      // 确保 DOM 已经更新
+      let contents = document.querySelectorAll('.message-ai');
+      contents.forEach(content => {
+        // 这里是你的修改内容的代码
+        let rawText = content.innerHTML;
+        // let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code class="language">$1</code></pre>');
+        let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+        content.innerHTML = replacedText;
+      });
+      hljs.initHighlightingOnLoad();
 
-  });
+    });
   },
+
   methods: {
 
     //角色文本超过以省略号展示
@@ -105,40 +108,40 @@ export default {
     },
 
     addClickListeners() {
-        const svgElements = document.querySelectorAll('.clickable-svg');
-        svgElements.forEach((element) => {
-          element.addEventListener('click', this.handleSVGClick);
-        });
-      },
+      const svgElements = document.querySelectorAll('.clickable-svg');
+      svgElements.forEach((element) => {
+        element.addEventListener('click', this.handleSVGClick);
+      });
+    },
 
 
 
     //点击图标切换颜色
     handleSVGClick(event, svgId) {
-       // 判断是否点击的是当前选中的SVG图标
+      // 判断是否点击的是当前选中的SVG图标
       if (this.selectedSVGId === svgId) {
         // 已选中，则不做处理，直接返回
         return;
       }
 
-    // 获取当前点击的SVG元素的颜色属性
-    const currentColor = this.svgColors[svgId];
+      // 获取当前点击的SVG元素的颜色属性
+      const currentColor = this.svgColors[svgId];
 
-    // 更新选中的SVG图标的颜色
-    const newColor = '#10a37f'; // 设置选中时的颜色
-    this.selectedColor = newColor;
+      // 更新选中的SVG图标的颜色
+      const newColor = '#10a37f'; // 设置选中时的颜色
+      this.selectedColor = newColor;
 
-    // 还原之前选中的SVG图标的颜色
-    if (this.selectedSVGId) {
-      this.svgColors[this.selectedSVGId] = currentColor;
-    }
+      // 还原之前选中的SVG图标的颜色
+      if (this.selectedSVGId) {
+        this.svgColors[this.selectedSVGId] = currentColor;
+      }
 
-    // 更新选中SVG图标对应的颜色属性
-    this.svgColors[svgId] = newColor;
+      // 更新选中SVG图标对应的颜色属性
+      this.svgColors[svgId] = newColor;
 
-    // 更新selectedSVGId为当前选中的SVG图标的ID
-    this.selectedSVGId = svgId;
-  },
+      // 更新selectedSVGId为当前选中的SVG图标的ID
+      this.selectedSVGId = svgId;
+    },
 
     //点击图标切换会话和模型
     showPage(page) {
@@ -160,12 +163,18 @@ export default {
     openCreateConversationModal() {
       this.showCreateConversationModal = true; // 打开新建会话弹窗
     },
+
+
     closeCreateConversationModal() {
       this.showCreateConversationModal = false; // 关闭新建会话弹窗
     },
+
+
     handleConversationNameInput(event) {
       this.newConversationName = event.target.value; // 处理输入的会话名
     },
+
+
     selectConversation(conversationId) {
       // 保存选中的会话ID
       this.selectedConversationId = conversationId;
@@ -173,6 +182,8 @@ export default {
       // 获取选中会话的历史记录
       this.getHistory(conversationId);
     },
+
+
     getHistory(conversationId, length = "") {
       /**
        * h
@@ -187,20 +198,19 @@ export default {
         token: localStorage.getItem("token"),
       };
       fetch('http://128.14.76.82:8000/api/test/get_history/', {
-        method: 'POST',
-        headers: {
-          // 'Content-Type': 'application/json',
-          // 'Cache-Control': 'no-cache, no-store, must-revalidate',
-          // 'Pragma': 'no-cache',
-          // 'Expires': '0',
-        },
-        body: JSON.stringify(Data)
-      })
+          method: 'POST',
+          headers: {
+            // 'Content-Type': 'application/json',
+            // 'Cache-Control': 'no-cache, no-store, must-revalidate',
+            // 'Pragma': 'no-cache',
+            // 'Expires': '0',
+          },
+          body: JSON.stringify(Data)
+        })
         .then(response => response.json())
         .then(data => {
           this.history = data.conversations.flatMap((conversation) => {
-            return [
-              {
+            return [{
                 role: 'user',
                 content: conversation.content_user,
               },
@@ -218,6 +228,8 @@ export default {
           console.error('获取历史记录请求出错:', error);
         });
     },
+
+
     getConversationList() {
       const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
@@ -229,14 +241,14 @@ export default {
 
       // 发送获取会话列表的请求
       fetch(`http://128.14.76.82:8000/api/test/get_conversation/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
 
-        },
-        body: JSON.stringify(Data),
-      })
+          },
+          body: JSON.stringify(Data),
+        })
         .then(response => response.json())
         .then(data => {
           this.conversations = data.conversations; // 获取会话列表数据
@@ -247,6 +259,8 @@ export default {
           this.conversations = [];
         });
     },
+
+
     createNewConversation() {
       const userId = localStorage.getItem('userId');
       const token = localStorage.getItem("token");
@@ -259,18 +273,22 @@ export default {
 
       // 发送创建新会话的请求
       fetch('http://128.14.76.82:8000/api/test/new_conversation/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Authorization': token,
-        },
-        body: JSON.stringify(conversationData),
-      })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // 'Authorization': token,
+          },
+          body: JSON.stringify(conversationData),
+        })
         .then(response => response.json())
         .then(data => {
           this.showCreateConversationModal = false;
           console.log(data);
           // 刷新会话列表
+
+          this.selectedConversationId = data.conversation_id;
+          this.history = [];
+          this.messages = [];          
           this.getConversationList();
         })
         .catch(error => {
@@ -278,6 +296,7 @@ export default {
           // 处理错误
         });
     },
+
 
     /**
      * 将新消息追加到聊天中，或将其与上一条消息连接起来。
@@ -296,16 +315,23 @@ export default {
         if (lastMessage && lastMessage.role === 'AI') {
           lastMessage.content += content;
         } else {
-          this.messages.push({ role, content });
+          this.messages.push({
+            role,
+            content
+          });
         }
       } else {
-          const lastMessage = this.messages[this.messages.length - 1];
-          if (lastMessage && lastMessage.role === 'User') {
-            return;
+        const lastMessage = this.messages[this.messages.length - 1];
+        if (lastMessage && lastMessage.role === 'User') {
+          return;
         }
-          this.messages.push({ role, content });
+        this.messages.push({
+          role,
+          content
+        });
       }
     },
+
 
     // 检测是ai返回内容还是用户输入内容
     getMessageClass(role) {
@@ -323,13 +349,13 @@ export default {
 
 
     /**
-      * 初始化和管理WebSocket连接。
-      * -此功能:
-      * -建立到指定服务器的WebSocket连接。
-      * -处理各种WebSocket事件，如'open'， 'message'和'close'。
-      * -处理来自服务器的传入消息并将它们附加到聊天中。
-      * -如果服务器响应为空，则重试发送用户输入。
-      */
+     * 初始化和管理WebSocket连接。
+     * -此功能:
+     * -建立到指定服务器的WebSocket连接。
+     * -处理各种WebSocket事件，如'open'， 'message'和'close'。
+     * -处理来自服务器的传入消息并将它们附加到聊天中。
+     * -如果服务器响应为空，则重试发送用户输入。
+     */
     connectWebSocket() {
 
       // 链接websocket服务器
@@ -354,7 +380,7 @@ export default {
             this.sendButtonDisabled = false;
             this.appendMessage('AI', content);
           }
-        }else if(Object.keys(message).length === 0 && message.constructor === Object){
+        } else if (Object.keys(message).length === 0 && message.constructor === Object) {
           console.log("test")
           counts++;
           this.sendUserInput(counts);
@@ -368,18 +394,18 @@ export default {
 
 
     /**
-      * 发送用户的输入到WebSocket服务器。
-      *此功能:
-      * -检查用户是否提供了任何输入。
-      * -如果有输入，它将输入添加到' userInputList '。
-      * -检查WebSocket连接是否打开。
-      * -如果连接是打开的，它构造一个消息对象，其中包含用户的输入、选择的会话ID和计数。
-      * -将构造好的消息发送到WebSocket服务器。
-      * -使用' appendMessage '函数将用户的消息追加到聊天中。
-      * -重置用户输入并启用发送按钮。
-      * -如果WebSocket连接未打开，则记录错误消息。
-      * @param {number} count -函数被调用次数的计数。默认为0。
-      */
+     * 发送用户的输入到WebSocket服务器。
+     *此功能:
+     * -检查用户是否提供了任何输入。
+     * -如果有输入，它将输入添加到' userInputList '。
+     * -检查WebSocket连接是否打开。
+     * -如果连接是打开的，它构造一个消息对象，其中包含用户的输入、选择的会话ID和计数。
+     * -将构造好的消息发送到WebSocket服务器。
+     * -使用' appendMessage '函数将用户的消息追加到聊天中。
+     * -重置用户输入并启用发送按钮。
+     * -如果WebSocket连接未打开，则记录错误消息。
+     * @param {number} count -函数被调用次数的计数。默认为0。
+     */
     sendUserInput(count = 0) {
 
       if (this.userInput !== "") {
@@ -393,6 +419,7 @@ export default {
         };
         // console.log(message);
         this.socket.send(JSON.stringify(message));
+        console.log("ok")
         this.appendMessage('User', this.userInput);
         this.userInput = "";
         this.sendButtonDisabled = false;
@@ -400,25 +427,31 @@ export default {
         console.log('WebSocket connection is not open yet.');
       }
     },
+
+
     getUserInfo() {
       const loggedIn = localStorage.getItem('loggedIn') === 'true';
       const username = localStorage.getItem('username');
       this.user.loggedIn = loggedIn;
       this.user.username = loggedIn ? username : '';
     },
+
+
     logout() {
       const userId = localStorage.getItem('userId');
       const token = Cookies.get('token');
 
       // 发送退出登录请求
       fetch('http://128.14.76.82:8000/api/logout/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token,
-        },
-        body: JSON.stringify({user_id: userId}),
-      })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+          },
+          body: JSON.stringify({
+            user_id: userId
+          }),
+        })
         .then(response => {
           localStorage.removeItem('loggedIn');
           localStorage.removeItem('username');
@@ -437,10 +470,14 @@ export default {
       localStorage.setItem('userId', ''); // 将'username'设置为空值
       this.getConversationList();
     },
+
+
     goToLogin() {
       // 跳转至登录页面
       this.$router.push('/login');
     },
+
+
     deleteConversation(conversationId) {
       // 发送删除会话的请求
       const token = localStorage.getItem('token');
@@ -452,13 +489,13 @@ export default {
       };
 
       fetch('http://128.14.76.82:8000/api/test/drop_conversation/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token,
-        },
-        body: JSON.stringify(Data),
-      })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+          },
+          body: JSON.stringify(Data),
+        })
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -473,39 +510,31 @@ export default {
         });
     },
 
+
     getProblem(text) {
       this.userInput = text;
     },
 
 
-//   alterCodeStyle(rawText) {
-//     // console.log(rawText);
-//     // 检查是否存在 ``` 包围的内容
-//     let regex = /```([\s\S]*?)```/g;
-//     if (rawText) {
-//       let replacedText = rawText.replace(regex, '<pre><code class="language">$1</code></pre>');
-//       console.log(replacedText);
-//     //   return replacedText;
-//       return replacedText;
-//     }
-//     return rawText; // 返回原始文本
-//   },
-//
-//     highlightAllCodeBlocks() {
-//   // 使用 highlight.js 进行代码高亮
-//     document.querySelectorAll('pre code').forEach((block) => {
-//       hljs.highlightBlock(block);
-//     });
-// }
+    async newRoleConversation(title, promptMessage, example) {
+      // console.log('Start new conversation with:', title);
+      // console.log('Prompt message:', promptMessage);
+      this.example = example;
+
+      // 创建新会话，并将title设置为会话名
+      this.newConversationName = title;
+      await this.createNewConversation(); // 等待createNewConversation执行完成
+      this.showingPage = 0;
+
+      // 发送预设信息
+      this.userInput = promptMessage;
+    },
+
 
   },
   beforeDestroy() {
-  // 移除滚动事件监听
-  const chatLogContainer = this.$refs.chatLogContainer;
-  chatLogContainer.removeEventListener('scroll', this.handleScroll);
+    // 移除滚动事件监听
+    const chatLogContainer = this.$refs.chatLogContainer;
+    chatLogContainer.removeEventListener('scroll', this.handleScroll);
   },
 };
-
-
-
-

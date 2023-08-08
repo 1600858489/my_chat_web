@@ -82,9 +82,9 @@
             </span>
         </div>
         <ul id="modelList">
-            <li v-for="item in systemCLM" :key="item.id">
-                <p class="title">{{ item.title }}</p>
-                <p class="message">{{ item.promptMessage }}</p>
+            <li v-for="item in systemCLM" :key="item.id" @click="newRoleConversation(item.title,item.promptMessage,item.example)">
+                <p class="title" >{{ item.title }}</p>
+                <p class="message">{{ item.primary_infor }}</p>
             </li>
         </ul>
     </div>
