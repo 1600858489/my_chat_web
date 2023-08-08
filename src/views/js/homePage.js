@@ -74,6 +74,22 @@ export default {
       modelList.style.maxHeight = "none";
     },
 
+    //角色li展示
+    showFullMessage(itemId) {
+      // Set the 'showAll' property for the specific item to true
+      const item = this.systemCLM.find((item) => item.id === itemId);
+      if (item) {
+        item.showAll = true;
+      }
+    },
+    hideFullMessage(itemId) {
+      // Set the 'showAll' property for the specific item to false
+      const item = this.systemCLM.find((item) => item.id === itemId);
+      if (item) {
+        item.showAll = false;
+      }
+    },
+
     toggleTheme() {
       this.isDarkTheme = !this.isDarkTheme;
       console.log(this.isDarkTheme);
@@ -103,23 +119,41 @@ export default {
         }
       }
     },
+    // //切换主题
+    // const themeOverlay = document.getElementById('theme-overlay');
+    // const svgElement4 = document.getElementById('my-svg');
+    // let nightMode = false;
+    //
+    // svgElement4.addEventListener('click', function() {
+    //   nightMode = !nightMode;
+    //   if (nightMode) {
+    //     svgElement4.style.fill = '#ffffff'; // 设置SVG颜色为白色
+    //     svgElement4.style.stroke = '#ffffff'; // 设置SVG边框颜色为白色
+    //   } else {
+    //     // 设置SVG颜色为白天颜色（你可以自行指定白天的颜色）
+    //     svgElement4.style.fill = '#f7f7f8';
+    //     // 设置SVG边框颜色为白天颜色（你可以自行指定白天的颜色）
+    //     svgElement4.style.stroke = '#000000';
+    //   }
+    //   themeOverlay.classList.toggle('night-mode', nightMode);
+    // });
 
-    addClickListeners() {
-        const svgElements = document.querySelectorAll('.clickable-svg');
-        svgElements.forEach((element) => {
-          element.addEventListener('click', this.handleSVGClick);
-        });
-      },
+addClickListeners() {
+    const svgElements = document.querySelectorAll('.clickable-svg');
+    svgElements.forEach((element) => {
+      element.addEventListener('click', this.handleSVGClick);
+    });
+  },
 
 
 
     //点击图标切换颜色
-    handleSVGClick(event, svgId) {
-       // 判断是否点击的是当前选中的SVG图标
-      if (this.selectedSVGId === svgId) {
-        // 已选中，则不做处理，直接返回
-        return;
-      }
+  handleSVGClick(event, svgId) {
+     // 判断是否点击的是当前选中的SVG图标
+    if (this.selectedSVGId === svgId) {
+      // 已选中，则不做处理，直接返回
+      return;
+    }
 
     // 获取当前点击的SVG元素的颜色属性
     const currentColor = this.svgColors[svgId];
@@ -281,7 +315,7 @@ export default {
 
     /**
      * 将新消息追加到聊天中，或将其与上一条消息连接起来。
-     * 功能:
+     * 这个函数:
      * —检查消息发送方的角色(AI或User)。
      * -如果消息来自AI，最后一条消息也是来自AI，它将新内容与最后一条消息连接起来。
      * —如果该消息是用户发送的，并且最后一条消息也是用户发送的，则忽略新消息，避免用户连续发送消息。
@@ -323,13 +357,13 @@ export default {
 
 
     /**
-      * 初始化和管理WebSocket连接。
-      * -此功能:
-      * -建立到指定服务器的WebSocket连接。
-      * -处理各种WebSocket事件，如'open'， 'message'和'close'。
-      * -处理来自服务器的传入消息并将它们附加到聊天中。
-      * -如果服务器响应为空，则重试发送用户输入。
-      */
+     * 初始化和管理WebSocket连接。
+     * -此功能:
+     * -建立到指定服务器的WebSocket连接。
+     * -处理各种WebSocket事件，如'open'， 'message'和'close'。
+     * -处理来自服务器的传入消息并将它们附加到聊天中。
+     * -如果服务器响应为空，则重试发送用户输入。
+     */
     connectWebSocket() {
 
       // 链接websocket服务器
@@ -368,18 +402,20 @@ export default {
 
 
     /**
-      * 发送用户的输入到WebSocket服务器。
-      *此功能:
-      * -检查用户是否提供了任何输入。
-      * -如果有输入，它将输入添加到' userInputList '。
-      * -检查WebSocket连接是否打开。
-      * -如果连接是打开的，它构造一个消息对象，其中包含用户的输入、选择的会话ID和计数。
-      * -将构造好的消息发送到WebSocket服务器。
-      * -使用' appendMessage '函数将用户的消息追加到聊天中。
-      * -重置用户输入并启用发送按钮。
-      * -如果WebSocket连接未打开，则记录错误消息。
-      * @param {number} count -函数被调用次数的计数。默认为0。
-      */
+     * Sends the user's input to the WebSocket server.
+     *
+     * This function:
+     * - Checks if the user has provided any input.
+     * - If there is input, it adds the input to the `userInputList`.
+     * - Checks if the WebSocket connection is open.
+     * - If the connection is open, it constructs a message object containing the user's input, the selected conversation ID, and a count.
+     * - Sends the constructed message to the WebSocket server.
+     * - Appends the user's message to the chat using the `appendMessage` function.
+     * - Resets the user's input and enables the send button.
+     * - If the WebSocket connection is not open, it logs an error message.
+     *
+     * @param {number} count - A count of the number of times the function has been called. Default is 0.
+     */
     sendUserInput(count = 0) {
 
       if (this.userInput !== "") {
