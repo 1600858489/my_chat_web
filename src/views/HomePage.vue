@@ -50,69 +50,83 @@
         </div>
       </div>
       <div class="sidebar func01" v-if="showingPage===0">
-        <div class="new-conversation">
-          <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>
-          <div v-if="showCreateConversationModal" class="modal-overlay">
-              <div class="modal">
-              <h3>新建会话</h3>
-              <input type="text" v-model="newConversationName" @input="handleConversationNameInput" />
-              <div class="button-container">
-                  <button @click="createNewConversation">创建</button>
-                  <button @click="closeCreateConversationModal">取消</button>
-              </div>
-              </div>
-          </div>
-          <hr style="width: 95%" />
+          <div class="new-conversation">
+<!--            <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>-->
+            <div class="module-header">
+                <div class="module-title">
+                    <div class="btn-group-add">
+                        <span @click="openCreateConversationModal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;新会话</span>
+                    </div>
+                </div>
+            </div>
+            <div v-if="showCreateConversationModal" class="modal-overlay">
+                <div class="modal">
+                    <h3>新建会话</h3>
+                    <input type="text" v-model="newConversationName" @input="handleConversationNameInput"
+                           @keydown.enter.prevent="createNewConversationOnEnter" />
+                    <div class="button-container">
+                        <button @click="createNewConversation">创建</button>
+                        <button @click="closeCreateConversationModal">取消</button>
+                    </div>
+                </div>
+            </div>
+<!--            <hr style="width: 95%" />-->
         </div>
+
 
             
         <div class="conversation-list">
+<!--           <div class="module-body">-->
+<!--              <div class="el-scrollbar">-->
+<!--                    <div class="scrollbar-wrapper el-scrollbar__wrap" style="margin-bottom: -15px; margin-right: -15px;">-->
+<!--                        <div class="el-scrollbar__view">-->
+<!--                            <div class="group-chat">-->
             <ul>
             <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
-<!--               <div class="conversation-item">-->
-                 <svg width="29.999999999999996" height="40" xmlns="http://www.w3.org/2000/svg" stroke="#666666">
-                   <g id="Layer_1">
-                    <title>会话图标</title>
-                    <path stroke="null" id="svg_1" d="m5.35807,16.30745l0,0c0,-1.13226 0.99776,-2.05014 2.22855,-2.05014l1.01298,0l0,0l4.86229,0l9.11679,0c0.59105,0 1.15789,0.216 1.57582,0.60047c0.41793,0.38448 0.65273,0.90594 0.65273,1.44967l0,5.12535l0,0l0,3.07521l0,0c0,1.13226 -0.99775,2.05014 -2.22855,2.05014l-9.11679,0l-6.35198,5.21303l1.48969,-5.21303l-1.01298,0c-1.23079,0 -2.22855,-0.91788 -2.22855,-2.05014l0,0l0,-3.07521l0,0l0,-5.12535z" fill="#f9ffff"/>
-                    <path id="svg_2" d="m34.52536,31.45918l0,0c0,-0.15173 0.04188,-0.27473 0.09354,-0.27473l0.04252,0l0,0l0.20408,0l0.38265,0c0.02481,0 0.0486,0.02894 0.06614,0.08047c0.01754,0.05152 0.0274,0.1214 0.0274,0.19426l0,0.68682l0,0l0,0.41209l0,0c0,0.15173 -0.04188,0.27473 -0.09354,0.27473l-0.38265,0l-0.26661,0.69857l0.06253,-0.69857l-0.04252,0c-0.05166,0 -0.09354,-0.123 -0.09354,-0.27473l0,0l0,-0.41209l0,0l0,-0.68682z" stroke="null" fill="#f9ffff"/>
-                   </g>
-                  </svg>
-                 <p class="conversation" :title="conversation.conversation_name">{{ conversation.conversation_name }}</p>
+<!--                 <svg width="35" height="32" xmlns="http://www.w3.org/2000/svg" stroke="#666666">-->
+<!--                   <g id="Layer_1">-->
+<!--                    <title>会话图标</title>-->
+<!--                    <path stroke="null" id="svg_1" d="m5.35807,16.30745l0,0c0,-1.13226 0.99776,-2.05014 2.22855,-2.05014l1.01298,0l0,0l4.86229,0l9.11679,0c0.59105,0 1.15789,0.216 1.57582,0.60047c0.41793,0.38448 0.65273,0.90594 0.65273,1.44967l0,5.12535l0,0l0,3.07521l0,0c0,1.13226 -0.99775,2.05014 -2.22855,2.05014l-9.11679,0l-6.35198,5.21303l1.48969,-5.21303l-1.01298,0c-1.23079,0 -2.22855,-0.91788 -2.22855,-2.05014l0,0l0,-3.07521l0,0l0,-5.12535z" fill="#f9ffff"/>-->
+<!--                    <path id="svg_2" d="m34.52536,31.45918l0,0c0,-0.15173 0.04188,-0.27473 0.09354,-0.27473l0.04252,0l0,0l0.20408,0l0.38265,0c0.02481,0 0.0486,0.02894 0.06614,0.08047c0.01754,0.05152 0.0274,0.1214 0.0274,0.19426l0,0.68682l0,0l0,0.41209l0,0c0,0.15173 -0.04188,0.27473 -0.09354,0.27473l-0.38265,0l-0.26661,0.69857l0.06253,-0.69857l-0.04252,0c-0.05166,0 -0.09354,-0.123 -0.09354,-0.27473l0,0l0,-0.41209l0,0l0,-0.68682z" stroke="null" fill="#f9ffff"/>-->
+<!--                   </g>-->
+<!--                  </svg>-->
+                 <div class="group-title" :title="conversation.conversation_name">{{ conversation.conversation_name }}</div>
                  <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
-<!--               </div>-->
                </li>
             </ul>
+<!--             </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--              </div>-->
+<!--           </div>-->
         </div>
+
       </div>
 
-      <div class="sidebar func02" v-if="showingPage===1">
+      <div class="sidebar func02" v-if="showingPage === 1">
         <div class="el-input el-input--large el-input--prefix el-input--suffix">
-            <input type="text" autocomplete="" placeholder="搜索模型" class="el-input__inner" onclick="showFullContent()">
-            <span class="el-input__prefix">
-                <i class="el-input__icon el-icon-search"></i>
-            </span>
+          <input type="text" v-model="searchText" autocomplete="" placeholder="搜索模型" class="el-input__inner" @input="searchModels">
+          <span class="el-input__prefix">
+            <i class="el-input__icon el-icon-search"></i>
+          </span>
         </div>
         <ul id="modelList">
-<<<<<<< HEAD
-            <li v-for="item in systemCLM" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)">
-                <p class="title">{{ item.title }}</p>
-                <p class="message" :class="{ 'show-all': item.showAll }">{{ item.primary_infor }}</p>
-=======
-            <li v-for="item in systemCLM" :key="item.id" @click="newRoleConversation(item.title,item.promptMessage,item.example)">
-                <p class="title" >{{ item.title }}</p>
-                <p class="message">{{ item.primary_infor }}</p>
->>>>>>> 16a4b8943be9cdfcd50484a0110cfda88503f5c4
-            </li>
+          <li v-for="item in filteredModels" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)">
+            <p class="title">{{ item.title }}</p>
+            <p class="message" :class="{ 'show-all': item.showAll }">{{ item.primary_infor }}</p>
+          </li>
         </ul>
-    </div>
-
-     <div class="module-footer">
-          <div class="box-vip">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAES0lEQVRIiY2Xz2tdRRTHP+f1GbFdNKUk8SeIaLty0UpRxEUDJtlZyCI1+BcYpQayFqToqhsFE/eCmqiIDQFJJP7ApdZC1UWJtWDbhWlCE0VaX5175M6duXPmvpeYgfvm3pnza86c8z3niS6yl3EPMAaMACeAx4D+wLcF/AZ8D3wJLAN3/0+m6PnyF1C7Gr6FfpRpYAoY2JOJyAaisyhvB6N6kJSKP88UWQNeBM88lFuzq1JL8wd4o+d7UbY8XRHonZ/3ocyhfIQyVO+phlnC3Os90FQ8Q0HGHIWXGWgq/rYnSicuCT4GxmsP0DyoJu9kG+FdvR8r5ZUTXvZGwASoi4sta4W/l4Lxmqmwj6T3eMqutXDqwthS7ZUy30m0Gl3tiU/jeLUW0jVrclXRa1+iHGpDNaN5BZXTkV90wdvWj8hlVAdT2EW32oAJvpfga22sl3Ri17vGOshRRLeiq6cpGKxd592lMdjCWjxROJUzrq6DT8CZACsa/FrqYLo68YfSB1wHHegZUOX3xN+wbz/cvgGte+Hq+3BxppGHwPAyHDoGRQfuexB+eRMuvZ6nm3ITeLhNoaMVOEiK2Fp7kHvtPAw+B/sfqdYOPFqd1kb186swNJy+17+FS2+lQEtGDoCOtigY7YpetUGi8N1L8MNMEtrZTrTlc3IpV3p9CZaH4d9/Ek2WGTLWRuV4DpcmHSyc9R02NH3pTsdW4X6j9NoifHWqgWLGg9U43sbpkXzTElmXt9L7X1cq60e+yJVeXYBvJg275Lo1RD080UY5mE4s2VStx9Qx9rQOwFPn4KGxtPb7Enw9mWJEMJ7rOsjBNk52KhI5sV1/ciYnubEKyy/0zoheKS0VVm/vqeR1WR/GxkVYGom1rnd5te/VvF0qXuutuGFuL8tvXoBPn96FYEeZa2U6XcjTKTwuIFdBQjA7Nn+CT54FV1SB5pr8Jj0jyrmYpvJjqXglY3IG6nyNllQk4tj+FRaeAXc3h8fIHw11GAjNoHSl7RUrm8Dh2h1ZEQjvRbjkjfKkJ6FzJy8mmMbAFwvSWobFJWTqcgtHB+XdrPy5hqvKeeAYdP6ED07AnVuNK4nu1IR6Trqvr0LCOVQ6oudKS6Qf9DLIYG6tCYjHT8HWFdj8Ocfz2juYqG4Epv/0niwLxBFUttqhayi7wTMI8xmY2PRYWzRFxLg3olMEjPo7XpVYA86gVefZqgLBA/kChc7mgWLA3ZnCoZLA3xmX2+7EmQCtrnEWJ/Op2Ysb/nTyGsoDiI5nUBldBd0gYf0ZG4IaMiUG2mdetnFUK++ZcKhOUPBe3UPZVKArULq/Y2THTkallDXhZRvaVuqLa0aHyhSFTqKy3t1h9uirbZeZMGAdlUmUKbRUGowMvXd14uzu6miep+Aoylmf5zFNmoDRbIVL2oKznreglJGM8nSxy3zD1NmdR/zTVrZJ8U/boUB+y/xpWwlPZ1dpwH95sqWkKGg8VQAAAABJRU5ErkJggg==" class="icon">
-              <div class="title">开通会员</div>
-              <div class="desc">高速通道 无限对话</div>
-          </div>
       </div>
+
+
+
+<!--     <div class="module-footer">-->
+<!--          <div class="box-vip">-->
+<!--              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAES0lEQVRIiY2Xz2tdRRTHP+f1GbFdNKUk8SeIaLty0UpRxEUDJtlZyCI1+BcYpQayFqToqhsFE/eCmqiIDQFJJP7ApdZC1UWJtWDbhWlCE0VaX5175M6duXPmvpeYgfvm3pnza86c8z3niS6yl3EPMAaMACeAx4D+wLcF/AZ8D3wJLAN3/0+m6PnyF1C7Gr6FfpRpYAoY2JOJyAaisyhvB6N6kJSKP88UWQNeBM88lFuzq1JL8wd4o+d7UbY8XRHonZ/3ocyhfIQyVO+phlnC3Os90FQ8Q0HGHIWXGWgq/rYnSicuCT4GxmsP0DyoJu9kG+FdvR8r5ZUTXvZGwASoi4sta4W/l4Lxmqmwj6T3eMqutXDqwthS7ZUy30m0Gl3tiU/jeLUW0jVrclXRa1+iHGpDNaN5BZXTkV90wdvWj8hlVAdT2EW32oAJvpfga22sl3Ri17vGOshRRLeiq6cpGKxd592lMdjCWjxROJUzrq6DT8CZACsa/FrqYLo68YfSB1wHHegZUOX3xN+wbz/cvgGte+Hq+3BxppGHwPAyHDoGRQfuexB+eRMuvZ6nm3ITeLhNoaMVOEiK2Fp7kHvtPAw+B/sfqdYOPFqd1kb186swNJy+17+FS2+lQEtGDoCOtigY7YpetUGi8N1L8MNMEtrZTrTlc3IpV3p9CZaH4d9/Ek2WGTLWRuV4DpcmHSyc9R02NH3pTsdW4X6j9NoifHWqgWLGg9U43sbpkXzTElmXt9L7X1cq60e+yJVeXYBvJg275Lo1RD080UY5mE4s2VStx9Qx9rQOwFPn4KGxtPb7Enw9mWJEMJ7rOsjBNk52KhI5sV1/ciYnubEKyy/0zoheKS0VVm/vqeR1WR/GxkVYGom1rnd5te/VvF0qXuutuGFuL8tvXoBPn96FYEeZa2U6XcjTKTwuIFdBQjA7Nn+CT54FV1SB5pr8Jj0jyrmYpvJjqXglY3IG6nyNllQk4tj+FRaeAXc3h8fIHw11GAjNoHSl7RUrm8Dh2h1ZEQjvRbjkjfKkJ6FzJy8mmMbAFwvSWobFJWTqcgtHB+XdrPy5hqvKeeAYdP6ED07AnVuNK4nu1IR6Trqvr0LCOVQ6oudKS6Qf9DLIYG6tCYjHT8HWFdj8Ocfz2juYqG4Epv/0niwLxBFUttqhayi7wTMI8xmY2PRYWzRFxLg3olMEjPo7XpVYA86gVefZqgLBA/kChc7mgWLA3ZnCoZLA3xmX2+7EmQCtrnEWJ/Op2Ysb/nTyGsoDiI5nUBldBd0gYf0ZG4IaMiUG2mdetnFUK++ZcKhOUPBe3UPZVKArULq/Y2THTkallDXhZRvaVuqLa0aHyhSFTqKy3t1h9uirbZeZMGAdlUmUKbRUGowMvXd14uzu6miep+Aoylmf5zFNmoDRbIVL2oKznreglJGM8nSxy3zD1NmdR/zTVrZJ8U/boUB+y/xpWwlPZ1dpwH95sqWkKGg8VQAAAABJRU5ErkJggg==" class="icon">-->
+<!--              <div class="title">开通会员</div>-->
+<!--              <div class="desc">高速通道 无限对话</div>-->
+<!--          </div>-->
+<!--      </div>-->
 
 
 
@@ -121,10 +135,10 @@
 
     <div class="main-content">
       <div id="chat-log">
-        <div class="tab-model">
-            <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">GPT-3.5</div>
-            <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;">GPT-4</div>
-        </div>
+<!--        <div class="tab-model">-->
+<!--            <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">GPT-3.5</div>-->
+<!--            <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;">GPT-4</div>-->
+<!--        </div>-->
 
         <div v-if="messages.length === 0" class="default-message">
           <h1>全能助手</h1>
@@ -145,7 +159,7 @@
               <ul>
                 <li class="q-preinstall" @click="getProblem('写一首赞美祖国的诗')">写一首赞美祖国的诗 →</li>
                 <li class="q-preinstall" @click="getProblem('写一篇科幻小说')">写一篇科幻小说 →</li>
-                <li class="q-preinstall" @click="getProblem('安排一场发布会流程')">安排一场发布会流程 →</li>
+                <li class="q-preinstall" @click="getProblem('写一篇实习周报')">写一篇实习周报 →</li>
               </ul>
             </div>
             <div class="column">
@@ -161,8 +175,8 @@
                 <div class="tit">有趣的提问</div>
               </div>
               <ul>
-                <li class="q-preinstall" @click="getProblem('有哪些有趣的科学实验')">有哪些有趣的科学实验 →</li>
-                <li class="q-preinstall" @click="getProblem('问一个AI也答不出的问题')">问一个AI也答不出的问题 →</li>
+                <li class="q-preinstall" @click="getProblem('有哪些有趣的实验')">有哪些有趣的实验 →</li>
+                <li class="q-preinstall" @click="getProblem('问个AI答不出的问题')">问个AI答不出的问题 →</li>
                 <li class="q-preinstall" @click="getProblem('AI会替代人类工作吗')">AI会替代人类工作吗 →</li>
               </ul>
             </div>
@@ -181,17 +195,20 @@
               </div>
               <ul>
                 <li class="q-preinstall" @click="getProblem('简单解释一下人工智能')">简单解释一下人工智能 →</li>
-                <li class="q-preinstall" @click="getProblem('红烧牛肉的做法')">红烧牛肉的做法 →</li>
-                <li class="q-preinstall" @click="getProblem('请介绍一下百度文心')">请介绍一下百度文心 →</li>
+                <li class="q-preinstall" @click="getProblem('番茄牛肉的做法')">番茄牛肉的做法 →</li>
+                <li class="q-preinstall" @click="getProblem('请介绍一下百度')">请介绍一下百度 →</li>
               </ul>
             </div>
           </div>
 
         </div>
 
-        <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)" >
-          {{message.content}}
+        <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)">
+          {{ message.content }}
+<!--          <button @click="copyToClipboard(message.content)">复制</button>-->
         </div>
+
+
       </div>
       <button class="gotofloor" @click="Skip2Latest">
         <svg

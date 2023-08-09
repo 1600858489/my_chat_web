@@ -70,7 +70,7 @@ body{
     display: flex;
     flex: 1 0 15%;
     padding: 30px;
-    background-color: #262626;
+    background-color: #f4f5f4;
     position: relative;
     text-align: center;
     height: 100%;
@@ -118,7 +118,7 @@ body{
     white-space: nowrap; /* 防止文本换行 */
     text-overflow: ellipsis; /* 如果你希望显示省略号，可以使用这个属性 */
     margin: 2px;
-    color: #ccc;
+    color: black;
 
     /* 应用遮罩 */
     -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
@@ -161,36 +161,39 @@ body{
 
 /* 从会话列表复制会话项样式 */
 .new-conversation{
-  width: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .new-conversation-button {
     cursor: pointer;
     padding: 5px;
-    background-color: #262626;
+    background-color: #f4f5f4;
     margin-bottom: 5px;
-    border: 0px solid #b7b7b7; /* 添加边框 */
-    border-radius: 0px; /* 圆角 */
-    box-shadow: none; /* 取消阴影 */
-    outline: none; /* 取消点击时的边框样式 */
+    border: 0px solid #b7b7b7;
+    border-radius: 0px;
+    box-shadow: none;
+    outline: none;
     font-size: 15px;
     margin-top: 20px;
-    color: aliceblue;
+    color: black;
     /* 其他样式 */
 }
 
 .new-conversation-button:hover {
-    background-color: #333333;
+    background-color: #f4f5f4;
 }
 
 .new-conversation-button:focus {
     outline: none;
-    background-color: #333333;
+    background-color: #f4f5f4;
     /* 其他样式 */
 }
 
 .new-conversation-button:active {
-    background-color: #333333;
+    background-color: #f4f5f4;
     /* 其他样式 */
 }
 
@@ -204,7 +207,7 @@ body{
 .sidebar.func02 li {
     width: 165px;
     cursor: pointer;
-    color: aliceblue;
+    /*color: aliceblue;*/
     padding: 10px 15px;
     border-radius: 8px;
     margin-bottom: 12px;
@@ -216,6 +219,7 @@ body{
     box-sizing: border-box;
     cursor: pointer;
     transition: background .1s ease-in-out, border-color .1s ease-in-out;
+    background: #eff0f0;
 }
 
 .sidebar.func02 li .title,
@@ -553,7 +557,9 @@ pre {
 
 .tips-list {
     display: flex;
-    justify-content: space-between;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    padding: 10px;
 }
 
 .column {
@@ -585,6 +591,9 @@ pre {
 .column ul {
     list-style-type: none;
     padding: 0;
+    font-size: 13px;
+    color: #444;
+    line-height: 18px;
 }
 
 .q-preinstall{
@@ -796,11 +805,115 @@ div.code-block {
     line-height: 18px;
     font-size: 14px;
     font-weight: 700;
-    letter-spacing: 1px;
-    width: 68%;
+    letter-spacing: 0px;
+    width: 100%;
 }
 .desc {
     width: 73%;
     line-height: 18px;
     font-size: 13px;
 }
+
+/*复制按钮*/
+button {
+  float: right;
+}
+
+/*新建会话*/
+.module-header {
+    width: 100%;
+    padding: 15px 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.module-title {
+    font-size: 15px;
+    line-height: 32px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-transition: color .1s ease-in-out;
+    transition: color .1s ease-in-out;
+}
+
+.btn-group-add {
+    width: 81%;
+    color: #10a37f;
+    font-size: 14px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    height: 33px;
+    border-radius: 4px;
+    padding: 0 15px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    background: #fff;
+    -webkit-transition: background .1s ease-in-out,border-color .1s ease-in-out;
+    transition: background .1s ease-in-out,border-color .1s ease-in-out;
+}
+
+.module-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 62px;
+    bottom: 73px;
+    padding: 0;
+}
+
+.scrollbar-wrapper {
+    overflow-x: hidden!important;
+}
+
+.group-item {
+    width: 100%;
+    height: 44px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    position: relative;
+    -webkit-transition: background .1s ease-in-out;
+    transition: background .1s ease-in-out;
+}
+
+.scrollbar-wrapper {
+    overflow-x: hidden!important;
+}
+
+.group-chat {
+    padding: 20px 15px 0 15px;
+}
+
+.group-title {
+    color: #72787e;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 15px;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: color .1s ease-in-out;
+    transition: color .1s ease-in-out;
+    font-size: 15px;
+}
+
