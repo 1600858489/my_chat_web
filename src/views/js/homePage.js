@@ -346,7 +346,7 @@ export default {
       if (role === 'ai' || role === 'AI') {
         const lastMessage = this.messages[this.messages.length - 1];
         if (lastMessage && lastMessage.role === 'AI') {
-          console.log('ai:', this.messages[this.messages.length - 1])
+          // console.log('ai:', this.messages[this.messages.length - 1])
           lastMessage.content += content;
         } else {
           console.log('ai2:', content)

@@ -843,7 +843,7 @@ button {
 }
 
 .btn-group-add {
-    width: 81%;
+    width: 105%;
     color: #10a37f;
     font-size: 14px;
     display: -webkit-box;
@@ -892,7 +892,7 @@ button {
 }
 
 .group-chat {
-    padding: 20px 15px 0 15px;
+    padding: 10px 15px 0 0px;
 }
 
 .group-title {
