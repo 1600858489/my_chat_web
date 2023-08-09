@@ -11,8 +11,8 @@
            </g>
           </svg>
           <span>对话</span>
-          
-          
+
+
           <svg :style="{ fill: svgColors.svgElement2, stroke: svgColors.svgElement2 }" v-on:click="showPage(1)" class="clickable-svg" ref="svgElement2" @click="handleSVGClick($event, 'svgElement2')" width="74" height="60" xmlns="http://www.w3.org/2000/svg" style="vector-effect: non-scaling-stroke;">
             <g id="Layer_1">
               <title stroke="null">角色</title>
@@ -20,9 +20,10 @@
            </g>
           </svg>
           <span >角色</span>
-          
-          
+
+
 <!--          <a href="#/教程" target="_blank">-->
+          <a href="/tutorial.html" class="tutorial-link" target="_blank">
           <svg :style="{ fill: svgColors.svgElement3, stroke: svgColors.svgElement3 }" class="clickable-svg" ref="svgElement3" @click="handleSVGClick($event, 'svgElement3')" id="my-svg" width="70" height="39.99999999999999" xmlns="http://www.w3.org/2000/svg" stroke="#666666">
             <g stroke="null">
               <title stroke="null">Layer 1</title>
@@ -31,10 +32,11 @@
               <path  d="m39.94894,11.54933c-1.73683,-1.61772 -3.61009,-2.91361 -5.14674,-3.09028c-0.08365,-0.01146 -0.1703,-0.01814 -0.26192,-0.02005l-10.11323,0c-0.16133,0 -0.32068,0.06016 -0.43421,0.17189c-0.11254,0.10887 -0.17926,0.26166 -0.17926,0.41732l0,24.59042c0,0.1547 0.06274,0.30272 0.17926,0.41541c0.11652,0.11078 0.26989,0.17094 0.43421,0.17094l18.28846,0c0.16133,0 0.3157,-0.05921 0.43221,-0.17094c0.11652,-0.11173 0.18125,-0.25975 0.18125,-0.41541l0,-16.36338c-0.03585,-1.89943 -1.58744,-3.97076 -3.38004,-5.70593l0.00001,0.00001zm2.15112,21.47818l-17.06153,0l0,-23.4139l9.50275,0l0,0.00191c0.41429,-0.02387 0.77181,0.36862 1.04568,1.26629c0.24897,0.8547 0.31171,1.96914 0.31072,2.74171c0.00199,0.5663 -0.02689,0.94637 -0.02689,0.94637l-0.0488,0.62264l0.6533,0.00668c0.00299,0 1.50976,0.01719 2.98766,0.33901c1.42013,0.29413 2.53055,0.88048 2.63412,1.54418c0.00398,0.05921 0.00498,0.11842 0.00398,0.1738l0,15.7713l-0.001,0l0.00001,0.00001z" id="svg_1" />
               <path  id="svg_5" d="m39.06799,13.19274c1.34256,-2.43964 6.60277,0 0,3.13667c-6.60277,-3.13667 -1.34256,-5.57631 0,-3.13667z" fill="#666666"/>
             </g>
-          
+
           </svg>
+             </a>
           <span>教程</span>
-<!--            </a>-->
+
         </div>
         <div class="user-info">
             <hr style="width: 95%" />
@@ -46,54 +48,114 @@
             <button v-else @click="goToLogin" class="login">登录</button>
         </div>
       </div>
+
       <div class="sidebar func01" v-if="showingPage===0">
+
+
         <div class="new-conversation">
-          <button class="new-conversation-button" @click="openCreateConversationModal">新建会话</button>
+          <div class="btn-group-add">
+              <span @click="openCreateConversationModal">+&nbsp;新会话</span>
+          </div>
           <div v-if="showCreateConversationModal" class="modal-overlay">
               <div class="modal">
               <h3>新建会话</h3>
-              <input type="text" v-model="newConversationName" @input="handleConversationNameInput" />
+              <input type="text" v-model="newConversationName" @input="handleConversationNameInput" @keydown.enter.prevent="createNewConversationOnEnter"/>
               <div class="button-container">
                   <button @click="createNewConversation">创建</button>
                   <button @click="closeCreateConversationModal">取消</button>
               </div>
               </div>
           </div>
-          <hr style="width: 95%" />
+
         </div>
 
-            
+<!--        <div class="new-conversation">-->
+<!--            <div class="module-header">-->
+<!--                <div class="module-title">-->
+<!--                    <div class="btn-group-add">-->
+<!--                        <span @click="openCreateConversationModal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;新会话</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            </div>-->
+
+
+<!--        <div class="conversation-list">-->
+<!--            <ul>-->
+<!--            <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">-->
+<!--&lt;!&ndash;               <div class="conversation-item">&ndash;&gt;-->
+<!--                 <svg width="29.999999999999996" height="40" xmlns="http://www.w3.org/2000/svg" stroke="#666666">-->
+<!--                   <g id="Layer_1">-->
+<!--                    <title>会话图标</title>-->
+<!--                    <path stroke="null" id="svg_1" d="m5.35807,16.30745l0,0c0,-1.13226 0.99776,-2.05014 2.22855,-2.05014l1.01298,0l0,0l4.86229,0l9.11679,0c0.59105,0 1.15789,0.216 1.57582,0.60047c0.41793,0.38448 0.65273,0.90594 0.65273,1.44967l0,5.12535l0,0l0,3.07521l0,0c0,1.13226 -0.99775,2.05014 -2.22855,2.05014l-9.11679,0l-6.35198,5.21303l1.48969,-5.21303l-1.01298,0c-1.23079,0 -2.22855,-0.91788 -2.22855,-2.05014l0,0l0,-3.07521l0,0l0,-5.12535z" fill="#f9ffff"/>-->
+<!--                    <path id="svg_2" d="m34.52536,31.45918l0,0c0,-0.15173 0.04188,-0.27473 0.09354,-0.27473l0.04252,0l0,0l0.20408,0l0.38265,0c0.02481,0 0.0486,0.02894 0.06614,0.08047c0.01754,0.05152 0.0274,0.1214 0.0274,0.19426l0,0.68682l0,0l0,0.41209l0,0c0,0.15173 -0.04188,0.27473 -0.09354,0.27473l-0.38265,0l-0.26661,0.69857l0.06253,-0.69857l-0.04252,0c-0.05166,0 -0.09354,-0.123 -0.09354,-0.27473l0,0l0,-0.41209l0,0l0,-0.68682z" stroke="null" fill="#f9ffff"/>-->
+<!--                   </g>-->
+<!--                  </svg>-->
+<!--                 <p class="conversation" :title="conversation.conversation_name">{{ conversation.conversation_name }}</p>-->
+<!--                 <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>-->
+<!--&lt;!&ndash;               </div>&ndash;&gt;-->
+<!--               </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+
         <div class="conversation-list">
+        <div class="module-body">
+              <div class="el-scrollbar">
+                    <div class="scrollbar-wrapper el-scrollbar__wrap" style="margin-bottom: -15px; margin-right: -15px;">
+                        <div class="el-scrollbar__view">
+                            <div class="group-chat">
             <ul>
             <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
-                <p class="conversation">{{ conversation.conversation_name }}</p>
-                <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
-            </li>
+                 <div class="group-title" :title="conversation.conversation_name">{{ conversation.conversation_name }}</div>
+                 <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
+               </li>
             </ul>
+             </div>
+                        </div>
+                    </div>
+              </div>
+           </div>
         </div>
+
+
+
       </div>
 
-      <div class="sidebar func02" v-if="showingPage===1">
+      <div class="sidebar func02" v-if="showingPage === 1">
         <div class="el-input el-input--large el-input--prefix el-input--suffix">
-            <input type="text" autocomplete="" placeholder="搜索模型" class="el-input__inner" onclick="showFullContent()">
-            <span class="el-input__prefix">
-                <i class="el-input__icon el-icon-search"></i>
-            </span>
+          <input type="text" v-model="searchText" autocomplete="" placeholder="搜索模型" class="el-input__inner" @input="searchModels">
+          <span class="el-input__prefix">
+            <i class="el-input__icon el-icon-search"></i>
+          </span>
         </div>
         <ul id="modelList">
-            <li v-for="item in systemCLM" :key="item.id" @click="newRoleConversation(item.title,item.promptMessage,item.example)">
-                <p class="title" >{{ item.title }}</p>
-                <p class="message">{{ item.primary_infor }}</p>
-            </li>
+          <li v-for="item in filteredModels" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)">
+            <p class="title">{{ item.title }}</p>
+            <p class="message" :class="{ 'show-all': item.showAll }">{{ item.primary_infor }}</p>
+          </li>
         </ul>
       </div>
 
+<!--     <div class="module-footer">-->
+<!--          <div class="box-vip">-->
+<!--              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAES0lEQVRIiY2Xz2tdRRTHP+f1GbFdNKUk8SeIaLty0UpRxEUDJtlZyCI1+BcYpQayFqToqhsFE/eCmqiIDQFJJP7ApdZC1UWJtWDbhWlCE0VaX5175M6duXPmvpeYgfvm3pnza86c8z3niS6yl3EPMAaMACeAx4D+wLcF/AZ8D3wJLAN3/0+m6PnyF1C7Gr6FfpRpYAoY2JOJyAaisyhvB6N6kJSKP88UWQNeBM88lFuzq1JL8wd4o+d7UbY8XRHonZ/3ocyhfIQyVO+phlnC3Os90FQ8Q0HGHIWXGWgq/rYnSicuCT4GxmsP0DyoJu9kG+FdvR8r5ZUTXvZGwASoi4sta4W/l4Lxmqmwj6T3eMqutXDqwthS7ZUy30m0Gl3tiU/jeLUW0jVrclXRa1+iHGpDNaN5BZXTkV90wdvWj8hlVAdT2EW32oAJvpfga22sl3Ri17vGOshRRLeiq6cpGKxd592lMdjCWjxROJUzrq6DT8CZACsa/FrqYLo68YfSB1wHHegZUOX3xN+wbz/cvgGte+Hq+3BxppGHwPAyHDoGRQfuexB+eRMuvZ6nm3ITeLhNoaMVOEiK2Fp7kHvtPAw+B/sfqdYOPFqd1kb186swNJy+17+FS2+lQEtGDoCOtigY7YpetUGi8N1L8MNMEtrZTrTlc3IpV3p9CZaH4d9/Ek2WGTLWRuV4DpcmHSyc9R02NH3pTsdW4X6j9NoifHWqgWLGg9U43sbpkXzTElmXt9L7X1cq60e+yJVeXYBvJg275Lo1RD080UY5mE4s2VStx9Qx9rQOwFPn4KGxtPb7Enw9mWJEMJ7rOsjBNk52KhI5sV1/ciYnubEKyy/0zoheKS0VVm/vqeR1WR/GxkVYGom1rnd5te/VvF0qXuutuGFuL8tvXoBPn96FYEeZa2U6XcjTKTwuIFdBQjA7Nn+CT54FV1SB5pr8Jj0jyrmYpvJjqXglY3IG6nyNllQk4tj+FRaeAXc3h8fIHw11GAjNoHSl7RUrm8Dh2h1ZEQjvRbjkjfKkJ6FzJy8mmMbAFwvSWobFJWTqcgtHB+XdrPy5hqvKeeAYdP6ED07AnVuNK4nu1IR6Trqvr0LCOVQ6oudKS6Qf9DLIYG6tCYjHT8HWFdj8Ocfz2juYqG4Epv/0niwLxBFUttqhayi7wTMI8xmY2PRYWzRFxLg3olMEjPo7XpVYA86gVefZqgLBA/kChc7mgWLA3ZnCoZLA3xmX2+7EmQCtrnEWJ/Op2Ysb/nTyGsoDiI5nUBldBd0gYf0ZG4IaMiUG2mdetnFUK++ZcKhOUPBe3UPZVKArULq/Y2THTkallDXhZRvaVuqLa0aHyhSFTqKy3t1h9uirbZeZMGAdlUmUKbRUGowMvXd14uzu6miep+Aoylmf5zFNmoDRbIVL2oKznreglJGM8nSxy3zD1NmdR/zTVrZJ8U/boUB+y/xpWwlPZ1dpwH95sqWkKGg8VQAAAABJRU5ErkJggg==" class="icon">-->
+<!--              <div class="title">开通会员</div>-->
+<!--              <div class="desc">高速通道 无限对话</div>-->
+<!--          </div>-->
+<!--      </div>-->
 
-    
+
+
+
     </div>
 
     <div class="main-content">
       <div id="chat-log">
+<!--        <div class="tab-model">-->
+<!--            <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">GPT-3.5</div>-->
+<!--            <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;">GPT-4</div>-->
+<!--        </div>-->
 
         <div v-if="messages.length === 0" class="default-message">
           <h1>全能助手</h1>
@@ -181,12 +243,30 @@
         </svg>
       </button>
       <div class="user-input-container">
-        <!-- 使用 textarea 替代 input，并设置 class 为 resizable-textarea -->
-        <textarea class="user_input resizable-textarea" ref="textarea" v-model="userInput" @input="adjustTextareaHeight"></textarea>
+        <textarea class="user_input resizable-textarea" type="text" ref="textarea" placeholder="请 输 入 您 的 问 题 … …" v-model="userInput" @keydown.enter="sendUserInput"> </textarea>
+        <button :disabled="sendButtonDisabled" @click="sendUserInput">
+          <svg :style="{ fill: svgColors.svgElement5, stroke: svgColors.svgElement5 }" class="clickable-svg" ref="svgElement5" @click="handleSVGClick($event, 'svgElement5')" id="my-svg" width="25" height="25" xmlns="http://www.w3.org/2000/svg" stroke="null">
+           <g stroke="null">
+            <title stroke="null">Layer 1</title>
+            <path fill="none" id="svg_20" d="m374,218c-1,-1 -4.05334,-4.96837 -7,-10c-4.07422,-6.95706 -6.83179,-11.52216 -10,-18c-1.38934,-2.84073 -3.98691,-5.75711 -5,-12c-0.48056,-2.96126 -2.14774,-5.94341 -4,-11c-1.08768,-2.96933 -2.44519,-8.03867 -3,-12c-1.00977,-7.20975 -2,-12 -2,-20c0,-8 0,-14 0,-19c0,-6 0,-11 0,-14c0,-4 -0.63834,-8.3054 2,-13c2.44962,-4.35883 8,-12 13,-17c6,-6 11.70425,-11.40069 17,-15c6.66794,-4.53193 13,-7 19,-10c6,-3 13.02756,-5.91912 19,-8c11.05304,-3.85103 17.45871,-4.66397 25,-8c3.29733,-1.45864 8.82376,-2.48626 11,-3c1.9465,-0.45951 3.0535,-0.45951 5,0c2.17624,0.51374 3.11215,1.9183 6,6c2.08246,2.94336 5.3851,7.37201 8,11c3.30762,4.58908 7.724,7.22273 11,11c4.63297,5.34187 9,9 12,13c3,4 4.71933,6.56511 7,10c2.76575,4.16542 5.41589,4.76108 7,8c1.38934,2.84072 2.33749,4.31001 4,7c1.487,2.40601 3.9176,2.38687 5,5c0.38269,0.92388 -0.05145,2.2987 1,4c1.1756,1.90211 2,2 2,4c0,1 1,2 1,4c0,1 0,2 0,3c0,2 0,3 0,4c0,2 1,2 1,3c0,1 0,2 0,3c0,2 -0.38269,3.07612 0,4c0.5412,1.30656 1,3 1,4c0,1 0,3 0,4c0,1 -1.41418,2.58578 0,4c0.70709,0.70711 1,1 1,2c0,1 0,4 0,6c0,1 0,4 0,5c0,2 -1,2 -1,3c0,1 -1.31073,4.08025 -2,7c-0.51373,2.17625 -2.29291,3.29289 -3,4c-1.41418,1.41422 -1,4 -2,6c-1,2 -2.61731,3.07613 -3,4c-1.0824,2.61313 -3.71411,3.21167 -6,6c-0.89661,1.09367 -3,3 -4,4c-1,1 -2.86829,2.28859 -7,4c-5.84314,2.4203 -6.54916,3.95517 -10,5c-0.95709,0.28978 -7,1 -10,3c-3,2 -4.87857,2.49345 -8,3c-0.98709,0.16019 -2.08582,-0.57957 -4,0c-3.45084,1.04483 -4.03873,1.51945 -7,2c-3.12143,0.50655 -7.83807,2.46552 -13,4c-4.88763,1.45294 -9.75711,3.98692 -16,5c-2.96127,0.48055 -5.54916,0.95517 -9,2c-0.95709,0.28978 -2,0 -3,0c-5,0 -9.17163,-0.15913 -13,1c-6.9017,2.08966 -12,4 -14,5l-2,1l-3,1l-3,0" stroke="#000"/>
+            <path id="svg_8" d="m20.07317,24.52439" opacity="NaN" fill="#fff" stroke="#00ff00"/>
+            <path transform="rotate(-30.1194 13.627 10.3878)" stroke-width="0.1" stroke="#020f0f" id="svg_11" d="m14.84965,10.38779l-12.10751,-9.60632l21.7697,9.60632l-21.7697,9.60631l12.10751,-9.60631z" fill="#ddd"/>
+           </g>
 
-        <button :disabled="sendButtonDisabled" @click="sendUserInput">Send</button>
+          </svg>
+        </button>
+
       </div>
-
+    </div>
+    <div data-v-323e5e77="" class="float">
+        <svg width="26" height="35.06" xmlns="http://www.w3.org/2000/svg">
+             <g id="联系客服">
+              <title>联系客服</title>
+              <path stroke="#fff" id="svg_1" d="m20.58947,17.12444c-0.79815,-0.67446 -1.77464,-1.22051 -2.75412,-1.60249c-1.1429,0.39153 -2.5349,0.62995 -4.05244,0.62995c-1.52052,0 -2.91452,-0.23888 -4.05541,-0.62995c-0.97948,0.38198 -1.95696,0.92803 -2.75708,1.60249c-1.85734,1.56591 -2.0616,3.17213 -0.45738,3.5886c0.71844,0.18761 1.47171,0.04778 2.24993,-0.30298c-0.13651,0.35564 -0.21623,0.74111 -0.21623,1.1443c0,1.79128 1.48767,3.24228 3.32105,3.24228c1.10504,0 1.65207,-0.52834 1.91511,-1.33728c0.26207,0.80894 0.8091,1.33728 1.91013,1.33728c1.8364,0 3.32408,-1.45101 3.32408,-3.24228c0,-0.40319 -0.07975,-0.78866 -0.21922,-1.1443c0.78019,0.35075 1.53247,0.49059 2.2529,0.30298c1.60323,-0.41647 1.39596,-2.0227 -0.46133,-3.5886l0,0zm-6.80852,-1.58362c3.08489,0 5.58689,-1.17041 5.58689,-2.61419s-2.50201,-2.61419 -5.58689,-2.61419c-3.08594,0 -5.58992,1.17064 -5.58992,2.61419s2.50398,2.61419 5.58992,2.61419z" fill="#666666"/>
+              <path stroke="#ffffff" id="svg_2" d="m16.94171,17.15063c1.16651,-2.72629 5.73694,0 0,3.50523c-5.73694,-3.50523 -1.16651,-6.23152 0,-3.50523z" fill="#666666"/>
+             </g>
+            </svg>
+        <span data-v-323e5e77="">联系客服</span>
     </div>
   </div>
 </template>
