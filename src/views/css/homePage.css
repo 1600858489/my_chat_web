@@ -100,13 +100,13 @@ body{
 /* 给滚动条滑块添加样式 */
 .conversation-list::-webkit-scrollbar-thumb {
     background-color: #888;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 /* 指定滚动条的宽度和高度 */
 .conversation-list::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
 }
 
 
@@ -868,7 +868,7 @@ button {
     position: absolute;
     left: 0;
     right: 0;
-    top: 62px;
+    top: 50px;
     bottom: 73px;
     padding: 0;
 }
