@@ -313,8 +313,10 @@ export default {
       if (role === 'AI') {
         const lastMessage = this.messages[this.messages.length - 1];
         if (lastMessage && lastMessage.role === 'AI') {
-          lastMessage.content += content;
+          console.log(123)
+          lastMessage.content += content.toString();
         } else {
+          console.log(456)
           this.messages.push({
             role,
             content
@@ -323,8 +325,11 @@ export default {
       } else {
         const lastMessage = this.messages[this.messages.length - 1];
         if (lastMessage && lastMessage.role === 'User') {
+          console.log(789)
           return;
         }
+        // role = role.toString();
+        // content = content.toString();
         this.messages.push({
           role,
           content
@@ -337,7 +342,7 @@ export default {
     getMessageClass(role) {
 
       // console.log(role);
-      if (role === 'ai' || role === 'Ai') {
+      if (role === 'ai' || role === 'AI') {
         return 'message-ai';
       } else if (role === 'user' || role === 'User') {
         return 'message-user';
@@ -528,8 +533,15 @@ export default {
 
       // 发送预设信息
       this.userInput = promptMessage;
+      
+      // setTimeout(() => )
     },
-
+    
+    adjustTextareaHeight() {
+      const textarea = this.$refs.textarea;
+      textarea.style.height = "auto"; // 重置高度，以便重新计算
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
 
   },
   beforeDestroy() {

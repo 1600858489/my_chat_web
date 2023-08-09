@@ -1,5 +1,4 @@
 
-
 <template>
   <div class="main">
     <div class="menus">
@@ -87,7 +86,7 @@
                 <p class="message">{{ item.primary_infor }}</p>
             </li>
         </ul>
-    </div>
+      </div>
 
 
     
@@ -161,6 +160,7 @@
 
         <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)" >
           {{message.content}}
+          
         </div>
       </div>
       <button class="gotofloor" @click="Skip2Latest">
@@ -182,7 +182,8 @@
       </button>
       <div class="user-input-container">
         <!-- 使用 textarea 替代 input，并设置 class 为 resizable-textarea -->
-        <textarea class="user_input resizable-textarea" v-model="userInput" @keydown.enter="sendUserInput"></textarea>
+        <textarea class="user_input resizable-textarea" ref="textarea" v-model="userInput" @input="adjustTextareaHeight"></textarea>
+
         <button :disabled="sendButtonDisabled" @click="sendUserInput">Send</button>
       </div>
 
