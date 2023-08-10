@@ -422,6 +422,7 @@ pre {
     /*text-transform: capitalize;*/
     position: relative; /* 为后续的小尾巴做准备 */
     word-wrap: break-word;
+
 }
 
 #chat-log .message-ai {
@@ -429,6 +430,8 @@ pre {
     color: #606468;
     background-color: #f7f7f8; /* AI消息的背景颜色 */
     margin-left: 10px;
+    font-family: 宋体;
+    font-size: 15px;
 }
 
 #chat-log .message-user {
@@ -437,6 +440,8 @@ pre {
     background-color: #f9f9f9; /* 用户消息的背景颜色 */
     margin-right: 10px;
     align-self: flex-end; /* 使用户消息靠右对齐 */
+    font-family: 宋体;
+    font-size: 15px;
 }
 
 /* 为AI和用户的消息添加小尾巴，使其更像真实的聊天气泡 */
@@ -495,6 +500,7 @@ pre {
   max-height: 10rem; /* 设置最大显示8行高度 */
   overflow-y: auto; /* 超过8行启用垂直滚动条 */
   white-space: pre-wrap; /* 自动换行 */
+  font-size: 18px;
 }
 
 /* Send button styles */
