@@ -52,10 +52,14 @@
       <div class="sidebar func01" v-if="showingPage===0">
 
 
-        <div class="new-conversation">
-          <div class="btn-group-add">
-              <span @click="openCreateConversationModal">+&nbsp;新会话</span>
-          </div>
+<!--        <div class="new-conversation">-->
+          <div class="module-header">
+                <div class="module-title">
+                    <div class="btn-group-add">
+                        <span @click="openCreateConversationModal">+&nbsp;新会话</span>
+                    </div>
+                  </div>
+            </div>
           <div v-if="showCreateConversationModal" class="modal-overlay">
               <div class="modal">
               <h3>新建会话</h3>
@@ -67,7 +71,7 @@
               </div>
           </div>
 
-        </div>
+<!--        </div>-->
 
 <!--        <div class="new-conversation">-->
 <!--            <div class="module-header">-->
@@ -105,13 +109,22 @@
                     <div class="scrollbar-wrapper el-scrollbar__wrap" style="margin-bottom: -15px; margin-right: -15px;">
                         <div class="el-scrollbar__view">
                             <div class="group-chat">
-            <ul>
-            <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
-                 <div class="group-title" :title="conversation.conversation_name">{{ conversation.conversation_name }}</div>
-                 <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
-               </li>
-            </ul>
-             </div>
+                              <ul>
+                              <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">
+                                   <div class="group-title" :title="conversation.conversation_name">{{ conversation.conversation_name }}</div>
+                                   <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>
+                                 </li>
+                              </ul>
+                              </div>
+                          <div class="module-footer">
+                          <div class="box-vip">
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAES0lEQVRIiY2Xz2tdRRTHP+f1GbFdNKUk8SeIaLty0UpRxEUDJtlZyCI1+BcYpQayFqToqhsFE/eCmqiIDQFJJP7ApdZC1UWJtWDbhWlCE0VaX5175M6duXPmvpeYgfvm3pnza86c8z3niS6yl3EPMAaMACeAx4D+wLcF/AZ8D3wJLAN3/0+m6PnyF1C7Gr6FfpRpYAoY2JOJyAaisyhvB6N6kJSKP88UWQNeBM88lFuzq1JL8wd4o+d7UbY8XRHonZ/3ocyhfIQyVO+phlnC3Os90FQ8Q0HGHIWXGWgq/rYnSicuCT4GxmsP0DyoJu9kG+FdvR8r5ZUTXvZGwASoi4sta4W/l4Lxmqmwj6T3eMqutXDqwthS7ZUy30m0Gl3tiU/jeLUW0jVrclXRa1+iHGpDNaN5BZXTkV90wdvWj8hlVAdT2EW32oAJvpfga22sl3Ri17vGOshRRLeiq6cpGKxd592lMdjCWjxROJUzrq6DT8CZACsa/FrqYLo68YfSB1wHHegZUOX3xN+wbz/cvgGte+Hq+3BxppGHwPAyHDoGRQfuexB+eRMuvZ6nm3ITeLhNoaMVOEiK2Fp7kHvtPAw+B/sfqdYOPFqd1kb186swNJy+17+FS2+lQEtGDoCOtigY7YpetUGi8N1L8MNMEtrZTrTlc3IpV3p9CZaH4d9/Ek2WGTLWRuV4DpcmHSyc9R02NH3pTsdW4X6j9NoifHWqgWLGg9U43sbpkXzTElmXt9L7X1cq60e+yJVeXYBvJg275Lo1RD080UY5mE4s2VStx9Qx9rQOwFPn4KGxtPb7Enw9mWJEMJ7rOsjBNk52KhI5sV1/ciYnubEKyy/0zoheKS0VVm/vqeR1WR/GxkVYGom1rnd5te/VvF0qXuutuGFuL8tvXoBPn96FYEeZa2U6XcjTKTwuIFdBQjA7Nn+CT54FV1SB5pr8Jj0jyrmYpvJjqXglY3IG6nyNllQk4tj+FRaeAXc3h8fIHw11GAjNoHSl7RUrm8Dh2h1ZEQjvRbjkjfKkJ6FzJy8mmMbAFwvSWobFJWTqcgtHB+XdrPy5hqvKeeAYdP6ED07AnVuNK4nu1IR6Trqvr0LCOVQ6oudKS6Qf9DLIYG6tCYjHT8HWFdj8Ocfz2juYqG4Epv/0niwLxBFUttqhayi7wTMI8xmY2PRYWzRFxLg3olMEjPo7XpVYA86gVefZqgLBA/kChc7mgWLA3ZnCoZLA3xmX2+7EmQCtrnEWJ/Op2Ysb/nTyGsoDiI5nUBldBd0gYf0ZG4IaMiUG2mdetnFUK++ZcKhOUPBe3UPZVKArULq/Y2THTkallDXhZRvaVuqLa0aHyhSFTqKy3t1h9uirbZeZMGAdlUmUKbRUGowMvXd14uzu6miep+Aoylmf5zFNmoDRbIVL2oKznreglJGM8nSxy3zD1NmdR/zTVrZJ8U/boUB+y/xpWwlPZ1dpwH95sqWkKGg8VQAAAABJRU5ErkJggg==" class="icon">
+                              <div class="title">开通会员</div>
+                              <div class="desc">高速通道 无限对话</div>
+                          </div>
+                          </div>
+                      </div>
+
                         </div>
                     </div>
               </div>
@@ -120,35 +133,54 @@
 
 
 
-      </div>
+
 
       <div class="sidebar func02" v-if="showingPage === 1">
-        <div class="el-input el-input--large el-input--prefix el-input--suffix">
-          <input type="text" v-model="searchText" autocomplete="" placeholder="搜索模型" class="el-input__inner" @input="searchModels">
-          <span class="el-input__prefix">
-            <i class="el-input__icon el-icon-search"></i>
-          </span>
-        </div>
-        <ul id="modelList">
-          <li v-for="item in filteredModels" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)" @click="newRoleConversation(item.title,item.promptMessage,item.example)">
-            <p class="title">{{ item.title }}</p>
-            <p class="message" :class="{ 'show-all': item.showAll }">{{ item.primary_infor }}</p>
-          </li>
-        </ul>
-      </div>
+          <div class="module-header">
+            <div class="search">
+              <div class="el-input el-input--large el-input--prefix el-input--suffix">
+                <input type="text" v-model="searchText" autocomplete="" placeholder="搜索模型" class="el-input__inner" @input="searchModels">
+                <span class="el-input__prefix">
+                  <i class="el-input__icon el-icon-search"></i>
+                </span>
+              </div>
+            </div>
+          </div>
 
-<!--     <div class="module-footer">-->
-<!--          <div class="box-vip">-->
-<!--              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAES0lEQVRIiY2Xz2tdRRTHP+f1GbFdNKUk8SeIaLty0UpRxEUDJtlZyCI1+BcYpQayFqToqhsFE/eCmqiIDQFJJP7ApdZC1UWJtWDbhWlCE0VaX5175M6duXPmvpeYgfvm3pnza86c8z3niS6yl3EPMAaMACeAx4D+wLcF/AZ8D3wJLAN3/0+m6PnyF1C7Gr6FfpRpYAoY2JOJyAaisyhvB6N6kJSKP88UWQNeBM88lFuzq1JL8wd4o+d7UbY8XRHonZ/3ocyhfIQyVO+phlnC3Os90FQ8Q0HGHIWXGWgq/rYnSicuCT4GxmsP0DyoJu9kG+FdvR8r5ZUTXvZGwASoi4sta4W/l4Lxmqmwj6T3eMqutXDqwthS7ZUy30m0Gl3tiU/jeLUW0jVrclXRa1+iHGpDNaN5BZXTkV90wdvWj8hlVAdT2EW32oAJvpfga22sl3Ri17vGOshRRLeiq6cpGKxd592lMdjCWjxROJUzrq6DT8CZACsa/FrqYLo68YfSB1wHHegZUOX3xN+wbz/cvgGte+Hq+3BxppGHwPAyHDoGRQfuexB+eRMuvZ6nm3ITeLhNoaMVOEiK2Fp7kHvtPAw+B/sfqdYOPFqd1kb186swNJy+17+FS2+lQEtGDoCOtigY7YpetUGi8N1L8MNMEtrZTrTlc3IpV3p9CZaH4d9/Ek2WGTLWRuV4DpcmHSyc9R02NH3pTsdW4X6j9NoifHWqgWLGg9U43sbpkXzTElmXt9L7X1cq60e+yJVeXYBvJg275Lo1RD080UY5mE4s2VStx9Qx9rQOwFPn4KGxtPb7Enw9mWJEMJ7rOsjBNk52KhI5sV1/ciYnubEKyy/0zoheKS0VVm/vqeR1WR/GxkVYGom1rnd5te/VvF0qXuutuGFuL8tvXoBPn96FYEeZa2U6XcjTKTwuIFdBQjA7Nn+CT54FV1SB5pr8Jj0jyrmYpvJjqXglY3IG6nyNllQk4tj+FRaeAXc3h8fIHw11GAjNoHSl7RUrm8Dh2h1ZEQjvRbjkjfKkJ6FzJy8mmMbAFwvSWobFJWTqcgtHB+XdrPy5hqvKeeAYdP6ED07AnVuNK4nu1IR6Trqvr0LCOVQ6oudKS6Qf9DLIYG6tCYjHT8HWFdj8Ocfz2juYqG4Epv/0niwLxBFUttqhayi7wTMI8xmY2PRYWzRFxLg3olMEjPo7XpVYA86gVefZqgLBA/kChc7mgWLA3ZnCoZLA3xmX2+7EmQCtrnEWJ/Op2Ysb/nTyGsoDiI5nUBldBd0gYf0ZG4IaMiUG2mdetnFUK++ZcKhOUPBe3UPZVKArULq/Y2THTkallDXhZRvaVuqLa0aHyhSFTqKy3t1h9uirbZeZMGAdlUmUKbRUGowMvXd14uzu6miep+Aoylmf5zFNmoDRbIVL2oKznreglJGM8nSxy3zD1NmdR/zTVrZJ8U/boUB+y/xpWwlPZ1dpwH95sqWkKGg8VQAAAABJRU5ErkJggg==" class="icon">-->
-<!--              <div class="title">开通会员</div>-->
-<!--              <div class="desc">高速通道 无限对话</div>-->
-<!--          </div>-->
-<!--      </div>-->
+
+
+        <div class="module-body">
+          <div class="el-scrollbar">
+            <div class="scrollbar-wrapper el-scrollbar__wrap" style="margin-bottom: -15px; margin-right: -15px;">
+              <div class="el-scrollbar__view">
+                  <ul id="modelList">
+                    <li v-for="item in filteredModels" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)" @click="newRoleConversation(item.title,item.promptMessage,item.example)">
+                      <p class="title">{{ item.title }}</p>
+                      <p class="message" :class="{ 'show-all': item.showAll }">{{ item.primary_infor }}</p>
+                    </li>
+                  </ul>
+
+                  <div class="module-footer">
+          <div class="box-vip">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAES0lEQVRIiY2Xz2tdRRTHP+f1GbFdNKUk8SeIaLty0UpRxEUDJtlZyCI1+BcYpQayFqToqhsFE/eCmqiIDQFJJP7ApdZC1UWJtWDbhWlCE0VaX5175M6duXPmvpeYgfvm3pnza86c8z3niS6yl3EPMAaMACeAx4D+wLcF/AZ8D3wJLAN3/0+m6PnyF1C7Gr6FfpRpYAoY2JOJyAaisyhvB6N6kJSKP88UWQNeBM88lFuzq1JL8wd4o+d7UbY8XRHonZ/3ocyhfIQyVO+phlnC3Os90FQ8Q0HGHIWXGWgq/rYnSicuCT4GxmsP0DyoJu9kG+FdvR8r5ZUTXvZGwASoi4sta4W/l4Lxmqmwj6T3eMqutXDqwthS7ZUy30m0Gl3tiU/jeLUW0jVrclXRa1+iHGpDNaN5BZXTkV90wdvWj8hlVAdT2EW32oAJvpfga22sl3Ri17vGOshRRLeiq6cpGKxd592lMdjCWjxROJUzrq6DT8CZACsa/FrqYLo68YfSB1wHHegZUOX3xN+wbz/cvgGte+Hq+3BxppGHwPAyHDoGRQfuexB+eRMuvZ6nm3ITeLhNoaMVOEiK2Fp7kHvtPAw+B/sfqdYOPFqd1kb186swNJy+17+FS2+lQEtGDoCOtigY7YpetUGi8N1L8MNMEtrZTrTlc3IpV3p9CZaH4d9/Ek2WGTLWRuV4DpcmHSyc9R02NH3pTsdW4X6j9NoifHWqgWLGg9U43sbpkXzTElmXt9L7X1cq60e+yJVeXYBvJg275Lo1RD080UY5mE4s2VStx9Qx9rQOwFPn4KGxtPb7Enw9mWJEMJ7rOsjBNk52KhI5sV1/ciYnubEKyy/0zoheKS0VVm/vqeR1WR/GxkVYGom1rnd5te/VvF0qXuutuGFuL8tvXoBPn96FYEeZa2U6XcjTKTwuIFdBQjA7Nn+CT54FV1SB5pr8Jj0jyrmYpvJjqXglY3IG6nyNllQk4tj+FRaeAXc3h8fIHw11GAjNoHSl7RUrm8Dh2h1ZEQjvRbjkjfKkJ6FzJy8mmMbAFwvSWobFJWTqcgtHB+XdrPy5hqvKeeAYdP6ED07AnVuNK4nu1IR6Trqvr0LCOVQ6oudKS6Qf9DLIYG6tCYjHT8HWFdj8Ocfz2juYqG4Epv/0niwLxBFUttqhayi7wTMI8xmY2PRYWzRFxLg3olMEjPo7XpVYA86gVefZqgLBA/kChc7mgWLA3ZnCoZLA3xmX2+7EmQCtrnEWJ/Op2Ysb/nTyGsoDiI5nUBldBd0gYf0ZG4IaMiUG2mdetnFUK++ZcKhOUPBe3UPZVKArULq/Y2THTkallDXhZRvaVuqLa0aHyhSFTqKy3t1h9uirbZeZMGAdlUmUKbRUGowMvXd14uzu6miep+Aoylmf5zFNmoDRbIVL2oKznreglJGM8nSxy3zD1NmdR/zTVrZJ8U/boUB+y/xpWwlPZ1dpwH95sqWkKGg8VQAAAABJRU5ErkJggg==" class="icon">
+              <div class="title">开通会员</div>
+              <div class="desc">高速通道 无限对话</div>
+          </div>
+      </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
 
 
 
 
     </div>
+
+      </div>
 
     <div class="main-content">
       <div id="chat-log">
@@ -243,7 +275,7 @@
         </svg>
       </button>
       <div class="user-input-container">
-        <textarea class="user_input resizable-textarea" type="text" ref="textarea" placeholder="请 输 入 您 的 问 题 … …" v-model="userInput" @keydown.enter="sendUserInput"> </textarea>
+        <textarea class="user_input resizable-textarea" type="text" ref="textarea" placeholder="请 输 入 您 的 问 题 … …" v-model="userInput" @keydown.enter="sendUserInput" style="min-height: 46px; height: 46px;"> </textarea>
         <button :disabled="sendButtonDisabled" @click="sendUserInput">
           <svg :style="{ fill: svgColors.svgElement5, stroke: svgColors.svgElement5 }" class="clickable-svg" ref="svgElement5" @click="handleSVGClick($event, 'svgElement5')" id="my-svg" width="25" height="25" xmlns="http://www.w3.org/2000/svg" stroke="null">
            <g stroke="null">

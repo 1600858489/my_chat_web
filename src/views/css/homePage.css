@@ -91,25 +91,6 @@ body{
 }
 
 
-/* 给滚动条轨道添加样式 */
-.conversation-list::-webkit-scrollbar-track {
-    background-color: #262626;
-}
-
-/* 给滚动条滑块添加样式 */
-.conversation-list::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 3px;
-}
-
-/* 指定滚动条的宽度和高度 */
-.conversation-list::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-
-
 .conversation {
     display: flex; /* 使其成为块级元素 */
     width: 140px; /* 你可以根据需要调整这个值 */
@@ -198,7 +179,7 @@ body{
 
 .sidebar.func02 ul {
     list-style-type: none;
-    padding-left: 0;
+    padding-left: 32px;
     text-align: justify;
     /*text-align-last: justify;*/
 }
@@ -495,12 +476,12 @@ pre {
   display: inline-block; /* 需要一个容器来包裹，以防止一开始就铺满整行 */
 
 .resizable-textarea {
-  height: 24px; /* 设置默认显示一行高度 */
+  height: 38px; /* 设置默认显示一行高度 */
   resize: none; /* 禁止textarea的resize属性，防止用户手动调整高度 */
   max-height: 10rem; /* 设置最大显示8行高度 */
   overflow-y: auto; /* 超过8行启用垂直滚动条 */
   white-space: pre-wrap; /* 自动换行 */
-  font-size: 18px;
+  font-size: 15px;
 }
 
 /* Send button styles */
@@ -790,8 +771,8 @@ div.code-block {
 /*vip*/
 .module-footer {
     position: absolute;
-    left: 98px;
-    bottom: -7px;
+    left: 10px;
+    bottom: -12px;
     right: 0;
     height: 73px;
 }
@@ -811,7 +792,7 @@ div.code-block {
 }
 .icon {
     position: absolute;
-    right: 1077px;
+    right: 23px;
     top: 20px;
     width: 30px;
     height: 30px;
@@ -845,6 +826,7 @@ button {
     right: 0;
 }
 
+
 .module-title {
     font-size: 15px;
     line-height: 32px;
@@ -859,24 +841,18 @@ button {
 }
 
 .btn-group-add {
-    width: 105%;
+    width: 86%;
     color: #10a37f;
-    font-size: 14px;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    font-size: 15px;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     cursor: pointer;
     height: 33px;
     border-radius: 4px;
-    padding: 0 15px;
-    -webkit-box-sizing: border-box;
+    padding: 20px 56px;
     box-sizing: border-box;
     border: 1px solid #ddd;
     background: #fff;
-    -webkit-transition: background .1s ease-in-out,border-color .1s ease-in-out;
     transition: background .1s ease-in-out,border-color .1s ease-in-out;
 }
 
@@ -891,6 +867,8 @@ button {
 
 .scrollbar-wrapper {
     overflow-x: hidden!important;
+    height: 93%;
+    overflow-x: hidden;
 }
 
 .group-item {
@@ -903,12 +881,9 @@ button {
     transition: background .1s ease-in-out;
 }
 
-.scrollbar-wrapper {
-    overflow-x: hidden!important;
-}
 
 .group-chat {
-    padding: 10px 15px 0 0px;
+    padding: 20px 15px 0 15px;;
 }
 
 .group-title {
@@ -931,5 +906,40 @@ button {
     -webkit-transition: color .1s ease-in-out;
     transition: color .1s ease-in-out;
     font-size: 15px;
+}
+
+.el-scrollbar {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/*模型*/
+.el-input {
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+    width: 84%;
+    display: flex;
+    justify-content: center;
+}
+
+.el-input__inner {
+    -webkit-appearance: none;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
 }
 
