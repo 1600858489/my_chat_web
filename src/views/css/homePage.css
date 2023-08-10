@@ -338,6 +338,7 @@ body{
     /* border: 1px solid #ccc; */
     padding: 10px;
     flex-direction: column;
+    height: 85%;
 }
 
 
@@ -453,23 +454,26 @@ pre {
 .user-input-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 10px;
 }
 
 .user_input {
-  width: 100%;
-  /* padding: 10px 10px 0; /* 调整上下内边距，让文本顶部对齐 */ 
-  border: 1px solid #b7b7b7;
-  border-radius: 3px;
-  font-size: 20px;
-  color: rgba(0, 142, 198, 1);
-  background: rgba(252, 252, 252, 1);
-  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2) inset;
-  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
-  overflow-y: auto;
-  white-space: pre-wrap;
-  vertical-align: top; /* 让文本顶部对齐 */
+   width: 45%;
+    border: none; /* 移除边框 */
+    border-radius: 5px; /* 增加边框圆角 */
+    padding: 0px; /* 添加内边距 */
+    font-size: 18px; /* 适度调小字体大小 */
+    color: rgba(0, 142, 198, 1);
+    background: rgba(252, 252, 252, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 修正阴影效果 */
+    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    overflow-y: auto;
+    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start; /* 调整文本在垂直方向上的对齐方式 */
+
 }
 
 /* .textarea-container {
@@ -486,13 +490,13 @@ pre {
 
 /* Send button styles */
 .user-input-container button {
-    padding: 8px 15px;
-    background-color: #f9f9f9;
+    position: absolute;
+    right: 18px;
+    bottom: 27px;
     border: none;
-    border-radius: 3px;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    height: 31px;
+    transition: background .1s ease-in-out,color .1s ease-in-out;
+    background: white;
 }
 
 .user-input-container button:disabled {
@@ -943,3 +947,61 @@ button {
     width: 100%;
 }
 
+.btn-send {
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    border: none;
+    height: 44px;
+    -webkit-transition: background .1s ease-in-out,color .1s ease-in-out;
+    transition: background .1s ease-in-out,color .1s ease-in-out;
+}
+.user_input_resizable-textarea {
+    vertical-align: bottom;
+    resize: none;
+    letter-spacing: 1px;
+    display: block;
+    padding: 5px 15px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    font-size: 18px;
+    color: #606266;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 810px;
+    margin: 0 auto;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+    border-radius: 10px;
+    position: relative;
+    max-width: 100%;
+    margin-bottom: 20px;
+    overflow-y: auto;
+}
+
+.user-input-container {
+    width: 100%;
+    right: -140px;
+    padding: 20px 0 0 0;
+    box-sizing: border-box;
+    transition: background .1s ease-in-out;
+    bottom: -3px;
+    justify-content: center;
+}
+
+
+.box-input {
+    position: relative;
+    display: inline-block;
+    width: 810px;
+    vertical-align: bottom;
+    font-size: 14px;
+}
+
+.el-textarea {
+    position: relative;
+    display: flex;
+    width: 100%;
+    vertical-align: bottom;
+    font-size: 14px;
+}
