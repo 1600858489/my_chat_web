@@ -14,7 +14,7 @@ export default {
     },
     selectedColor: '#666666', // 初始颜色
     selectedSVGId: null,
-    showingPage: 1, // -1 表示没有任何界面显示
+    showingPage: 0, // -1 表示没有任何界面显示
     isDarkTheme: false, // 是否使用暗色主题
     userInputList: ["test"],
     history: [], // 历史记录

@@ -130,7 +130,7 @@
           </span>
         </div>
         <ul id="modelList">
-          <li v-for="item in filteredModels" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)">
+          <li v-for="item in filteredModels" :key="item.id" class="model-item" @mouseenter="showFullMessage(item.id)" @mouseleave="hideFullMessage(item.id)" @click="newRoleConversation(item.title,item.promptMessage,item.example)">
             <p class="title">{{ item.title }}</p>
             <p class="message" :class="{ 'show-all': item.showAll }">{{ item.primary_infor }}</p>
           </li>
