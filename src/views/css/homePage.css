@@ -455,12 +455,13 @@ pre {
     align-items: center;
     justify-content: space-between;
     margin-top: 10px;
+    background-color: #fcfcfc;
 }
 
 .user_input {
   width: 100%;
   /* padding: 10px 10px 0; /* 调整上下内边距，让文本顶部对齐 */ 
-  border: 1px solid #b7b7b7;
+  border: none;
   border-radius: 3px;
   font-size: 20px;
   color: rgba(0, 142, 198, 1);
@@ -482,6 +483,12 @@ pre {
   overflow-y: auto; /* 超过8行启用垂直滚动条 */
   white-space: pre-wrap; /* 自动换行 */
   font-size: 15px;
+}
+
+/* 鼠标点击时不显示边框 */
+.textarea-container:focus-within {
+  border-color: transparent;
+  box-shadow: none;
 }
 
 /* Send button styles */

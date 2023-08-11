@@ -275,7 +275,10 @@
         </svg>
       </button>
       <div class="user-input-container">
-        <textarea class="user_input resizable-textarea" type="text" ref="textarea" placeholder="请 输 入 您 的 问 题 … …" v-model="userInput" @keydown.enter="sendUserInput" style="min-height: 46px; height: 46px;"> </textarea>
+        <textarea maxlength="1000" class="user_input resizable-textarea" type="text" ref="textarea" placeholder="请 输 入 您 的 问 题 … …" v-model="userInput" @keydown.enter="sendUserInput" style="min-height: 46px; height: 46px;" @input="adjustTextareaHeight"> </textarea>
+        <div class="char-count" :class="{ 'char-count-red': charCountExceeded }">
+          {{ charCount }} / {{ 1000 }}
+        </div>
         <button :disabled="sendButtonDisabled" @click="sendUserInput">
           <svg :style="{ fill: svgColors.svgElement5, stroke: svgColors.svgElement5 }" class="clickable-svg" ref="svgElement5" @click="handleSVGClick($event, 'svgElement5')" id="my-svg" width="25" height="25" xmlns="http://www.w3.org/2000/svg" stroke="null">
            <g stroke="null">
