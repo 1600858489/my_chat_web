@@ -561,6 +561,8 @@ pre {
     -ms-flex-pack: distribute;
     justify-content: space-around;
     padding: 10px;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .column {
@@ -604,6 +606,7 @@ pre {
     transition: background-color 0.2s;
     background-color: #F7F7F7;
     padding: 15px 10px 15px 10px;
+    border-radius: 20px;
 }
 
 .q-preinstall:hover {

@@ -206,7 +206,7 @@
                 <div class="tit">AI 创作</div>
               </div>
               <ul>
-                <li class="q-preinstall" @click="getProblem('写一首赞美祖国的诗')">写一首赞美祖国的诗 →</li>
+                <li class="q-preinstall" @click="getProblem('写一首赞美祖国的诗')">写一首赞美祖国的诗歌 →</li>
                 <li class="q-preinstall" @click="getProblem('写一篇科幻小说')">写一篇科幻小说 →</li>
                 <li class="q-preinstall" @click="getProblem('写一篇周记')">写一篇周记 →</li>
               </ul>
@@ -244,7 +244,7 @@
               </div>
               <ul>
                 <li class="q-preinstall" @click="getProblem('简单解释一下人工智能')">简单解释一下人工智能 →</li>
-                <li class="q-preinstall" @click="getProblem('番茄牛肉的做法')">红番茄牛肉的做法 →</li>
+                <li class="q-preinstall" @click="getProblem('番茄牛肉的做法')">番茄牛肉的做法 →</li>
                 <li class="q-preinstall" @click="getProblem('请介绍一下百度')">请介绍一下百度 →</li>
               </ul>
             </div>
