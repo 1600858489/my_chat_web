@@ -206,9 +206,9 @@
                 <div class="tit">AI 创作</div>
               </div>
               <ul>
-                <li class="q-preinstall" @click="getProblem('写一首赞美祖国的诗')">写一首赞美祖国的诗 →</li>
+                <li class="q-preinstall" @click="getProblem('写一首赞美祖国的诗')">写一首赞美祖国的诗歌 →</li>
                 <li class="q-preinstall" @click="getProblem('写一篇科幻小说')">写一篇科幻小说 →</li>
-                <li class="q-preinstall" @click="getProblem('安排一场发布会流程')">安排一场发布会流程 →</li>
+                <li class="q-preinstall" @click="getProblem('写一篇周记')">写一篇周记 →</li>
               </ul>
             </div>
             <div class="column">
@@ -224,8 +224,8 @@
                 <div class="tit">有趣的提问</div>
               </div>
               <ul>
-                <li class="q-preinstall" @click="getProblem('有哪些有趣的科学实验')">有哪些有趣的科学实验 →</li>
-                <li class="q-preinstall" @click="getProblem('问一个AI也答不出的问题')">问一个AI也答不出的问题 →</li>
+                <li class="q-preinstall" @click="getProblem('有哪些有趣的实验')">有哪些有趣的实验 →</li>
+                <li class="q-preinstall" @click="getProblem('问一个AI答不出的问题')">问一个AI答不出的问题 →</li>
                 <li class="q-preinstall" @click="getProblem('AI会替代人类工作吗')">AI会替代人类工作吗 →</li>
               </ul>
             </div>
@@ -244,17 +244,41 @@
               </div>
               <ul>
                 <li class="q-preinstall" @click="getProblem('简单解释一下人工智能')">简单解释一下人工智能 →</li>
-                <li class="q-preinstall" @click="getProblem('红烧牛肉的做法')">红烧牛肉的做法 →</li>
-                <li class="q-preinstall" @click="getProblem('请介绍一下百度文心')">请介绍一下百度文心 →</li>
+                <li class="q-preinstall" @click="getProblem('番茄牛肉的做法')">番茄牛肉的做法 →</li>
+                <li class="q-preinstall" @click="getProblem('请介绍一下百度')">请介绍一下百度 →</li>
               </ul>
             </div>
           </div>
 
         </div>
 
+
         <div v-for="(message, index) in messages" :key="index" :class="getMessageClass(message.role)" >
           {{message.content}}
           
+        </div>
+
+
+
+
+      </div>
+      <div class="user-input-container">
+        <div class="box-input">
+          <div class="el-textarea">
+        <textarea class="user_input_resizable-textarea" type="text" ref="textarea" placeholder="send a message" v-model="userInput" @keydown.enter="sendUserInput" style="min-height: 46px; height: 46px;"> </textarea>
+
+            <button :disabled="sendButtonDisabled" @click="sendUserInput " class="btn-send" >
+          <svg :style="{ fill: svgColors.svgElement5, stroke: svgColors.svgElement5 }" class="clickable-svg" ref="svgElement5" @click="handleSVGClick($event, 'svgElement5')" id="my-svg" width="25" height="25" xmlns="http://www.w3.org/2000/svg" stroke="null">
+           <g stroke="null">
+            <title stroke="null">Layer 1</title>
+            <path fill="none" id="svg_20" d="m374,218c-1,-1 -4.05334,-4.96837 -7,-10c-4.07422,-6.95706 -6.83179,-11.52216 -10,-18c-1.38934,-2.84073 -3.98691,-5.75711 -5,-12c-0.48056,-2.96126 -2.14774,-5.94341 -4,-11c-1.08768,-2.96933 -2.44519,-8.03867 -3,-12c-1.00977,-7.20975 -2,-12 -2,-20c0,-8 0,-14 0,-19c0,-6 0,-11 0,-14c0,-4 -0.63834,-8.3054 2,-13c2.44962,-4.35883 8,-12 13,-17c6,-6 11.70425,-11.40069 17,-15c6.66794,-4.53193 13,-7 19,-10c6,-3 13.02756,-5.91912 19,-8c11.05304,-3.85103 17.45871,-4.66397 25,-8c3.29733,-1.45864 8.82376,-2.48626 11,-3c1.9465,-0.45951 3.0535,-0.45951 5,0c2.17624,0.51374 3.11215,1.9183 6,6c2.08246,2.94336 5.3851,7.37201 8,11c3.30762,4.58908 7.724,7.22273 11,11c4.63297,5.34187 9,9 12,13c3,4 4.71933,6.56511 7,10c2.76575,4.16542 5.41589,4.76108 7,8c1.38934,2.84072 2.33749,4.31001 4,7c1.487,2.40601 3.9176,2.38687 5,5c0.38269,0.92388 -0.05145,2.2987 1,4c1.1756,1.90211 2,2 2,4c0,1 1,2 1,4c0,1 0,2 0,3c0,2 0,3 0,4c0,2 1,2 1,3c0,1 0,2 0,3c0,2 -0.38269,3.07612 0,4c0.5412,1.30656 1,3 1,4c0,1 0,3 0,4c0,1 -1.41418,2.58578 0,4c0.70709,0.70711 1,1 1,2c0,1 0,4 0,6c0,1 0,4 0,5c0,2 -1,2 -1,3c0,1 -1.31073,4.08025 -2,7c-0.51373,2.17625 -2.29291,3.29289 -3,4c-1.41418,1.41422 -1,4 -2,6c-1,2 -2.61731,3.07613 -3,4c-1.0824,2.61313 -3.71411,3.21167 -6,6c-0.89661,1.09367 -3,3 -4,4c-1,1 -2.86829,2.28859 -7,4c-5.84314,2.4203 -6.54916,3.95517 -10,5c-0.95709,0.28978 -7,1 -10,3c-3,2 -4.87857,2.49345 -8,3c-0.98709,0.16019 -2.08582,-0.57957 -4,0c-3.45084,1.04483 -4.03873,1.51945 -7,2c-3.12143,0.50655 -7.83807,2.46552 -13,4c-4.88763,1.45294 -9.75711,3.98692 -16,5c-2.96127,0.48055 -5.54916,0.95517 -9,2c-0.95709,0.28978 -2,0 -3,0c-5,0 -9.17163,-0.15913 -13,1c-6.9017,2.08966 -12,4 -14,5l-2,1l-3,1l-3,0" stroke="#000"/>
+            <path id="svg_8" d="m20.07317,24.52439" opacity="NaN" fill="#fff" stroke="#00ff00"/>
+            <path transform="rotate(-30.1194 13.627 10.3878)" stroke-width="0.1" stroke="#020f0f" id="svg_11" d="m14.84965,10.38779l-12.10751,-9.60632l21.7697,9.60632l-21.7697,9.60631l12.10751,-9.60631z" fill="#10a37f"/>
+           </g>
+
+          </svg>
+        </button>
+            </div>
         </div>
       </div>
       <button class="gotofloor" @click="Skip2Latest">
@@ -274,24 +298,7 @@
           <polyline points="19 12 12 19 5 12"></polyline>
         </svg>
       </button>
-      <div class="user-input-container">
-        <textarea maxlength="1000" class="user_input resizable-textarea" type="text" ref="textarea" placeholder="请 输 入 您 的 问 题 … …" v-model="userInput" @keydown.enter="sendUserInput" style="min-height: 46px; height: 46px;" @input="adjustTextareaHeight"> </textarea>
-        <div class="char-count" :class="{ 'char-count-red': charCountExceeded }">
-          {{ charCount }} / {{ 1000 }}
-        </div>
-        <button :disabled="sendButtonDisabled" @click="sendUserInput">
-          <svg :style="{ fill: svgColors.svgElement5, stroke: svgColors.svgElement5 }" class="clickable-svg" ref="svgElement5" @click="handleSVGClick($event, 'svgElement5')" id="my-svg" width="25" height="25" xmlns="http://www.w3.org/2000/svg" stroke="null">
-           <g stroke="null">
-            <title stroke="null">Layer 1</title>
-            <path fill="none" id="svg_20" d="m374,218c-1,-1 -4.05334,-4.96837 -7,-10c-4.07422,-6.95706 -6.83179,-11.52216 -10,-18c-1.38934,-2.84073 -3.98691,-5.75711 -5,-12c-0.48056,-2.96126 -2.14774,-5.94341 -4,-11c-1.08768,-2.96933 -2.44519,-8.03867 -3,-12c-1.00977,-7.20975 -2,-12 -2,-20c0,-8 0,-14 0,-19c0,-6 0,-11 0,-14c0,-4 -0.63834,-8.3054 2,-13c2.44962,-4.35883 8,-12 13,-17c6,-6 11.70425,-11.40069 17,-15c6.66794,-4.53193 13,-7 19,-10c6,-3 13.02756,-5.91912 19,-8c11.05304,-3.85103 17.45871,-4.66397 25,-8c3.29733,-1.45864 8.82376,-2.48626 11,-3c1.9465,-0.45951 3.0535,-0.45951 5,0c2.17624,0.51374 3.11215,1.9183 6,6c2.08246,2.94336 5.3851,7.37201 8,11c3.30762,4.58908 7.724,7.22273 11,11c4.63297,5.34187 9,9 12,13c3,4 4.71933,6.56511 7,10c2.76575,4.16542 5.41589,4.76108 7,8c1.38934,2.84072 2.33749,4.31001 4,7c1.487,2.40601 3.9176,2.38687 5,5c0.38269,0.92388 -0.05145,2.2987 1,4c1.1756,1.90211 2,2 2,4c0,1 1,2 1,4c0,1 0,2 0,3c0,2 0,3 0,4c0,2 1,2 1,3c0,1 0,2 0,3c0,2 -0.38269,3.07612 0,4c0.5412,1.30656 1,3 1,4c0,1 0,3 0,4c0,1 -1.41418,2.58578 0,4c0.70709,0.70711 1,1 1,2c0,1 0,4 0,6c0,1 0,4 0,5c0,2 -1,2 -1,3c0,1 -1.31073,4.08025 -2,7c-0.51373,2.17625 -2.29291,3.29289 -3,4c-1.41418,1.41422 -1,4 -2,6c-1,2 -2.61731,3.07613 -3,4c-1.0824,2.61313 -3.71411,3.21167 -6,6c-0.89661,1.09367 -3,3 -4,4c-1,1 -2.86829,2.28859 -7,4c-5.84314,2.4203 -6.54916,3.95517 -10,5c-0.95709,0.28978 -7,1 -10,3c-3,2 -4.87857,2.49345 -8,3c-0.98709,0.16019 -2.08582,-0.57957 -4,0c-3.45084,1.04483 -4.03873,1.51945 -7,2c-3.12143,0.50655 -7.83807,2.46552 -13,4c-4.88763,1.45294 -9.75711,3.98692 -16,5c-2.96127,0.48055 -5.54916,0.95517 -9,2c-0.95709,0.28978 -2,0 -3,0c-5,0 -9.17163,-0.15913 -13,1c-6.9017,2.08966 -12,4 -14,5l-2,1l-3,1l-3,0" stroke="#000"/>
-            <path id="svg_8" d="m20.07317,24.52439" opacity="NaN" fill="#fff" stroke="#00ff00"/>
-            <path transform="rotate(-30.1194 13.627 10.3878)" stroke-width="0.1" stroke="#020f0f" id="svg_11" d="m14.84965,10.38779l-12.10751,-9.60632l21.7697,9.60632l-21.7697,9.60631l12.10751,-9.60631z" fill="#ddd"/>
-           </g>
 
-          </svg>
-        </button>
-
-      </div>
     </div>
     <div data-v-323e5e77="" class="float">
         <svg width="26" height="35.06" xmlns="http://www.w3.org/2000/svg">
