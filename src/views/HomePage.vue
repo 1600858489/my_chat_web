@@ -38,21 +38,42 @@
           <span>教程</span>
 
         </div>
-        <div class="user-info">
-            <hr style="width: 95%" />
-            <div class="user-avatar" :class="{ 'grayed-out': !user.loggedIn }">
-            <img :src="user.avatar" alt="User Avatar" />
+          <div class="user-info">
+              <hr style="width: 95%" />
+              <div class="user-avatar" :class="{ 'grayed-out': !user.loggedIn }" @click="openProfileModal">
+                <img :src="user.avatar" alt="User Avatar" />
+              </div>
+              <span class="login-status">{{ user.loggedIn ? user.username : '未登录' }}</span>
+              <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
+              <button v-else @click="goToLogin" class="login">登录</button>
+          </div>
+          <div v-if="isProfileModalOpen === 1" class="modal-overlay">
+            <div class="modal">
+              <!-- 内容：显示个人信息内容 -->
+              <h2>{{ user.username }}</h2>
+              <p>{{ user.bio }}</p>
+              <button @click="openChangePasswordPage">修改密码</button>
+              
+              <button @click="closeProfileModal">关闭</button>
             </div>
-            <span class="login-status">{{ user.loggedIn ? user.username : '未登录' }}</span>
-            <button v-if="user.loggedIn" @click="logout" class="logout">退出登录</button>
-            <button v-else @click="goToLogin" class="login">登录</button>
-        </div>
+          </div>
+          <div v-if="isProfileModalOpen === 2" class="modal-overlay">
+            <div class="modal">
+              <h2>修改密码</h2>
+              <form @submit.prevent="changePassword">
+                <input v-model="changePasswordData.username" type="text" placeholder="用户名" />
+                <input v-model="changePasswordData.old_password" type="password" placeholder="旧密码" />
+                <input v-model="changePasswordData.new_password" type="password" placeholder="新密码" />
+                <input v-model="changePasswordData.confirm_password" type="password" placeholder="确认密码" />
+                <button type="submit">确认修改</button>
+                <button @click="cancelChangePassword">取消</button>
+              </form>
+            </div>
+            </div>
       </div>
 
       <div class="sidebar func01" v-if="showingPage===0">
 
-
-<!--        <div class="new-conversation">-->
           <div class="module-header">
                 <div class="module-title">
                     <div class="btn-group-add">
@@ -70,37 +91,6 @@
               </div>
               </div>
           </div>
-
-<!--        </div>-->
-
-<!--        <div class="new-conversation">-->
-<!--            <div class="module-header">-->
-<!--                <div class="module-title">-->
-<!--                    <div class="btn-group-add">-->
-<!--                        <span @click="openCreateConversationModal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;新会话</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            </div>-->
-
-
-<!--        <div class="conversation-list">-->
-<!--            <ul>-->
-<!--            <li v-for="conversation in conversations" :key="conversation.conversation_id" @click="selectConversation(conversation.conversation_id)" :class="{ 'selected': conversation.conversation_id === selectedConversationId }">-->
-<!--&lt;!&ndash;               <div class="conversation-item">&ndash;&gt;-->
-<!--                 <svg width="29.999999999999996" height="40" xmlns="http://www.w3.org/2000/svg" stroke="#666666">-->
-<!--                   <g id="Layer_1">-->
-<!--                    <title>会话图标</title>-->
-<!--                    <path stroke="null" id="svg_1" d="m5.35807,16.30745l0,0c0,-1.13226 0.99776,-2.05014 2.22855,-2.05014l1.01298,0l0,0l4.86229,0l9.11679,0c0.59105,0 1.15789,0.216 1.57582,0.60047c0.41793,0.38448 0.65273,0.90594 0.65273,1.44967l0,5.12535l0,0l0,3.07521l0,0c0,1.13226 -0.99775,2.05014 -2.22855,2.05014l-9.11679,0l-6.35198,5.21303l1.48969,-5.21303l-1.01298,0c-1.23079,0 -2.22855,-0.91788 -2.22855,-2.05014l0,0l0,-3.07521l0,0l0,-5.12535z" fill="#f9ffff"/>-->
-<!--                    <path id="svg_2" d="m34.52536,31.45918l0,0c0,-0.15173 0.04188,-0.27473 0.09354,-0.27473l0.04252,0l0,0l0.20408,0l0.38265,0c0.02481,0 0.0486,0.02894 0.06614,0.08047c0.01754,0.05152 0.0274,0.1214 0.0274,0.19426l0,0.68682l0,0l0,0.41209l0,0c0,0.15173 -0.04188,0.27473 -0.09354,0.27473l-0.38265,0l-0.26661,0.69857l0.06253,-0.69857l-0.04252,0c-0.05166,0 -0.09354,-0.123 -0.09354,-0.27473l0,0l0,-0.41209l0,0l0,-0.68682z" stroke="null" fill="#f9ffff"/>-->
-<!--                   </g>-->
-<!--                  </svg>-->
-<!--                 <p class="conversation" :title="conversation.conversation_name">{{ conversation.conversation_name }}</p>-->
-<!--                 <button class="delet-conversation" v-if="conversation.conversation_id === selectedConversationId" @click="deleteConversation(conversation.conversation_id)"></button>-->
-<!--&lt;!&ndash;               </div>&ndash;&gt;-->
-<!--               </li>-->
-<!--            </ul>-->
-<!--        </div>-->
 
 
         <div class="conversation-list">
@@ -184,10 +174,6 @@
 
     <div class="main-content">
       <div id="chat-log">
-<!--        <div class="tab-model">-->
-<!--            <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">GPT-3.5</div>-->
-<!--            <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;">GPT-4</div>-->
-<!--        </div>-->
 
         <div v-if="messages.length === 0" class="default-message">
           <h1>全能助手</h1>
@@ -265,7 +251,7 @@
       <div class="user-input-container">
         <div class="box-input">
           <div class="el-textarea">
-        <textarea class="user_input_resizable-textarea" type="text" ref="textarea" placeholder="send a message" v-model="userInput" @keydown.enter="sendUserInput" style="min-height: 46px; height: 46px;"> </textarea>
+        <textarea class="user_input_resizable-textarea" type="text" ref="textarea" placeholder="send a message" v-model="userInput" @keydown.enter="sendUserInput" style="min-height: 46px; height: 46px;" @input="adjustTextareaHeight"> </textarea>
 
             <button :disabled="sendButtonDisabled" @click="sendUserInput " class="btn-send" >
           <svg :style="{ fill: svgColors.svgElement5, stroke: svgColors.svgElement5 }" class="clickable-svg" ref="svgElement5" @click="handleSVGClick($event, 'svgElement5')" id="my-svg" width="25" height="25" xmlns="http://www.w3.org/2000/svg" stroke="null">

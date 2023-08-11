@@ -5,6 +5,8 @@ import 'highlight.js/styles/monokai.css';
 export default {
   data() {
   return {
+    // 用户交互变量
+    isProfileModalOpen:-1,
     charCount: 0,
     svgColors: {
       svgElement1: '#666', // 初始颜色
@@ -15,29 +17,38 @@ export default {
     },
     selectedColor: '#666666', // 初始颜色
     selectedSVGId: null,
-    showingPage: 1, // -1 表示没有任何界面显示
+    showingPage: 0, // -1 表示没有任何界面显示
     isDarkTheme: false, // 是否使用暗色主题
-    userInputList: ["test"],
+    userInputList: ["test"],    
+    showCreateConversationModal: false, // 控制弹窗的显示和隐藏        
+    searchText: '', // 用于存储搜索词
+    systemCLM:[], // 数据源
+    filteredModels: [], // 用于存储搜索后的结果    
+    sendButtonDisabled: false, // 发送按钮是否禁用    
+    
+    
+    // 后端逻辑变量    
     history: [], // 历史记录
     conversations: [], // 会话列表
     selectedConversationId: null, // 选中的会话ID
     messages: [], // 对话消息
     userInput: '', // 用户输入内容
-    sendButtonDisabled: true, // 发送按钮是否禁用
+
     socket: null, // WebSocket连接
     user: {
-    loggedIn: false, // 是否已登录
-    username: '', // 用户名
-    avatar: require('@/assets/logo1.png'), // 头像路径
+      loggedIn: false, // 是否已登录
+      username: '', // 用户名
+      avatar: require('@/assets/logo1.png'), // 头像路径
+      bio: "I'm a web developer."
     },
-    showCreateConversationModal: false, // 控制弹窗的显示和隐藏
+
     newConversationName: '', // 新建会话的名称
     // showScrollButton: null,
-    searchText: '', // 用于存储搜索词
-    systemCLM:[], // 数据源
-    filteredModels: [], // 用于存储搜索后的结果
+
   };
   },
+  
+  
   created(){
 
   this.connectWebSocket(); // 连接WebSocket
@@ -71,6 +82,10 @@ export default {
   });
   },
   methods: {
+
+    openChangePasswordPage(){
+      
+    },
 
     //角色文本超过以省略号展示
     showFullContent() {
@@ -554,6 +569,10 @@ export default {
           // 处理错误
         });
     },
+    
+    submitPasswordChange(){
+      
+    },
 
     getProblem(text) {
       this.userInput = text;
@@ -580,7 +599,19 @@ export default {
       const textarea = this.$refs.textarea;
       textarea.style.height = "auto"; // 重置高度，以便重新计算
       textarea.style.height = textarea.scrollHeight + "px";
-    }
+    },
+    
+    openProfileModal() {
+      this.isProfileModalOpen = 1;
+    },
+    
+    // openChangePasswordPage() {
+    //   this.isProfileModalOpen = 2;
+    // },
+    
+    closeProfileModal() {
+      this.isProfileModalOpen = -1;
+    },
 
   },
   beforeDestroy() {
