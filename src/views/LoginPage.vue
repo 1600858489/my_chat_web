@@ -4,7 +4,7 @@
       <div id="large-header" class="large-header">
         <canvas id="demo-canvas"></canvas>
         <div class="logo_box">
-          <h3>欢迎你</h3>
+          <h3>WELCOME!</h3>
           <form action="#" name="f" method="post" @submit.prevent="login">
             <div class="input_outer">
               <span class="u_user"></span>
@@ -15,7 +15,6 @@
               <input name="logpass" class="text" style="color: #FFFFFF !important;" type="password" v-model="password" placeholder="请输入密码">
             </div>
             <div class="mb2">
-              <!-- <a class="act-but submit" href="javascript:;" style="color: #FFFFFF">登录</a> -->
               <button  class="act-but submit" type="submit">登录</button>
             </div>
           </form>
@@ -26,9 +25,7 @@
 
 </template>
 
-
 <script src="./js/loginPage.js"></script> 
-
 
 <style scoped>
   @import url("../../public/css/demo.css");
