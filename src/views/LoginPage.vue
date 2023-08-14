@@ -27,38 +27,7 @@
 </template>
 
 
-<script src="./js/loginPage.js">
-// main.js
-    for(var i = 0; i < points.length; i++) {
-        var closest = [];
-        var p1 = points[i];
-        for(var j = 0; j < points.length; j++) {
-            var p2 = points[j]
-            if(!(p1 == p2)) {
-                var placed = false;
-                for(var k = 0; k < 5; k++) {
-                    if(!placed) {
-                        if(closest[k] == undefined) {
-                            closest[k] = p2;
-                            placed = true;
-                        }
-                    }
-                }
-
-                for(var l = 0; l < 5; l++) {  // 注意这里，我们将 k 更改为 l
-                    if(!placed) {
-                        if(getDistance(p1, p2) < getDistance(p1, closest[l])) {  // 这里也要更改
-                            closest[l] = p2;  // 这里也要更改
-                            placed = true;
-                        }
-                    }
-                }
-            }
-        }
-        p1.closest = closest;
-    }
-
-</script> 
+<script src="./js/loginPage.js"></script> 
 
 
 <style scoped>
