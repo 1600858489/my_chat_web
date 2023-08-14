@@ -19,6 +19,9 @@
             </div>
           </form>
         </div>
+        <div class="register-link">
+          还没有账号？<router-link to="/register">点击注册</router-link>
+        </div>
       </div>
     </div>
   </div><!-- /container -->
