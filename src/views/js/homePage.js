@@ -2,91 +2,105 @@ import Cookies from 'js-cookie';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css';
 
-export default {
+export
+default {
   data() {
-  return {
-    // 用户交互变量
-    isProfileModalOpen:-1,
-    charCount: 0,
-    svgColors: {
-      svgElement1: '#666', // 初始颜色
-      svgElement2: '#666', // 初始颜色
-      svgElement3: '#666', // 初始颜色
-      svgElement4: '#666', // 初始颜色
-      svgElement5: '#666', // 初始颜色
-    },
-    selectedColor: '#666666', // 初始颜色
-    selectedSVGId: null,
-    showingPage: 0, // -1 表示没有任何界面显示
-    isDarkTheme: false, // 是否使用暗色主题
-    userInputList: ["test"],    
-    showCreateConversationModal: false, // 控制弹窗的显示和隐藏        
-    searchText: '', // 用于存储搜索词
-    systemCLM:[], // 数据源
-    filteredModels: [], // 用于存储搜索后的结果    
-    sendButtonDisabled: false, // 发送按钮是否禁用    
-    
-    
-    // 后端逻辑变量    
-    history: [], // 历史记录
-    conversations: [], // 会话列表
-    selectedConversationId: null, // 选中的会话ID
-    messages: [], // 对话消息
-    userInput: '', // 用户输入内容
+    return {
+      // 用户交互变量
+      isProfileModalOpen: 0,
+      charCount: 0,
+      svgColors: {
+        svgElement1: '#666',
+        // 初始颜色
+        svgElement2: '#666',
+        // 初始颜色
+        svgElement3: '#666',
+        // 初始颜色
+        svgElement4: '#666',
+        // 初始颜色
+        svgElement5: '#666',
+        // 初始颜色
+      },
+      selectedColor: '#666666',
+      // 初始颜色
+      selectedSVGId: null,
+      showingPage: 0,
+      // -1 表示没有任何界面显示
+      isDarkTheme: false,
+      // 是否使用暗色主题
+      userInputList: ["test"],
+      showCreateConversationModal: false,
+      // 控制弹窗的显示和隐藏
+      searchText: '',
+      // 用于存储搜索词
+      systemCLM: [],
+      // 数据源
+      filteredModels: [],
+      // 用于存储搜索后的结果
+      sendButtonDisabled: false,
+      // 发送按钮是否禁用
 
-    socket: null, // WebSocket连接
-    user: {
-      loggedIn: false, // 是否已登录
-      username: '', // 用户名
-      avatar: require('@/assets/logo1.png'), // 头像路径
-      bio: "I'm a web developer."
-    },
+      // 后端逻辑变量
+      history: [],
+      // 历史记录
+      conversations: [],
+      // 会话列表
+      selectedConversationId: null,
+      // 选中的会话ID
+      messages: [],
+      // 对话消息
+      userInput: '',
+      // 用户输入内容
+      socket: null,
+      // WebSocket连接
+      user: {
+        loggedIn: false,
+        // 是否已登录
+        username: '',
+        // 用户名
+        avatar: require('@/assets/logo1.png'),
+        // 头像路径
+        bio: "I'm a web developer."
+      },
 
-    newConversationName: '', // 新建会话的名称
-    // showScrollButton: null,
-
-  };
+      newConversationName: '',
+      // 新建会话的名称
+      // showScrollButton: null,
+    };
   },
-  
-  
-  created(){
 
-  this.connectWebSocket(); // 连接WebSocket
-  this.getConversationList(); // 获取会话列表
-  this.getUserInfo(); // 获取用户信息
-  this.addClickListeners();//svg被点击时改变颜色事件监听器
-  // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
-  // this.alterCodeStyle()
-    fetch('/systemCLM.json')
-      .then(response => response.json())
-      .then(data => {
-        this.systemCLM = data;
-        this.filteredModels = data; // 初始情况下展示全部信息
-      });
+  created() {
+
+    window.addEventListener('message', this.handleIframeMessage);
+    this.connectWebSocket(); // 连接WebSocket
+    this.getConversationList(); // 获取会话列表
+    this.getUserInfo(); // 获取用户信息
+    this.addClickListeners(); //svg被点击时改变颜色事件监听器
+    // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
+    // this.alterCodeStyle()
+    fetch('/systemCLM.json').then(response => response.json()).then(data => {
+      this.systemCLM = data;
+      this.filteredModels = data; // 初始情况下展示全部信息
+    });
     console.log(this.systemCLM);
 
   },
   updated() {
-  this.$nextTick(() => {
-    // 确保 DOM 已经更新
-    let contents = document.querySelectorAll('.message-ai');
-    contents.forEach(content => {
-    // 这里是你的修改内容的代码
-    let rawText = content.innerHTML;
-    // let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code class="language">$1</code></pre>');
-    let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
-    content.innerHTML = replacedText;
-    });
-    hljs.initHighlightingOnLoad();
+    this.$nextTick(() => {
+      // 确保 DOM 已经更新
+      let contents = document.querySelectorAll('.message-ai');
+      contents.forEach(content => {
+        // 这里是你的修改内容的代码
+        let rawText = content.innerHTML;
+        // let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code class="language">$1</code></pre>');
+        let replacedText = rawText.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+        content.innerHTML = replacedText;
+      });
+      hljs.initHighlightingOnLoad();
 
-  });
+    });
   },
   methods: {
-
-    openChangePasswordPage(){
-      
-    },
-
     //角色文本超过以省略号展示
     showFullContent() {
       var modelList = document.getElementById("modelList");
@@ -113,7 +127,6 @@ export default {
         return item.title.toLowerCase().includes(this.searchText.toLowerCase());
       });
       this.filteredModels = filteredModels; // 筛选展示相关信息
-
     },
 
     //更换主题颜色
@@ -146,60 +159,40 @@ export default {
         }
       }
     },
-    // //切换主题
-    // const themeOverlay = document.getElementById('theme-overlay');
-    // const svgElement4 = document.getElementById('my-svg');
-    // let nightMode = false;
-    //
-    // svgElement4.addEventListener('click', function() {
-    //   nightMode = !nightMode;
-    //   if (nightMode) {
-    //     svgElement4.style.fill = '#ffffff'; // 设置SVG颜色为白色
-    //     svgElement4.style.stroke = '#ffffff'; // 设置SVG边框颜色为白色
-    //   } else {
-    //     // 设置SVG颜色为白天颜色（你可以自行指定白天的颜色）
-    //     svgElement4.style.fill = '#f7f7f8';
-    //     // 设置SVG边框颜色为白天颜色（你可以自行指定白天的颜色）
-    //     svgElement4.style.stroke = '#000000';
-    //   }
-    //   themeOverlay.classList.toggle('night-mode', nightMode);
-    // });
 
     addClickListeners() {
-        const svgElements = document.querySelectorAll('.clickable-svg');
-        svgElements.forEach((element) => {
-          element.addEventListener('click', this.handleSVGClick);
-        });
-      },
-
-
+      const svgElements = document.querySelectorAll('.clickable-svg');
+      svgElements.forEach((element) => {
+        element.addEventListener('click', this.handleSVGClick);
+      });
+    },
 
     //点击图标切换颜色
-  handleSVGClick(event, svgId) {
-     // 判断是否点击的是当前选中的SVG图标
-    if (this.selectedSVGId === svgId) {
-      // 已选中，则不做处理，直接返回
-      return;
-    }
+    handleSVGClick(event, svgId) {
+      // 判断是否点击的是当前选中的SVG图标
+      if (this.selectedSVGId === svgId) {
+        // 已选中，则不做处理，直接返回
+        return;
+      }
 
-    // 获取当前点击的SVG元素的颜色属性
-    const currentColor = this.svgColors[svgId];
+      // 获取当前点击的SVG元素的颜色属性
+      const currentColor = this.svgColors[svgId];
 
-    // 更新选中的SVG图标的颜色
-    const newColor = '#10a37f'; // 设置选中时的颜色
-    this.selectedColor = newColor;
+      // 更新选中的SVG图标的颜色
+      const newColor = '#10a37f'; // 设置选中时的颜色
+      this.selectedColor = newColor;
 
-    // 还原之前选中的SVG图标的颜色
-    if (this.selectedSVGId) {
-      this.svgColors[this.selectedSVGId] = currentColor;
-    }
+      // 还原之前选中的SVG图标的颜色
+      if (this.selectedSVGId) {
+        this.svgColors[this.selectedSVGId] = currentColor;
+      }
 
-    // 更新选中SVG图标对应的颜色属性
-    this.svgColors[svgId] = newColor;
+      // 更新选中SVG图标对应的颜色属性
+      this.svgColors[svgId] = newColor;
 
-    // 更新selectedSVGId为当前选中的SVG图标的ID
-    this.selectedSVGId = svgId;
-  },
+      // 更新selectedSVGId为当前选中的SVG图标的ID
+      this.selectedSVGId = svgId;
+    },
 
     //点击图标切换会话和模型
     showPage(page) {
@@ -208,7 +201,6 @@ export default {
       this.showingPage = page;
       console.log(this.showingPage);
     },
-
 
     Skip2Latest() {
 
@@ -240,7 +232,6 @@ export default {
        * */
       this.selectedConversationId = conversationId;
       // const token = localStorage.getItem("token");
-
       const Data = {
         conversation_id: conversationId,
         length: length,
@@ -256,28 +247,25 @@ export default {
           // 'Expires': '0',
         },
         body: JSON.stringify(Data)
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.history = data.conversations.flatMap((conversation) => {
-            return [
-              {
-                role: 'user',
-                content: conversation.content_user,
-              },
-              {
-                role: 'ai',
-                content: conversation.content_ai,
-              },
-            ];
-          });
-          this.messages = this.history; // 将历史数据赋值给 messages 数组
-          console.log(this.history);
-          this.Skip2Latest()
-        })
-        .catch((error) => {
-          console.error('获取历史记录请求出错:', error);
+      }).then(response => response.json()).then(data => {
+        this.history = data.conversations.flatMap((conversation) => {
+          return [{
+              role: 'user',
+              content: conversation.content_user,
+            },
+            {
+              role: 'ai',
+              content: conversation.content_ai,
+            },
+          ];
         });
+        this.messages = this.history; // 将历史数据赋值给 messages 数组
+        console.log(this.history);
+        this.Skip2Latest()
+      }).
+      catch((error) => {
+        console.error('获取历史记录请求出错:', error);
+      });
     },
     getConversationList() {
       const userId = localStorage.getItem('userId');
@@ -297,22 +285,20 @@ export default {
 
         },
         body: JSON.stringify(Data),
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.conversations = data.conversations; // 获取会话列表数据
-        })
-        .catch(error => {
-          console.error(error);
-          // 处理错误
-          this.conversations = [];
-        });
+      }).then(response => response.json()).then(data => {
+        this.conversations = data.conversations; // 获取会话列表数据
+      }).
+      catch(error => {
+        console.error(error);
+        // 处理错误
+        this.conversations = [];
+      });
     },
 
     //新建会话点击enter也可以创建
     createNewConversationOnEnter() {
-        // 这里调用创建会话的逻辑，可以直接调用 createNewConversation 方法
-        this.createNewConversation();
+      // 这里调用创建会话的逻辑，可以直接调用 createNewConversation 方法
+      this.createNewConversation();
     },
 
     createNewConversation() {
@@ -321,7 +307,8 @@ export default {
       // const token = Cookies.get('token');
       const conversationData = {
         user_id: userId,
-        conversation_name: this.newConversationName, // 可根据需求修改会话名称
+        conversation_name: this.newConversationName,
+        // 可根据需求修改会话名称
         token: token
       };
 
@@ -333,18 +320,16 @@ export default {
           // 'Authorization': token,
         },
         body: JSON.stringify(conversationData),
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.showCreateConversationModal = false;
-          console.log(data);
-          // 刷新会话列表
-          this.getConversationList();
-        })
-        .catch(error => {
-          console.error(error);
-          // 处理错误
-        });
+      }).then(response => response.json()).then(data => {
+        this.showCreateConversationModal = false;
+        console.log(data);
+        // 刷新会话列表
+        this.getConversationList();
+      }).
+      catch(error => {
+        console.error(error);
+        // 处理错误
+      });
     },
 
     /**
@@ -372,7 +357,7 @@ export default {
       } else {
         const lastMessage = this.messages[this.messages.length - 1];
         if (lastMessage && lastMessage.role === 'User') {
-          console.log(789)
+          console.log(789);
           return;
         }
         // role = role.toString();
@@ -383,7 +368,6 @@ export default {
         });
       }
     },
-
 
     // 检测是ai返回内容还是用户输入内容
     getMessageClass(role) {
@@ -400,22 +384,20 @@ export default {
 
     //复制
     // copyToClipboard(text) {
-    //   const textField = document.createElement('textarea');
-    //   textField.innerText = text;
-    //   document.body.appendChild(textField);
-    //   textField.select();
+    // const textField = document.createElement('textarea');
+    // textField.innerText = text;
+    // document.body.appendChild(textField);
+    // textField.select();
     //
-    //   try {
-    //     document.execCommand('copy');
-    //     alert('已复制到剪贴板');
-    //   } catch (error) {
-    //     console.error('复制到剪贴板失败：', error);
-    //   }
+    // try {
+    // document.execCommand('copy');
+    // alert('已复制到剪贴板');
+    // } catch (error) {
+    // console.error('复制到剪贴板失败：', error);
+    // }
     //
-    //   textField.remove();
+    // textField.remove();
     // },
-
-
 
     /**
      * 初始化和管理WebSocket连接。
@@ -449,8 +431,8 @@ export default {
             this.sendButtonDisabled = false;
             this.appendMessage('AI', content);
           }
-        }else if(Object.keys(message).length === 0 && message.constructor === Object){
-          console.log("test")
+        } else if (Object.keys(message).length === 0 && message.constructor === Object) {
+          console.log("test");
           counts++;
           this.sendUserInput(counts);
         }
@@ -459,8 +441,6 @@ export default {
         console.log('WebSocket connection closed.');
       };
     },
-
-
 
     /**
      * Sends the user's input to the WebSocket server.
@@ -514,23 +494,24 @@ export default {
           'Content-Type': 'application/json',
           'Authorization': token,
         },
-        body: JSON.stringify({user_id: userId}),
-      })
-        .then(response => {
-          localStorage.removeItem('loggedIn');
-          localStorage.removeItem('username');
-          Cookies.remove('token');
-          this.user.loggedIn = false;
-          this.user.username = '';
-          this.messages = [];
+        body: JSON.stringify({
+          user_id: userId
+        }),
+      }).then(response => {
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('username');
+        Cookies.remove('token');
+        this.user.loggedIn = false;
+        this.user.username = '';
+        this.messages = [];
 
-          this.user.avatar = require('@/assets/logo.png');
-          alert(response.data.message);
-        })
-        .catch(error => {
-          console.error(error);
-          // 处理错误
-        });
+        this.user.avatar = require('@/assets/logo.png');
+        alert(response.data.message);
+      }).
+      catch(error => {
+        console.error(error);
+        // 处理错误
+      });
       localStorage.setItem('userId', ''); // 将'username'设置为空值
       this.getConversationList();
     },
@@ -555,29 +536,26 @@ export default {
           'Authorization': token,
         },
         body: JSON.stringify(Data),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          // 刷新会话列表
-          this.messages = [];
-          this.getConversationList();
+      }).then(response => response.json()).then(data => {
+        console.log(data);
+        // 刷新会话列表
+        this.messages = [];
+        this.getConversationList();
 
-        })
-        .catch(error => {
-          console.error(error);
-          // 处理错误
-        });
+      }).
+      catch(error => {
+        console.error(error);
+        // 处理错误
+      });
     },
-    
-    submitPasswordChange(){
-      
+
+    submitPasswordChange() {
+
     },
 
     getProblem(text) {
       this.userInput = text;
     },
-
 
     async newRoleConversation(title, promptMessage, example) {
       // console.log('Start new conversation with:', title);
@@ -591,36 +569,91 @@ export default {
 
       // 发送预设信息
       this.userInput = promptMessage;
-      
+
       // setTimeout(() => )
     },
-    
+
     adjustTextareaHeight() {
       const textarea = this.$refs.textarea;
       textarea.style.height = "auto"; // 重置高度，以便重新计算
       textarea.style.height = textarea.scrollHeight + "px";
     },
-    
+
     openProfileModal() {
       this.isProfileModalOpen = 1;
     },
+
+    handleIframeMessage(event) {
+      // if (event.data === 'closeProfileModal') {
+      //   this.closeProfileModal();
+      const receivedData = event.data;
+
+      if (receivedData.type === 'displayState') {
+        const stated = Number(receivedData.state);
+        if (!isNaN(stated)) {
+          this.isProfileModalOpen = stated;
+        }
+      } else if (receivedData.type === 'changePassword') {
+        const {
+          oldPassword,
+          newPassword,
+          confirmPassword
+        } = receivedData;
+
+        // 这里你可以进行进一步的处理，例如发送修改密码的请求
+        this.changePassword(oldPassword, newPassword, confirmPassword);
+        // console.log(oldPassword, newPassword, confirmPassword)
+      }
+    },
     
-    // openChangePasswordPage() {
-    //   this.isProfileModalOpen = 2;
-    // },
-    
-    closeProfileModal() {
-      this.isProfileModalOpen = -1;
+    changePassword(oldPassword, newPassword, confirmPassword) {
+      const Data = {
+        oldPassword:oldPassword,
+        newPassword:newPassword,
+        confirmPassword:confirmPassword,
+        user_id: localStorage.getItem("userId"),
+        token: localStorage.getItem("token"),
+      };
+      fetch('http://128.14.76.82:8000/api/alterpass/', {
+        method: 'POST',
+        headers: {
+          // 'Content-Type': 'application/json',
+          // 'Cache-Control': 'no-cache, no-store, must-revalidate',
+          // 'Pragma': 'no-cache',
+          // 'Expires': '0',
+        },
+        body: JSON.stringify(Data)
+      })  
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.message) {
+          if (data.message === "旧密码错误") {
+            alert("旧密码错误");
+          } else if (data.message === "密码修改成功") {
+            alert("密码修改成功");
+            // 这里你可以添加其他操作，例如跳转到其他页面或更新UI等
+          } else {
+            alert("未知的响应：" + data.message);
+          }
+        } else {
+          alert("请求失败");
+        }
+      })
+      .catch(error => {
+        console.error("请求错误:", error);
+        alert("请求发送失败");
+      });
     },
 
   },
   beforeDestroy() {
-  // 移除滚动事件监听
-  const chatLogContainer = this.$refs.chatLogContainer;
-  chatLogContainer.removeEventListener('scroll', this.handleScroll);
+    // 移除滚动事件监听
+    const chatLogContainer = this.$refs.chatLogContainer;
+    chatLogContainer.removeEventListener('scroll', this.handleScroll);
   },
 };
-
-
-
-

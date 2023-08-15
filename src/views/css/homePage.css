@@ -298,6 +298,8 @@ body{
   align-items: center;
 }
 
+
+
 .modal {
   background-color: white;
   padding: 20px;
@@ -306,9 +308,12 @@ body{
   text-align: center;
 }
 
-
-.grayed-out {
-    filter: grayscale(100%);
+.modal-frame {
+  position:absolute;
+  border: none; /* Remove iframe border */
+  width: 600px; /* Make iframe fill container width */
+  height: 900px; /* Make iframe fill viewport height */
+  z-index: 5;
 }
 
 .logout,
@@ -1040,3 +1045,4 @@ button {
     vertical-align: bottom;
     font-size: 14px;
 }
+
