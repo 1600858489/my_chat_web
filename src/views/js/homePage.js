@@ -32,9 +32,13 @@ export default {
     showCreateConversationModal: false, // 控制弹窗的显示和隐藏
     newConversationName: '', // 新建会话的名称
     // showScrollButton: null,
-    searchText: '', // 用于存储搜索词
     systemCLM:[], // 数据源
-    filteredModels: [], // 用于存储搜索后的结果
+    filteredModels: [],
+    groupedByTheme: {},  // 定义按主题分组的对象
+
+    searchText: '',       // 搜索文本
+    searchResults: [],    // 存储搜索结果
+    showingInitialContent: true, // 是否展示初始内容
   };
   },
   created(){
@@ -45,13 +49,25 @@ export default {
   this.addClickListeners();//svg被点击时改变颜色事件监听器
   // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
   // this.alterCodeStyle()
-    fetch('/systemCLM.json')
-      .then(response => response.json())
-      .then(data => {
-        this.systemCLM = data;
-        this.filteredModels = data; // 初始情况下展示全部信息
-      });
-    console.log(this.systemCLM);
+   fetch('/systemCLM.json')
+  .then(response => response.json())
+  .then(data => {
+    this.systemCLM = data;
+
+    // Group data by theme
+    this.groupedByTheme = {}; // 初始化按主题分组的对象
+    data.forEach(item => {
+      if (this.groupedByTheme[item.theme]) {
+        this.groupedByTheme[item.theme].push(item);
+      } else {
+        this.groupedByTheme[item.theme] = [item];
+      }
+    });
+
+    this.filteredModels = data; // 初始情况下展示全部信息
+    console.log(this.groupedByTheme); // 输出按主题分组的数据
+  });
+
 
   },
   updated() {
@@ -69,7 +85,19 @@ export default {
 
   });
   },
+
+
+
   methods: {
+
+    //按下ctrl+enter可发送问题
+     handleTextareaKeydown(event) {
+    // 判断是否同时按下了 "Ctrl" 键和 "Enter" 键
+    if ((event.key === 'Enter' || event.keyCode === 13) && event.ctrlKey) {
+      // 按下了 "Ctrl + Enter"，执行发送消息的逻辑
+      this.sendUserInput();
+    }
+  },
 
     //角色文本超过以省略号展示
     showFullContent() {
@@ -85,19 +113,21 @@ export default {
         item.showAll = true;
       }
     },
-    hideFullMessage(itemId) {
-      // Set the 'showAll' property for the specific item to false
-      const item = this.systemCLM.find((item) => item.id === itemId);
-      if (item) {
-        item.showAll = false;
+
+    shouldDisplayTheme(themeItems) {
+      if (!this.searchText) {
+        return true; // 未进行搜索时，显示所有主题
       }
+      return themeItems.some(item => this.searchResults.includes(item));
     },
     searchModels() {
-      const filteredModels = this.systemCLM.filter(item => {
-        return item.title.toLowerCase().includes(this.searchText.toLowerCase());
-      });
-      this.filteredModels = filteredModels; // 筛选展示相关信息
-
+      // 根据搜索文本更新搜索结果数组 this.searchResults
+      const searchTerm = this.searchText.toLowerCase();
+      this.searchResults = this.systemCLM.filter(item => {
+      const promptTitle = item['title'] || ''; // 默认为空字符串
+      console.log('promptTitle', promptTitle)
+      return promptTitle.toLowerCase().includes(searchTerm);
+  });
     },
 
     //更换主题颜色
@@ -473,6 +503,7 @@ export default {
           count: count,
         };
         // console.log(message);
+        this.sendButtonDisabled = true; // 禁用发送按钮
         this.socket.send(JSON.stringify(message));
         this.appendMessage('User', this.userInput);
         this.userInput = "";
