@@ -17,8 +17,8 @@
    -moz-osx-font-smoothing: grayscale;
    color: black;
    text-align: center;
-   margin-top: 0px;
-   height: 100%;
+   margin-top: 0rem;
+   height: 101%;
    width: 100%;
  }
 

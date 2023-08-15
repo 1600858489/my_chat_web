@@ -15,6 +15,11 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import SvgIcon from './components/Icon.vue';
+// main.js
+
+
+// ... 其他代码 ...
+
 
 const app = createApp(App);
 

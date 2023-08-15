@@ -28,6 +28,7 @@
     "html-loader": "^4.2.0"
   },
   "eslintConfig": {
+
     "root": true,
     "env": {
       "node": true

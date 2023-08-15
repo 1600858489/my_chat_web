@@ -7,8 +7,23 @@ export default {
       identifier: '',
       password: '',
       errorMessage: '',
+      
+      width: null,
+      height: null,
+      largeHeader: null,
+      canvas: null,
+      ctx: null,
+      points: [],
+      target: null,
+      animateHeader: true,
     };
   },
+  // mounted() {
+  //   // this.initHeader();
+  //   // this.initAnimation();
+  //   // this.addListeners();
+  // },
+  
   methods: {
     login() {
       // 发送登录请求
@@ -59,6 +74,7 @@ export default {
           console.error('登录请求出错:', error);
           this.errorMessage = '无效的请求';
         });
+      },
     },
-  },
+  
 };

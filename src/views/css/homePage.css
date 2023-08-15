@@ -79,6 +79,29 @@ body{
     object-fit: cover; /* 保持图片比例填满头像区域 */
 }
 
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+
 .grayed-out {
     filter: grayscale(100%);
 }
@@ -602,7 +625,123 @@ body{
 
 
 
+<<<<<<< HEAD
 /*全能助手*/
+=======
+.user-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    /* background-color: #fcfcfc; */
+    background: none;
+}
+
+.user_input {
+    width: 45%;
+    border: none; /* 移除边框 */
+    border-radius: 5px; /* 增加边框圆角 */
+    padding: 0px; /* 添加内边距 */
+    font-size: 18px; /* 适度调小字体大小 */
+    color: rgba(0, 142, 198, 1);
+    background: rgba(252, 252, 252, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 修正阴影效果 */
+    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    overflow-y: auto;
+    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start; /* 调整文本在垂直方向上的对齐方式 */
+
+}
+
+/* .textarea-container {
+  display: inline-block; /* 需要一个容器来包裹，以防止一开始就铺满整行 */
+
+.resizable-textarea {
+  height: 38px; /* 设置默认显示一行高度 */
+  resize: none; /* 禁止textarea的resize属性，防止用户手动调整高度 */
+  max-height: 10rem; /* 设置最大显示8行高度 */
+  overflow-y: auto; /* 超过8行启用垂直滚动条 */
+  white-space: pre-wrap; /* 自动换行 */
+  font-size: 15px;
+}
+
+/* 鼠标点击时不显示边框 */
+.textarea-container:focus-within {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Send button styles */
+.user-input-container button {
+    position: absolute;
+    right: 18px;
+    bottom: 27px;
+    border: none;
+    height: 31px;
+    transition: background .1s ease-in-out,color .1s ease-in-out;
+    background: white;
+}
+
+.user-input-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 400px;
+}
+
+.modal h3 {
+    margin-top: 0;
+}
+
+.modal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.modal button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.modal button:last-child {
+    background-color: #ccc;
+}
+
+>>>>>>> 1bcf32e5bdfb2efea48675ba12b65893e8bf1a58
 .tips-list {
     display: flex;
     -ms-flex-pack: distribute;
