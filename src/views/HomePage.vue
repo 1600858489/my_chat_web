@@ -359,5 +359,7 @@
 </template>
 <script src="./js/homePage.js">
 </script>
-<style src="./css/homePage.css">
-</style>
+
+
+<style src="./css/homePage.css"></style>
+

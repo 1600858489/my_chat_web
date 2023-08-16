@@ -7,15 +7,16 @@
           <h3>WELCOME!</h3>
           <form action="#" name="f" method="post" @submit.prevent="login">
             <div class="input_outer">
-              <span class="u_user"></span>
+              <span class="u_user">请输入用户名或手机号：</span>
               <input name="logname" class="text" style="color: #FFFFFF !important" type="text" v-model="identifier" placeholder="请输入用户名或手机号">
             </div>
             <div class="input_outer">
-              <span class="us_uer"></span>
+              <span class="us_user">请输入密码：</span>
               <input name="logpass" class="text" style="color: #FFFFFF !important;" type="password" v-model="password" placeholder="请输入密码">
             </div>
             <div class="mb2">
               <button  class="act-but submit" type="submit">登录</button>
+              <!-- test -->
             </div>
           </form>
         </div>
@@ -30,8 +31,4 @@
 
 <script src="./js/loginPage.js"></script> 
 
-<style scoped>
-  @import url("../../public/css/demo.css");
-  @import url("../../public/css/component.css");
-  @import url("../../public/css/normalize.css");
-</style>
+<style src="./css/loginPage.css"></style>

@@ -597,7 +597,12 @@ default {
     },
 
     openProfileModal() {
-      this.isProfileModalOpen = 1;
+      if (this.user.loggedIn){
+        this.isProfileModalOpen = 1;
+      }else{
+        this.goToLogin();
+      }
+      
     },
 
     handleIframeMessage(event) {
