@@ -1,0 +1,52 @@
+.modal {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.modal-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.info-box-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-box {
+
+    display: flex;
+    padding: 0px;
+
+    margin-bottom: 5px;
+    justify-content: space-between;
+}
+
+.info-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  /* padding-left: 0.3125rem; */
+}
+
+.info-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.info-value {
+  font-weight: normal;
+}
+
+/* 按钮样式 */
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}

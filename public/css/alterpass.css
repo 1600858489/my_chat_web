@@ -1,0 +1,70 @@
+.change-password-container {
+  max-width: 37.5rem;
+  margin: 50px auto; /* 增加上下边距以居中容器 */
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* 使用半透明的白色边框 */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 增加阴影深度以增强对比度 */
+  background-image: url("../image/demo-1-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: white; /* 设置文本颜色为白色 */
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-around;
+}
+
+.submitpass{
+    display: flex;
+    flex-direction: column;
+    /* width: 85%; */
+    align-items: stretch;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold; /* 加粗标签文本 */
+}
+
+input {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5); /* 使用半透明的白色边框 */
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.3); /* 添加半透明的黑色背景以增强对比度 */
+  color: white; /* 设置输入文本颜色为白色 */
+  transition: border-color 0.3s, background-color 0.3s; /* 添加过渡效果 */
+}
+
+input:focus {
+  border-color: #007BFF; /* 当输入框聚焦时，更改边框颜色 */
+  background-color: rgba(0, 0, 0, 0.5); /* 当输入框聚焦时，使背景更深 */
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px 0px 5px 0px;
+    background-color: rgba(0, 123, 255, 0.8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); /* 当鼠标悬停时，稍微放大按钮 */
+}
+
+
+h2{
+  text-align: center;
+}
