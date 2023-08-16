@@ -1,15 +1,17 @@
 .change-password-container {
-  max-width: 37.5rem;
-  margin: 50px auto; /* 增加上下边距以居中容器 */
+  background-color: rgba(0, 0, 0, 0.7); /* 添加透明度 */
+  border: 1px solid #ccc;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.3); /* 使用半透明的白色边框 */
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 增加阴影深度以增强对比度 */
+  width: 400px;
+  margin: 0 auto;
   background-image: url("../image/demo-1-bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  color: white; /* 设置文本颜色为白色 */
+  border-radius: 10px; /* 添加圆角 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+  color: white; /* 设置文本颜色为白色 */s
+  
 }
 
 .input-group {
@@ -50,6 +52,7 @@ input:focus {
 }
 
 button {
+    width: 100%;
     padding: 10px 20px;
     margin: 5px 0px 5px 0px;
     background-color: rgba(0, 123, 255, 0.8);

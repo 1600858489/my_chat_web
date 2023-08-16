@@ -498,6 +498,8 @@ default {
       this.user.username = loggedIn ? username : '';
     },
     logout() {
+      console.log("Password changed successfully. Logging out...");
+
       const userId = localStorage.getItem('userId');
       const token = Cookies.get('token');
 
@@ -599,6 +601,7 @@ default {
     },
 
     handleIframeMessage(event) {
+      console.log("Received iframe message:", event.data);
       // if (event.data === 'closeProfileModal') {
       //   this.closeProfileModal();
       const receivedData = event.data;
@@ -616,52 +619,51 @@ default {
         } = receivedData;
 
         // 这里你可以进行进一步的处理，例如发送修改密码的请求
-        this.changePassword(oldPassword, newPassword, confirmPassword);
+        this.changePassword(oldPassword, newPassword,confirmPassword);
         // console.log(oldPassword, newPassword, confirmPassword)
       }
     },
     
     changePassword(oldPassword, newPassword, confirmPassword) {
+      console.log(this.user.username)
+
       const Data = {
-        oldPassword:oldPassword,
-        newPassword:newPassword,
+        old_password:oldPassword,
+        new_password:newPassword,
         confirmPassword:confirmPassword,
         user_id: localStorage.getItem("userId"),
+        // username:"yty"
+        
+        // user_id: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
       };
       fetch('http://128.14.76.82:8000/api/alterpass/', {
         method: 'POST',
         headers: {
-          // 'Content-Type': 'application/json',
-          // 'Cache-Control': 'no-cache, no-store, must-revalidate',
-          // 'Pragma': 'no-cache',
-          // 'Expires': '0',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(Data)
-      })  
+      })
       .then(response => {
+        // 检查HTTP状态码
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
       .then(data => {
-        if (data.message) {
-          if (data.message === "旧密码错误") {
-            alert("旧密码错误");
-          } else if (data.message === "密码修改成功") {
-            alert("密码修改成功");
-            // 这里你可以添加其他操作，例如跳转到其他页面或更新UI等
-          } else {
-            alert("未知的响应：" + data.message);
-          }
+        // 根据响应处理逻辑
+        if (data.message === '密码修改成功') {
+          console.log("Password changed successfully. Logging out...");
+          this.isProfileModalOpen = 0;
+          this.logout();
         } else {
-          alert("请求失败");
+          alert(data.message);
         }
       })
       .catch(error => {
-        console.error("请求错误:", error);
-        alert("请求发送失败");
+        // 处理请求错误
+        console.error('There was a problem with the fetch operation:', error.message);
       });
     },
   },
