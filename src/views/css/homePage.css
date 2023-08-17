@@ -93,6 +93,8 @@ body{
   align-items: center;
 }
 
+
+
 .modal {
   background-color: white;
   padding: 20px;
@@ -101,9 +103,12 @@ body{
   text-align: center;
 }
 
-
-.grayed-out {
-    filter: grayscale(100%);
+.modal-frame {
+  position:absolute;
+  border: none; /* Remove iframe border */
+  width: 600px; /* Make iframe fill container width */
+  height: 900px; /* Make iframe fill viewport height */
+  z-index: 5;
 }
 
 /*登录*/
@@ -296,14 +301,30 @@ body{
 
 .el-scrollbar {
     height: 100%;
-    overflow: hidden;
     position: relative;
 }
 
+
 /*左二对话框架*/
 .scrollbar-wrapper {
-    overflow-x: hidden!important;
-    height: 93%;
+  height: 93%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Add padding to avoid negative margins on scrollbars */
+  padding: 15px;
+}
+
+.scrollbar-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-wrapper::-webkit-scrollbar-thumb {
+  background-color: #999999;
+  min-height: 30px; /* Set the minimum height for the thumb */
+}
+
+.scrollbar-wrapper::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
 }
 
 /*左二对话框架*/
@@ -625,9 +646,7 @@ body{
 
 
 
-<<<<<<< HEAD
 /*全能助手*/
-=======
 .user-input-container {
     display: flex;
     align-items: center;
@@ -673,21 +692,6 @@ body{
   box-shadow: none;
 }
 
-/* Send button styles */
-.user-input-container button {
-    position: absolute;
-    right: 18px;
-    bottom: 27px;
-    border: none;
-    height: 31px;
-    transition: background .1s ease-in-out,color .1s ease-in-out;
-    background: white;
-}
-
-.user-input-container button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
 
 .modal-overlay {
     position: fixed;
@@ -741,7 +745,6 @@ body{
     background-color: #ccc;
 }
 
->>>>>>> 1bcf32e5bdfb2efea48675ba12b65893e8bf1a58
 .tips-list {
     display: flex;
     -ms-flex-pack: distribute;
@@ -946,3 +949,10 @@ body{
   cursor: pointer;
 }
 
+.el-textarea {
+    position: relative;
+    display: flex;
+    width: 100%;
+    vertical-align: bottom;
+    font-size: 14px;
+}
