@@ -216,11 +216,20 @@ body{
     white-space: nowrap; /* 防止文本换行 */
     text-overflow: ellipsis; /* 使用省略号表示文本溢出 */
     position: relative; /* 为 ::after 伪元素做准备 */
+    justify-content: space-between;
+
+}
+
+
+
+.conversation-list li:hover {
+  background-color: #cccccc;
+  margin: 0px 0px 0px 0px;
 
 }
 
 .selected{
-  background-color: #cccccc;
+  background-color: #e1e1e1;
   margin: 0px 0px 0px 0px;
 
 }
@@ -317,7 +326,6 @@ body{
   overflow-y: auto;
   overflow-x: hidden;
   /* Add padding to avoid negative margins on scrollbars */
-  padding: 15px;
 }
 
 .scrollbar-wrapper::-webkit-scrollbar {
@@ -335,31 +343,26 @@ body{
 
 /*左二对话框架*/
 .group-chat {
-    padding: 20px 15px 0 15px;;
+    padding: 20px 0px 0px 0px;
 }
 
 /*左二对话名字*/
 .group-title {
     color: #72787e;
     font-size: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     cursor: pointer;
     padding: 10px 15px;
     width: 100%;
     height: 100%;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-transition: color .1s ease-in-out;
     transition: color .1s ease-in-out;
-    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 
 
 /*左二*/
@@ -918,7 +921,7 @@ body{
     resize: none; /* 禁止textarea的resize属性，防止用户手动调整高度 */
     max-height: 150px; /* 设置最大显示8行高度 */
     white-space: pre-wrap; /* 自动换行 */
-    font-size: 25px;
+    font-size: 22px;
 }
 /*输入框*/
 .user-input-container button {
