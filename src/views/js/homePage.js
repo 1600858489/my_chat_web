@@ -22,6 +22,7 @@ default {
     isDarkTheme: false, // 是否使用暗色主题
     userInputList: ["test"],       
     sendButtonDisabled: false, // 发送按钮是否禁用    
+    showCreateConversationModal:false,
     
     
     // 后端逻辑变量    
@@ -224,6 +225,7 @@ default {
     },
 
     openCreateConversationModal() {
+      console.log(1)
       this.showCreateConversationModal = true; // 打开新建会话弹窗
     },
     closeCreateConversationModal() {
@@ -338,6 +340,7 @@ default {
         console.log(data);
         // 刷新会话列表
         this.getConversationList();
+        this.selectedConversationId = data.conversation_id;
       }).
       catch(error => {
         console.error(error);
@@ -575,14 +578,14 @@ default {
 
 
 
-    async newRoleConversation(title, promptMessage, example) {
+    newRoleConversation(title, promptMessage, example) {
       // console.log('Start new conversation with:', title);
       // console.log('Prompt message:', promptMessage);
       this.example = example;
 
       // 创建新会话，并将title设置为会话名
       this.newConversationName = title;
-      await this.createNewConversation(); // 等待createNewConversation执行完成
+      this.createNewConversation(); // 等待createNewConversation执行完成
       this.showingPage = 0;
 
       // 发送预设信息
@@ -590,6 +593,8 @@ default {
       
       // setTimeout(() => )
     },
+    
+    
     adjustTextareaHeight() {
       const textarea = this.$refs.textarea;
       textarea.style.height = "auto"; // 重置高度，以便重新计算

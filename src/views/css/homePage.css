@@ -220,6 +220,12 @@ body{
 
 }
 
+.selected{
+  background-color: #cccccc;
+  margin: 0px 0px 0px 0px;
+
+}
+
 .conversation-list ul {
     list-style-type: none; /* 移除默认的列表项符号 */
     padding-left: 0; /* 移除左侧的默认缩进 */
@@ -632,14 +638,6 @@ body{
 
 
 /*全能助手*/
-.user-input-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    /* background-color: #fcfcfc; */
-    background: none;
-}
 
 .user_input {
     width: 45%;
@@ -874,12 +872,10 @@ body{
 /*输入框*/
 .user-input-container {
     width: 100%;
-    right: -140px;
     padding: 20px 0 0 0;
     box-sizing: border-box;
     transition: background .1s ease-in-out;
-    bottom: -3px;
-    justify-content: center;
+
 }
 /*输入框*/
 .box-input {
@@ -922,7 +918,7 @@ body{
     resize: none; /* 禁止textarea的resize属性，防止用户手动调整高度 */
     max-height: 150px; /* 设置最大显示8行高度 */
     white-space: pre-wrap; /* 自动换行 */
-    font-size: 15px;
+    font-size: 25px;
 }
 /*输入框*/
 .user-input-container button {
@@ -949,11 +945,4 @@ body{
   cursor: pointer;
 }
 
-.el-textarea {
-    position: relative;
-    display: flex;
-    width: 100%;
-    vertical-align: bottom;
-    font-size: 14px;
-}
 

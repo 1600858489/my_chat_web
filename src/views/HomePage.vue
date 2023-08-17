@@ -75,8 +75,8 @@
         
         <div class="module-header">
           <div class="module-title">
-            <div class="btn-group-add">
-              <span @click="openCreateConversationModal">
+            <div class="btn-group-add"  @click="openCreateConversationModal">
+              <span>
                 +&nbsp;新会话
               </span>
             </div>
@@ -195,16 +195,17 @@
     </div>
     <div class="main-content">
       <div id="chat-log">
-        <!-- <div class="tab-model">-->
-        <!-- <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius:
-        0px;">GPT-3.5</div>-->
-        <!-- <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius:
-        0px;">GPT-4</div>-->
-        <!-- </div>-->
+
         <div v-if="messages.length === 0" class="default-message">
           <h1>
             全能助手
           </h1>
+          <div class="tab-model">
+           <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius:
+           0px;">GPT-3.5</div>
+           <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius:
+           0px;">GPT-4</div>
+           </div>
           <div class="tips-list">
             <div class="column">
               <div class="h-item">
@@ -333,9 +334,12 @@
       </button>
     </div>
     
+    
+    <!-- 外部个人信息页面 -->
     <div v-if="isProfileModalOpen === 1" class="modal-overlay us-user">
       <iframe class="modal-frame" src="./html/UserInfomation.html"></iframe>
     </div>
+    <!-- 外部修改密码页面 -->
     <div v-if="isProfileModalOpen === 2" class="modal-overlay us-alterpasswrd">
       <iframe class="modal-frame" src="./html/alterpass.html"></iframe>
     </div>
