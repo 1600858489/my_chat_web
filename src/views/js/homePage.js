@@ -44,7 +44,7 @@ default {
     // showScrollButton: null,
 
     systemCLM:[], // 数据源
-    filteredModels: [],  // 用于存储搜索后的结果    
+    filteredModels: [],  // 用于存储搜索后的结果
     groupedByTheme: {},  // 定义按主题分组的对象
 
     searchText: '',       // 搜索文本
@@ -590,7 +590,7 @@ default {
 
       // 发送预设信息
       this.userInput = promptMessage;
-      
+
       // setTimeout(() => )
     },
     
@@ -600,7 +600,7 @@ default {
       textarea.style.height = "auto"; // 重置高度，以便重新计算
       textarea.style.height = textarea.scrollHeight + "px";
     },
-
+    
     openProfileModal() {
       if (this.user.loggedIn){
         this.isProfileModalOpen = 1;
@@ -642,8 +642,7 @@ default {
         new_password:newPassword,
         confirmPassword:confirmPassword,
         user_id: localStorage.getItem("userId"),
-        // username:"yty"
-        
+        // username:"yty"       
         // user_id: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
       };

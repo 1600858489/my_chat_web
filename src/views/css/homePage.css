@@ -81,7 +81,6 @@ body{
 }
 
 
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -308,14 +307,30 @@ body{
 
 .el-scrollbar {
     height: 100%;
-    overflow: hidden;
     position: relative;
 }
 
+
 /*左二对话框架*/
 .scrollbar-wrapper {
-    overflow-x: hidden!important;
-    height: 93%;
+  height: 93%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Add padding to avoid negative margins on scrollbars */
+  padding: 15px;
+}
+
+.scrollbar-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-wrapper::-webkit-scrollbar-thumb {
+  background-color: #999999;
+  min-height: 30px; /* Set the minimum height for the thumb */
+}
+
+.scrollbar-wrapper::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
 }
 
 /*左二对话框架*/
@@ -661,7 +676,7 @@ body{
   display: inline-block; /* 需要一个容器来包裹，以防止一开始就铺满整行 */
 
 .resizable-textarea {
-  height: 38px; /* 设置默认显示一行高度 */
+  height: 25px; /* 设置默认显示一行高度 */
   resize: none; /* 禁止textarea的resize属性，防止用户手动调整高度 */
   max-height: 10rem; /* 设置最大显示8行高度 */
   overflow-y: auto; /* 超过8行启用垂直滚动条 */
@@ -675,21 +690,6 @@ body{
   box-shadow: none;
 }
 
-/* Send button styles */
-.user-input-container button {
-    position: absolute;
-    right: 18px;
-    bottom: 27px;
-    border: none;
-    height: 31px;
-    transition: background .1s ease-in-out,color .1s ease-in-out;
-    background: white;
-}
-
-.user-input-container button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
 
 .modal-overlay {
     position: fixed;
@@ -944,5 +944,4 @@ body{
   color: #666666;
   cursor: pointer;
 }
-
 

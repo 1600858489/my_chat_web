@@ -72,11 +72,11 @@
         </div>
       </div>
       <div class="sidebar func01" v-if="showingPage===0">
-        
+
         <div class="module-header">
           <div class="module-title">
-            <div class="btn-group-add"  @click="openCreateConversationModal">
-              <span>
+            <div class="btn-group-add">
+              <span @click="openCreateConversationModal">
                 +&nbsp;新会话
               </span>
             </div>
@@ -102,7 +102,7 @@
         <div class="conversation-list">
           <div class="module-body">
             <div class="el-scrollbar">
-              <div class="scrollbar-wrapper el-scrollbar__wrap" style="margin-bottom: -15px; margin-right: -15px;">
+              <div class="scrollbar-wrapper el-scrollbar__wrap" >
                 <div class="el-scrollbar__view">
                   <div class="group-chat">
                     <ul>
@@ -117,7 +117,8 @@
                       </li>
                     </ul>
                   </div>
-                  <div class="module-footer">
+                </div>
+                <div class="module-footer">
                     <div class="box-vip">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAES0lEQVRIiY2Xz2tdRRTHP+f1GbFdNKUk8SeIaLty0UpRxEUDJtlZyCI1+BcYpQayFqToqhsFE/eCmqiIDQFJJP7ApdZC1UWJtWDbhWlCE0VaX5175M6duXPmvpeYgfvm3pnza86c8z3niS6yl3EPMAaMACeAx4D+wLcF/AZ8D3wJLAN3/0+m6PnyF1C7Gr6FfpRpYAoY2JOJyAaisyhvB6N6kJSKP88UWQNeBM88lFuzq1JL8wd4o+d7UbY8XRHonZ/3ocyhfIQyVO+phlnC3Os90FQ8Q0HGHIWXGWgq/rYnSicuCT4GxmsP0DyoJu9kG+FdvR8r5ZUTXvZGwASoi4sta4W/l4Lxmqmwj6T3eMqutXDqwthS7ZUy30m0Gl3tiU/jeLUW0jVrclXRa1+iHGpDNaN5BZXTkV90wdvWj8hlVAdT2EW32oAJvpfga22sl3Ri17vGOshRRLeiq6cpGKxd592lMdjCWjxROJUzrq6DT8CZACsa/FrqYLo68YfSB1wHHegZUOX3xN+wbz/cvgGte+Hq+3BxppGHwPAyHDoGRQfuexB+eRMuvZ6nm3ITeLhNoaMVOEiK2Fp7kHvtPAw+B/sfqdYOPFqd1kb186swNJy+17+FS2+lQEtGDoCOtigY7YpetUGi8N1L8MNMEtrZTrTlc3IpV3p9CZaH4d9/Ek2WGTLWRuV4DpcmHSyc9R02NH3pTsdW4X6j9NoifHWqgWLGg9U43sbpkXzTElmXt9L7X1cq60e+yJVeXYBvJg275Lo1RD080UY5mE4s2VStx9Qx9rQOwFPn4KGxtPb7Enw9mWJEMJ7rOsjBNk52KhI5sV1/ciYnubEKyy/0zoheKS0VVm/vqeR1WR/GxkVYGom1rnd5te/VvF0qXuutuGFuL8tvXoBPn96FYEeZa2U6XcjTKTwuIFdBQjA7Nn+CT54FV1SB5pr8Jj0jyrmYpvJjqXglY3IG6nyNllQk4tj+FRaeAXc3h8fIHw11GAjNoHSl7RUrm8Dh2h1ZEQjvRbjkjfKkJ6FzJy8mmMbAFwvSWobFJWTqcgtHB+XdrPy5hqvKeeAYdP6ED07AnVuNK4nu1IR6Trqvr0LCOVQ6oudKS6Qf9DLIYG6tCYjHT8HWFdj8Ocfz2juYqG4Epv/0niwLxBFUttqhayi7wTMI8xmY2PRYWzRFxLg3olMEjPo7XpVYA86gVefZqgLBA/kChc7mgWLA3ZnCoZLA3xmX2+7EmQCtrnEWJ/Op2Ysb/nTyGsoDiI5nUBldBd0gYf0ZG4IaMiUG2mdetnFUK++ZcKhOUPBe3UPZVKArULq/Y2THTkallDXhZRvaVuqLa0aHyhSFTqKy3t1h9uirbZeZMGAdlUmUKbRUGowMvXd14uzu6miep+Aoylmf5zFNmoDRbIVL2oKznreglJGM8nSxy3zD1NmdR/zTVrZJ8U/boUB+y/xpWwlPZ1dpwH95sqWkKGg8VQAAAABJRU5ErkJggg=="
                       class="icon">
@@ -129,7 +130,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@
         </div>
         <div class="module-body">
           <div class="el-scrollbar">
-            <div class="scrollbar-wrapper el-scrollbar__wrap" style="margin-bottom: -15px; margin-right: -15px;">
+            <div class="scrollbar-wrapper el-scrollbar__wrap" >
               <div class="el-scrollbar__view">
                 <!-- 遍历主题 -->
                 <div class="group-write">
@@ -195,17 +195,16 @@
     </div>
     <div class="main-content">
       <div id="chat-log">
-
+        <!-- <div class="tab-model">-->
+        <!-- <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius:
+        0px;">GPT-3.5</div>-->
+        <!-- <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius:
+        0px;">GPT-4</div>-->
+        <!-- </div>-->
         <div v-if="messages.length === 0" class="default-message">
           <h1>
             全能助手
           </h1>
-          <div class="tab-model">
-           <div class="tab-item" style="border-top-right-radius: 0px; border-bottom-right-radius:
-           0px;">GPT-3.5</div>
-           <div class="tab-item" style="border-top-left-radius: 0px; border-bottom-left-radius:
-           0px;">GPT-4</div>
-           </div>
           <div class="tips-list">
             <div class="column">
               <div class="h-item">
@@ -333,13 +332,10 @@
         </svg>
       </button>
     </div>
-    
-    
-    <!-- 外部个人信息页面 -->
+
     <div v-if="isProfileModalOpen === 1" class="modal-overlay us-user">
       <iframe class="modal-frame" src="./html/UserInfomation.html"></iframe>
     </div>
-    <!-- 外部修改密码页面 -->
     <div v-if="isProfileModalOpen === 2" class="modal-overlay us-alterpasswrd">
       <iframe class="modal-frame" src="./html/alterpass.html"></iframe>
     </div>
@@ -362,8 +358,7 @@
   </div>
 </template>
 <script src="./js/homePage.js">
+
 </script>
-
-
-<style src="./css/homePage.css"></style>
-
+<style src="./css/homePage.css">
+</style>
