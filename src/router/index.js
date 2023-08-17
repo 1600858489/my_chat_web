@@ -16,6 +16,10 @@ const routes = [
     name: "Register",
     component: () => import('../views/RegisterPage')
   },
+  {
+    path: '/:catchAll(.*)',
+    component: () => import('../views/NotFound') 
+  }
 ];
 
 const router = createRouter({
