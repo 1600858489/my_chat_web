@@ -56,6 +56,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0px 0px 25px 0px;
 }
 
 /*用户头像*/
@@ -81,6 +82,7 @@ body{
 
 
 
+<<<<<<< HEAD
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -108,6 +110,35 @@ body{
   border: none; /* Remove iframe border */
   width: 600px; /* Make iframe fill container width */
   height: 900px; /* Make iframe fill viewport height */
+=======
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.modal-frame {
+  position:absolute;
+  border: none; /* Remove iframe border */
+  width: 600px; /* Make iframe fill container width */
+  height: 900px; /* Make iframe fill viewport height */
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba
   z-index: 5;
 }
 
@@ -956,3 +987,7 @@ body{
     vertical-align: bottom;
     font-size: 14px;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba

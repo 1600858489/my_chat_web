@@ -2,7 +2,10 @@ import Cookies from 'js-cookie';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css';
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba
 export
 default {
   data() {
@@ -21,11 +24,19 @@ default {
     selectedSVGId: null,
     showingPage: 0, // -1 表示没有任何界面显示
     isDarkTheme: false, // 是否使用暗色主题
+<<<<<<< HEAD
     userInputList: ["test"],
     sendButtonDisabled: false, // 发送按钮是否禁用
 
 
     // 后端逻辑变量
+=======
+    userInputList: ["test"],       
+    sendButtonDisabled: false, // 发送按钮是否禁用    
+    
+    
+    // 后端逻辑变量    
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba
     history: [], // 历史记录
     conversations: [], // 会话列表
     selectedConversationId: null, // 选中的会话ID
@@ -44,7 +55,11 @@ default {
     // showScrollButton: null,
 
     systemCLM:[], // 数据源
+<<<<<<< HEAD
     filteredModels: [],  // 用于存储搜索后的结果
+=======
+    filteredModels: [],  // 用于存储搜索后的结果    
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba
     groupedByTheme: {},  // 定义按主题分组的对象
 
     searchText: '',       // 搜索文本
@@ -596,11 +611,24 @@ default {
       textarea.style.height = "auto"; // 重置高度，以便重新计算
       textarea.style.height = textarea.scrollHeight + "px";
     },
+<<<<<<< HEAD
 
     openProfileModal() {
       this.isProfileModalOpen = 1;
     },
 
+=======
+
+    openProfileModal() {
+      if (this.user.loggedIn){
+        this.isProfileModalOpen = 1;
+      }else{
+        this.goToLogin();
+      }
+      
+    },
+
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba
     handleIframeMessage(event) {
       console.log("Received iframe message:", event.data);
       // if (event.data === 'closeProfileModal') {
@@ -624,7 +652,11 @@ default {
         // console.log(oldPassword, newPassword, confirmPassword)
       }
     },
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba
     changePassword(oldPassword, newPassword, confirmPassword) {
       console.log(this.user.username)
 
@@ -634,6 +666,7 @@ default {
         confirmPassword:confirmPassword,
         user_id: localStorage.getItem("userId"),
         // username:"yty"
+<<<<<<< HEAD
 
         // user_id: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
@@ -666,6 +699,40 @@ default {
         // 处理请求错误
         console.error('There was a problem with the fetch operation:', error.message);
       });
+=======
+        
+        // user_id: localStorage.getItem("userId"),
+        token: localStorage.getItem("token"),
+      };
+      fetch('http://128.14.76.82:8000/api/alterpass/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(Data)
+      })
+      .then(response => {
+        // 检查HTTP状态码
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // 根据响应处理逻辑
+        if (data.message === '密码修改成功') {
+          console.log("Password changed successfully. Logging out...");
+          this.isProfileModalOpen = 0;
+          this.logout();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(error => {
+        // 处理请求错误
+        console.error('There was a problem with the fetch operation:', error.message);
+      });
+>>>>>>> b70be3b5a0456859289c581f39e62a9cef14b4ba
     },
   },
   beforeDestroy() {

@@ -18,7 +18,7 @@
    color: black;
    text-align: center;
    margin-top: 0rem;
-   height: 101%;
+   height: 100%;
    width: 100%;
  }
 

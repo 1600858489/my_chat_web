@@ -1,0 +1,65 @@
+.modal {
+  background-color: rgba(0, 0, 0, 0.7); /* 添加透明度 */
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 400px;
+  margin: 0 auto;
+  background-image: url("../image/demo-1-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 10px; /* 添加圆角 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+}
+
+.modal-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #fff; /* 设置为白色 */
+}
+
+.info-box-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-box {
+  display: flex;
+  padding: 0px;
+  margin-bottom: 5px;
+  justify-content: space-between;
+}
+
+.info-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.info-label, .info-value {
+  color: #fff; /* 设置为白色 */
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.info-value {
+  font-weight: normal;
+}
+
+/* 按钮样式 */
+button {
+    width: 100%;
+    padding: 10px 20px;
+    margin: 5px 0px 5px 0px;
+    background-color: rgba(0, 123, 255, 0.8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); /* 当鼠标悬停时，稍微放大按钮 */
+}

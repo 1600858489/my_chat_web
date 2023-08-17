@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="../css/UserInfomation.css">
+  </head>
+  <body>
+    <div class="modal">
+        <h3 class="modal-title">欢迎！pass</h3>
+        <div class="info-box-main">
+          <div class="info-box">
+             <div class="info-group">
+              <p class="info-label">姓名：</p>
+              <!-- &Bernoullis; -->
+              <p class="info-value">pss</p>             
+            </div>
+            <div class="info-group">                  
+              <p class="info-label">性别：</p>
+              <p class="info-value">pss</p>  
+            </div>                 
+          </div>
+          <div class="info-box">
+             <div class="info-group">
+              <p class="info-label">姓名：</p>
+              <!-- &Bernoullis; -->
+              <p class="info-value">pss</p>             
+            </div>
+            <div class="info-group">                  
+              <p class="info-label">性别：</p>
+              <p class="info-value">pss</p>  
+            </div>                 
+          </div>
+          <!-- 在此添加其他信息组 -->
+        <button onclick="sendMessageToParent(2)">修改密码</button>
+        <button onclick="sendMessageToParent(0)">关闭</button>
+        </div>
+
+      </div>
+    </div>
+  </body>
+  <script>
+    function sendMessageToParent(state) {
+      const data = {
+          type: 'displayState',
+          state: state  // 你的状态值
+      };
+      window.parent.postMessage(data, "*");
+    }
+  </script>
+</html>
