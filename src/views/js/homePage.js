@@ -34,6 +34,7 @@ default {
 
     socket: null, // WebSocket连接
     user: {
+      user_id :"",
       loggedIn: false, // 是否已登录
       username: '', // 用户名
       avatar: require('@/assets/logo1.png'), // 头像路径
@@ -54,10 +55,10 @@ default {
   },
 
   created() {
-
+    
     window.addEventListener('message', this.handleIframeMessage);
     this.connectWebSocket(); // 连接WebSocket
-    this.getConversationList(); // 获取会话列表
+    // this.getConversationList(); // 获取会话列表
     this.getUserInfo(); // 获取用户信息
     this.addClickListeners(); //svg被点击时改变颜色事件监听器
       // this.getHistory(); // 获取历史记录（注释掉，因为在selectConversation中调用）
@@ -83,6 +84,7 @@ default {
 
 
   },
+  
   updated() {
     this.$nextTick(() => {
       // 确保 DOM 已经更新
@@ -102,15 +104,16 @@ default {
 
 
   methods: {
+    
 
     //按下ctrl+enter可发送问题
-     handleTextareaKeydown(event) {
-    // 判断是否同时按下了 "Ctrl" 键和 "Enter" 键
-    if ((event.key === 'Enter' || event.keyCode === 13) && event.ctrlKey) {
-      // 按下了 "Ctrl + Enter"，执行发送消息的逻辑
-      this.sendUserInput();
-    }
-  },
+    handleTextareaKeydown(event) {
+      // 判断是否同时按下了 "Ctrl" 键和 "Enter" 键
+      if ((event.key === 'Enter' || event.keyCode === 13) && event.ctrlKey) {
+        // 按下了 "Ctrl + Enter"，执行发送消息的逻辑
+        this.sendUserInput();
+      }
+    },
 
     //角色文本超过以省略号展示
     showFullContent() {
@@ -137,10 +140,10 @@ default {
       // 根据搜索文本更新搜索结果数组 this.searchResults
       const searchTerm = this.searchText.toLowerCase();
       this.searchResults = this.systemCLM.filter(item => {
-      const promptTitle = item['title'] || ''; // 默认为空字符串
-      console.log('promptTitle', promptTitle)
-      return promptTitle.toLowerCase().includes(searchTerm);
-  });
+        const promptTitle = item['title'] || ''; // 默认为空字符串
+        console.log('promptTitle', promptTitle)
+        return promptTitle.toLowerCase().includes(searchTerm);
+      });
     },
 
     //更换主题颜色
@@ -495,11 +498,39 @@ default {
       }
     },
     getUserInfo() {
-      const loggedIn = localStorage.getItem('loggedIn') === 'true';
-      const username = localStorage.getItem('username');
-      this.user.loggedIn = loggedIn;
-      this.user.username = loggedIn ? username : '';
+      const Data = {
+        user_id: localStorage.getItem("userId"),
+        token: localStorage.getItem("token"),
+      };
+      fetch('http://128.14.76.82:8000/api/home/', {
+        method: 'POST',
+        headers: {
+          // 'Content-Type': 'application/json',
+          // 'Cache-Control': 'no-cache, no-store, must-revalidate',
+          // 'Pragma': 'no-cache',
+          // 'Expires': '0',
+        },
+        body: JSON.stringify(Data)
+      }).then(response => response.json()).then(data => {
+          this.user.user_id = data.user_id;
+          const loggedIn = localStorage.getItem('loggedIn') === 'true';
+          const username = localStorage.getItem('username');
+          this.user.loggedIn = loggedIn;
+          this.user.username = loggedIn ? username : '';
+          this.getConversationList();
+        
+      }).
+      catch(error => {
+        console.error(error);
+        const loggedIn = localStorage.getItem('loggedIn') === false;
+        const username = localStorage.getItem('username');
+        this.user.loggedIn = loggedIn;
+        this.user.username = loggedIn ? username : '';
+        
+      });
     },
+    
+    
     logout() {
       console.log("Password changed successfully. Logging out...");
 
@@ -519,6 +550,7 @@ default {
       }).then(response => {
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('username');
+        localStorage.removeItem('token');
         Cookies.remove('token');
         this.user.loggedIn = false;
         this.user.username = '';
