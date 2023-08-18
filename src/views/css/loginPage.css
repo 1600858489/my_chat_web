@@ -97,3 +97,10 @@ router-link {
 router-link:hover {
   text-decoration: underline;
 }
+
+.error-message {
+  height: 30px; /* 设置固定高度，根据实际情况进行调整 */
+  line-height: 30px; /* 保持垂直居中 */
+  color: red; /* 设置错误消息的颜色 */
+  /* 其他样式属性... */
+}

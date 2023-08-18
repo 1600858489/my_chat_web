@@ -14,6 +14,7 @@
               <span class="us_user">请输入密码：</span>
               <input name="logpass" class="text" style="color: #FFFFFF !important;" type="password" v-model="password" placeholder="请输入密码">
             </div>
+            <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
             <div class="mb2">
               <button  class="act-but submit" type="submit">登录</button>
               <!-- test -->

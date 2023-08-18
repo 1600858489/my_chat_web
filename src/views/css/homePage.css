@@ -30,7 +30,7 @@ body{
 .bar{
     display: flex;
     flex-direction: column;
-    width: 29%;
+    width: 100px;
     align-items: center;
     justify-content: space-between;
     font-size: 13px;

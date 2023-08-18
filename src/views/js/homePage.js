@@ -213,10 +213,7 @@ default {
 
     //点击图标切换会话和模型
     showPage(page) {
-      console.log(this.showingPage);
-      console.log('page', page);
       this.showingPage = page;
-      console.log(this.showingPage);
     },
 
     Skip2Latest() {
@@ -228,7 +225,6 @@ default {
     },
 
     openCreateConversationModal() {
-      console.log(1)
       this.showCreateConversationModal = true; // 打开新建会话弹窗
     },
     closeCreateConversationModal() {
@@ -340,7 +336,6 @@ default {
         body: JSON.stringify(conversationData),
       }).then(response => response.json()).then(data => {
         this.showCreateConversationModal = false;
-        console.log(data);
         // 刷新会话列表
         this.getConversationList();
         this.selectedConversationId = data.conversation_id;
@@ -618,8 +613,6 @@ default {
 
 
     newRoleConversation(title, promptMessage, example) {
-      // console.log('Start new conversation with:', title);
-      // console.log('Prompt message:', promptMessage);
       this.example = example;
 
       // 创建新会话，并将title设置为会话名
@@ -648,11 +641,9 @@ default {
       }
       
     },
-
+  
     handleIframeMessage(event) {
       console.log("Received iframe message:", event.data);
-      // if (event.data === 'closeProfileModal') {
-      //   this.closeProfileModal();
       const receivedData = event.data;
 
       if (receivedData.type === 'displayState') {
@@ -669,20 +660,17 @@ default {
 
         // 这里你可以进行进一步的处理，例如发送修改密码的请求
         this.changePassword(oldPassword, newPassword,confirmPassword);
-        // console.log(oldPassword, newPassword, confirmPassword)
       }
     },
     
     changePassword(oldPassword, newPassword, confirmPassword) {
-      console.log(this.user.username)
+      // console.log(this.user.username)
 
       const Data = {
         old_password:oldPassword,
         new_password:newPassword,
         confirmPassword:confirmPassword,
         user_id: localStorage.getItem("userId"),
-        // username:"yty"       
-        // user_id: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
       };
       fetch('http://128.14.76.82:8000/api/alterpass/', {
@@ -694,8 +682,10 @@ default {
       })
       .then(response => {
         // 检查HTTP状态码
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        if (response.status !== 200) {
+          return response.json().then(data => {
+            throw new Error(data.message || 'Network response was not ok');
+          });
         }
         return response.json();
       })
@@ -711,6 +701,7 @@ default {
       })
       .catch(error => {
         // 处理请求错误
+        alert(error.message);
         console.error('There was a problem with the fetch operation:', error.message);
       });
     },
@@ -719,5 +710,6 @@ default {
     // 移除滚动事件监听
     const chatLogContainer = this.$refs.chatLogContainer;
     chatLogContainer.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('message', this.handleIframeMessage);
   },
 };

@@ -72,7 +72,7 @@ export default {
         })
         .catch((error) => {
           console.error('登录请求出错:', error);
-          this.errorMessage = '无效的请求';
+          this.errorMessage = '登录失败，请检查用户名和密码是否正确。';
         });
       },
     },
