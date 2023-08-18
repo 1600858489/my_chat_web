@@ -502,33 +502,40 @@ default {
         user_id: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
       };
+
       fetch('http://128.14.76.82:8000/api/home/', {
         method: 'POST',
         headers: {
-          // 'Content-Type': 'application/json',
-          // 'Cache-Control': 'no-cache, no-store, must-revalidate',
-          // 'Pragma': 'no-cache',
-          // 'Expires': '0',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(Data)
-      }).then(response => response.json()).then(data => {
-          this.user.user_id = data.user_id;
-          const loggedIn = localStorage.getItem('loggedIn') === 'true';
-          const username = localStorage.getItem('username');
-          this.user.loggedIn = loggedIn;
-          this.user.username = loggedIn ? username : '';
-          this.getConversationList();
-        
-      }).
-      catch(error => {
-        console.error(error);
-        const loggedIn = localStorage.getItem('loggedIn') === false;
+      })
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          throw new Error('Request failed');
+        }
+      })
+      .then(data => {
+        this.user.user_id = data.user_id;
+        const loggedIn = localStorage.getItem('loggedIn') === 'true';
         const username = localStorage.getItem('username');
         this.user.loggedIn = loggedIn;
         this.user.username = loggedIn ? username : '';
-        
+        this.getConversationList();
+      })
+      .catch(error => {
+        console.error(error);
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('username');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        this.user.loggedIn = false;
+        this.user.username = '';
       });
     },
+
     
     
     logout() {
