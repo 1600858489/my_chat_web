@@ -55,7 +55,6 @@ default {
   },
 
   created() {
-    
     window.addEventListener('message', this.handleIframeMessage);
     this.connectWebSocket(); // 连接WebSocket
     // this.getConversationList(); // 获取会话列表
@@ -79,7 +78,6 @@ default {
         });
 
         this.filteredModels = data; // 初始情况下展示全部信息
-        console.log(this.groupedByTheme); // 输出按主题分组的数据
       });
 
 
@@ -101,11 +99,8 @@ default {
     });
   },
 
-
-
   methods: {
-    
-
+  
     //按下ctrl+enter可发送问题
     handleTextareaKeydown(event) {
       // 判断是否同时按下了 "Ctrl" 键和 "Enter" 键
@@ -136,12 +131,12 @@ default {
       }
       return themeItems.some(item => this.searchResults.includes(item));
     },
+    
     searchModels() {
       // 根据搜索文本更新搜索结果数组 this.searchResults
       const searchTerm = this.searchText.toLowerCase();
       this.searchResults = this.systemCLM.filter(item => {
         const promptTitle = item['title'] || ''; // 默认为空字符串
-        console.log('promptTitle', promptTitle)
         return promptTitle.toLowerCase().includes(searchTerm);
       });
     },
@@ -149,10 +144,10 @@ default {
     //更换主题颜色
     toggleTheme() {
       this.isDarkTheme = !this.isDarkTheme;
-      console.log(this.isDarkTheme);
       this.updateBodyBackgroundColor();
       this.toggleIconDisplay();
     },
+    
     updateBodyBackgroundColor() {
       if (this.isDarkTheme) {
         document.body.classList.add('dark-theme');
@@ -160,6 +155,7 @@ default {
         document.body.classList.remove('dark-theme');
       }
     },
+    
     toggleIconDisplay() {
       // 获取白天和黑夜图标的元素
       const dayIcon = this.$refs.dayIcon;
@@ -252,6 +248,7 @@ default {
         user_id: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
       };
+      
       fetch('http://128.14.76.82:8000/api/test/get_history/', {
         method: 'POST',
         headers: {
@@ -274,13 +271,13 @@ default {
           ];
         });
         this.messages = this.history; // 将历史数据赋值给 messages 数组
-        console.log(this.history);
         this.Skip2Latest()
       }).
       catch((error) => {
         console.error('获取历史记录请求出错:', error);
       });
     },
+    
     getConversationList() {
       const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
@@ -307,6 +304,7 @@ default {
         // 处理错误
         this.conversations = [];
       });
+
     },
 
     //新建会话点击enter也可以创建
@@ -371,11 +369,8 @@ default {
       } else {
         const lastMessage = this.messages[this.messages.length - 1];
         if (lastMessage && lastMessage.role === 'User') {
-          console.log(789);
           return;
         }
-        // role = role.toString();
-        // content = content.toString();
         this.messages.push({
           role,
           content
@@ -396,22 +391,6 @@ default {
       }
     },
 
-    //复制
-    // copyToClipboard(text) {
-    // const textField = document.createElement('textarea');
-    // textField.innerText = text;
-    // document.body.appendChild(textField);
-    // textField.select();
-    //
-    // try {
-    // document.execCommand('copy');
-    // alert('已复制到剪贴板');
-    // } catch (error) {
-    // console.error('复制到剪贴板失败：', error);
-    // }
-    //
-    // textField.remove();
-    // },
 
     /**
      * 初始化和管理WebSocket连接。
@@ -446,7 +425,6 @@ default {
             this.appendMessage('AI', content);
           }
         } else if (Object.keys(message).length === 0 && message.constructor === Object) {
-          console.log("test");
           counts++;
           this.sendUserInput(counts);
         }
@@ -489,7 +467,7 @@ default {
         this.userInput = "";
         this.sendButtonDisabled = false;
       } else {
-        console.log('WebSocket connection is not open yet.');
+        alert("链接已关闭")
       }
     },
     getUserInfo() {
@@ -521,7 +499,7 @@ default {
         this.getConversationList();
       })
       .catch(error => {
-        console.error(error);
+        console.error(error)
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('username');
         localStorage.removeItem('token');
@@ -568,10 +546,14 @@ default {
       localStorage.setItem('userId', ''); // 将'username'设置为空值
       this.getConversationList();
     },
+    
+    
     goToLogin() {
       // 跳转至登录页面
       this.$router.push('/login');
     },
+    
+    
     deleteConversation(conversationId) {
       // 发送删除会话的请求
       const token = localStorage.getItem('token');
@@ -590,10 +572,12 @@ default {
         },
         body: JSON.stringify(Data),
       }).then(response => response.json()).then(data => {
-        console.log(data);
         // 刷新会话列表
-        this.messages = [];
-        this.getConversationList();
+        if(data.message === "对话删除成功"){
+          this.messages = [];
+          this.getConversationList();
+        }
+
 
       }).
       catch(error => {
@@ -643,7 +627,6 @@ default {
     },
   
     handleIframeMessage(event) {
-      console.log("Received iframe message:", event.data);
       const receivedData = event.data;
 
       if (receivedData.type === 'displayState') {

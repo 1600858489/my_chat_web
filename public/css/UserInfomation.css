@@ -27,7 +27,11 @@
   display: flex;
   padding: 0px;
   margin-bottom: 5px;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: stretch;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: stretch;
 }
 
 .info-group {

@@ -5,30 +5,31 @@
     <title>个人信息</title>
     <link rel="stylesheet" href="../css/UserInfomation.css">
   </head>
+  <!-- <body> -->
   <body>
     <div class="modal">
-        <h3 class="modal-title">欢迎！pass</h3>
+        <h3 class="modal-title">欢迎！</h3>
         <div class="info-box-main">
           <div class="info-box">
              <div class="info-group">
               <p class="info-label">姓名：</p>
               <!-- &Bernoullis; -->
-              <p class="info-value">pss</p>             
+              <p class="info-value"></p>             
             </div>
             <div class="info-group">                  
-              <p class="info-label">性别：</p>
-              <p class="info-value">pss</p>  
+              <p class="info-label">id：</p>
+              <p class="info-value"></p>  
             </div>                 
           </div>
           <div class="info-box">
              <div class="info-group">
-              <p class="info-label">姓名：</p>
+              <p class="info-label">注册时间：</p>
               <!-- &Bernoullis; -->
-              <p class="info-value">pss</p>             
+              <p class="info-value"></p>             
             </div>
             <div class="info-group">                  
-              <p class="info-label">性别：</p>
-              <p class="info-value">pss</p>  
+              <p class="info-label">最后登录时间：</p>
+              <p class="info-value"></p>  
             </div>                 
           </div>
           <!-- 在此添加其他信息组 -->
@@ -40,6 +41,9 @@
     </div>
   </body>
   <script>
+    let userId = localStorage.getItem("userId");
+    getUserInformation()
+    
     function sendMessageToParent(state) {
       const data = {
           type: 'displayState',
@@ -47,5 +51,36 @@
       };
       window.parent.postMessage(data, "*");
     }
+    
+    function getUserInformation() {
+      console.log(userId)
+        fetch('http://128.14.76.82:8000/api/info/?user_id=' + userId)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('API returned status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayUserInfo(data);
+            })
+            .catch(error => {
+                // console.error('Error fetching user info:', error);
+                alert('Error fetching user info:', error);
+                // 如果需要，你可以在这里添加其他的错误处理逻辑，例如显示一个错误消息给用户
+            });
+    }
+    
+    function displayUserInfo(data) {
+        document.querySelector('.modal-title').textContent = "欢迎！" + data.user_name;
+        // 这里只是一个例子，你可以根据需要添加更多的数据字段
+        const infoValues = document.querySelectorAll('.info-value');
+        infoValues[0].textContent = data.user_name; // 假设第一个是用户名
+        infoValues[1].textContent = data.user_id;  // 根据你的数据结构调整
+        infoValues[2].textContent = data.created_at;  // 根据你的数据结构调整
+        infoValues[3].textContent = data.last_successful_login;  // 根据你的数据结构调整
+        // ... 为其他数据字段添加更多的代码
+    }
+
   </script>
 </html>

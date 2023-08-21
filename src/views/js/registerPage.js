@@ -51,8 +51,8 @@ export default {
     },
     validateForm() {
       // 简单的表单验证逻辑
-      if (!this.username || !this.phone || !this.password || !this.confirmPassword) {
-        this.errorMessage = '请填写所有字段';
+      if (!this.username || !this.password || !this.confirmPassword) {
+        this.errorMessage = '请填写所有必填字段';
         return false;
       }
 
@@ -61,7 +61,8 @@ export default {
         return false;
       }
 
-      if (!/^1\d{10}$/.test(this.phone)) {
+      // 如果用户输入了手机号，则验证其格式
+      if (this.phone && !/^1\d{10}$/.test(this.phone)) {
         this.errorMessage = '请输入有效的手机号';
         return false;
       }
