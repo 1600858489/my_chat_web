@@ -249,7 +249,7 @@ default {
         token: localStorage.getItem("token"),
       };
       
-      fetch('http://128.14.76.82:8000/api/test/get_history/', {
+      fetch('http://198.44.238.68:8000/api/test/get_history/', {
         method: 'POST',
         headers: {
           // 'Content-Type': 'application/json',
@@ -288,7 +288,7 @@ default {
       };
 
       // 发送获取会话列表的请求
-      fetch(`http://128.14.76.82:8000/api/test/get_conversation/`, {
+      fetch(`http://198.44.238.68:8000/api/test/get_conversation/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -325,7 +325,7 @@ default {
       };
 
       // 发送创建新会话的请求
-      fetch('http://128.14.76.82:8000/api/test/new_conversation/', {
+      fetch('http://198.44.238.68:8000/api/test/new_conversation/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -403,7 +403,7 @@ default {
     connectWebSocket() {
 
       // 链接websocket服务器
-      this.socket = new WebSocket('ws://128.14.76.82:8000/ws/chat');
+      this.socket = new WebSocket('ws://198.44.238.68:8000/ws/chat');
       this.socket.onopen = () => {
         console.log('WebSocket connection established.');
         this.sendButtonDisabled = false; // WebSocket连接成功，启用发送按钮
@@ -476,7 +476,7 @@ default {
         token: localStorage.getItem("token"),
       };
 
-      fetch('http://128.14.76.82:8000/api/home/', {
+      fetch('http://198.44.238.68:8000/api/home/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -518,7 +518,7 @@ default {
       const token = Cookies.get('token');
 
       // 发送退出登录请求
-      fetch('http://128.14.76.82:8000/api/logout/', {
+      fetch('http://198.44.238.68:8000/api/logout/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -564,7 +564,7 @@ default {
         token: token,
       };
 
-      fetch('http://128.14.76.82:8000/api/test/drop_conversation/', {
+      fetch('http://198.44.238.68:8000/api/test/drop_conversation/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -656,7 +656,7 @@ default {
         user_id: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
       };
-      fetch('http://128.14.76.82:8000/api/alterpass/', {
+      fetch('http://198.44.238.68:8000/api/alterpass/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

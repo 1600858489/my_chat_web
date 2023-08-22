@@ -32,7 +32,7 @@ export default {
         password: this.password,
       };
 
-      fetch('http://128.14.76.82:8000/api/login/', {
+      fetch('http://198.44.238.68:8000/api/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
