@@ -243,6 +243,7 @@ body{
 /*新建会话四个字css*/
 .sidebar h3 {
     margin-bottom: 10px;
+    color:#007BFF;
 }
 
 /*删除会话*/
@@ -902,7 +903,7 @@ body{
     resize: none;
     letter-spacing: 1px;
     display: block;
-    padding: 5px 15px;
+    padding: 5px 35px 5px 15px;
     line-height: 1.5;
     box-sizing: border-box;
     color: #606266;
@@ -920,7 +921,7 @@ body{
     outline: none;
     height: 38px; /* 设置默认显示一行高度 */
     resize: none; /* 禁止textarea的resize属性，防止用户手动调整高度 */
-    max-height: 150px; /* 设置最大显示8行高度 */
+    max-height: 220px; /* 设置最大显示8行高度 */
     white-space: pre-wrap; /* 自动换行 */
     font-size: 22px;
 }

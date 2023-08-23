@@ -613,7 +613,7 @@ default {
     
     adjustTextareaHeight() {
       const textarea = this.$refs.textarea;
-      textarea.style.height = "auto"; // 重置高度，以便重新计算
+      textarea.style.height = "46px"; // 重置高度，以便重新计算
       textarea.style.height = textarea.scrollHeight + "px";
     },
     
