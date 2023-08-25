@@ -297,7 +297,7 @@
         <div class="box-input">
           <div class="el-textarea">
             <textarea @input="adjustTextareaHeight" class="user_input_resizable-textarea"
-            type="text" ref="textarea" placeholder="send a message" v-model="userInput"
+            type="text" ref="textarea" placeholder="send a message, Ctrl+Enter发送" v-model="userInput"
             @keydown="handleTextareaKeydown" style="min-height: 46px; height: 46px;">
             </textarea>
             <button :disabled="sendButtonDisabled" @click="sendUserInput " class="btn-send">
